@@ -1,0 +1,16 @@
+version: '3'
+services:
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: adminpassword
+      MONGO_INITDB_DATABASE: salsamish
+      MONGO_NON_ROOT_USERNAME: salsa
+      MONGO_NON_ROOT_PASSWORD: example
+    volumes:
+      - ./mongodb/setup/:/docker-entrypoint-initdb.d/
+      - ./mongodb/data:/data/db
+    ports:
+      - 27017-27019:27017-27019

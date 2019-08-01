@@ -1,0 +1,31 @@
+<html style='width: 100%'>
+  <body style='width: 80%; text-align: center; margin: 40px auto'>
+    <h1>Image test</h1>
+    
+    <div id="container" style="width: 700px; height: auto; margin: 0 auto; background-image: url('./beach.jpg'); background-position: center; background-repeat: no-repeat;">
+      <!-- <img src="./beach.jpg" style="position:absolute; height: inherit"> -->
+      <img id='img' src="./Man.png" style=" height: 300px">
+      
+    </div>
+    <div class="slidecontainer">
+      <input type="range" min="-100" max="100" value="50" class="slider" id="slider">
+      <p>Image slider value</p>
+      <p id='slider-value'>50</p>
+    </div>
+    <div>
+      <input type="radio" name="place" value="left"> Left<br>
+      <input type="radio" name="place" value="right"> Right<br>
+    </div>
+  </body>
+  <script>
+    const slider = document.getElementById('slider');
+    const sliderVal = document.getElementById('slider-value');
+    const cont = document.getElementById('container');
+    const img = document.getElementById('img')
+    slider.addEventListener('input', (e) => {
+      sliderVal.innerHTML = e.target.value;
+      // cont.style.textAlign = 'right';
+      img.style.transform = `translate(${e.target.value}%, 0)`;
+    })
+  </script>
+</html>
