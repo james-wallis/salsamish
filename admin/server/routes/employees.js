@@ -5,7 +5,7 @@ const path = require('path');
 
 // File Variables
 const router = express.Router()
-const IMAGE_DIR = 'images/employees';
+const IMAGE_DIR = 'public/images/employees';
 const upload = multer({ dest: IMAGE_DIR })
 
 
@@ -35,11 +35,13 @@ router.get('/', async function (req, res) {
  * @param req.file - the image of the employee to be uploaded
  */
 router.post('/', upload.single('image'), async function (req, res) {
+  console.log(req.body)
   // Check image first as it'll need to be deleted if other validation occurs
   if (!req.file || req.file.originalname === '') return sendError(res, 404, 'Missing image');
   if (!req.body.name || req.body.name === '') return sendError(res, 404, 'Missing name', req.file.filename);
   if (!req.body.role || req.body.role === '') return sendError(res, 404, 'Missing role', req.file.filename);
   if (req.body.role.toUpperCase() !== 'DJ' && req.body.role.toUpperCase() !== 'TEACHER') return sendError(res, 400, 'Invalid role', req.file.filename);
+  if (!req.body.description || req.body.description === '') return sendError(res, 404, 'Missing description', req.file.filename);
   // Retrieve mongoose variable from app.locals
   const m = req.app.locals.mongoose;
   const model = m.model('Employee');
