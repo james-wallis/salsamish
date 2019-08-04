@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+const role = ['DJ', 'TEACHER'];
+
 const EmployeeSchema = new mongoose.Schema(
   {
     name: {
@@ -9,12 +11,24 @@ const EmployeeSchema = new mongoose.Schema(
     role: {
       type: String,
       uppercase: true,
-      enum: ['DJ', 'TEACHER'],
+      enum: role,
       required: true
     },
     image: {
       type: String,
       required: true
+    },
+    description: {
+      type: String,
+      required: true
+    },
+    stylesOfMusic: {
+      type: [String],
+      default: undefined
+    },
+    typesOfDance: {
+      type: [String],
+      default: undefined
     }
   }
 )

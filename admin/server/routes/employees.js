@@ -3,10 +3,12 @@ const multer = require('multer')
 const fs = require('fs-extra');
 const path = require('path');
 
-// File Variables
+// Variables
 const router = express.Router()
 const IMAGE_DIR = 'public/images/employees';
 const upload = multer({ dest: IMAGE_DIR })
+const music = ['BACHATA', 'KIZOMBA'];
+const dance = ['BACHATA', 'SALSA', 'KIZOMBA', 'RUEDA', 'CHACHACHA'];
 
 
 /**
@@ -41,16 +43,25 @@ router.post('/', upload.single('image'), async function (req, res) {
   if (!req.body.name || req.body.name === '') return sendError(res, 404, 'Missing name', req.file.filename);
   if (!req.body.role || req.body.role === '') return sendError(res, 404, 'Missing role', req.file.filename);
   if (req.body.role.toUpperCase() !== 'DJ' && req.body.role.toUpperCase() !== 'TEACHER') return sendError(res, 400, 'Invalid role', req.file.filename);
+  if (req.body.role.toUpperCase() === 'DJ' && (!req.body.music || !checkMusicStyles(req.body.music))) return sendError(res, 404, 'DJ detected, Missing or invalid music information', req.file.filename);
+  if (req.body.role.toUpperCase() === 'TEACHER' && (!req.body.dance || !checkDanceTypes(req.body.dance))) return sendError(res, 404, 'Teacher detected, Missing or invalid dance information', req.file.filename);
   if (!req.body.description || req.body.description === '') return sendError(res, 404, 'Missing description', req.file.filename);
   // Retrieve mongoose variable from app.locals
   const m = req.app.locals.mongoose;
   const model = m.model('Employee');
   if (await model.findOne({ name: req.body.name })) return sendError(res, 409, `Employee "${req.body.name}" already exists`, req.file.filename);
-  const newFileName = `${req.body.name}-${Date.now()}${path.extname(req.file.originalname)}`
+  const newFileName = `${(req.body.name).replace(/[^A-Z0-9]+/ig, "-")}-${Date.now()}${path.extname(req.file.originalname)}`;
   try {
     // If validation succeeds then rename image and add user into database
     await fs.rename(req.file.path, `${IMAGE_DIR}/${newFileName}`)
-    const instance = new model({ name: req.body.name, role: req.body.role.toUpperCase(), image: newFileName });
+    const instance = new model({ 
+      name: req.body.name, 
+      role: req.body.role.toUpperCase(), 
+      image: newFileName,
+      description: req.body.description,
+      stylesOfMusic: (req.body.role.toUpperCase() === 'DJ') ? req.body.music.split(',') : null,
+      typesOfDance: (req.body.role.toUpperCase() === 'TEACHER') ? req.body.dance.split(',') : null,
+    });
     await instance.save();
     res.send(`New employee ${req.body.name} added successfully`)
   } catch (err) {
@@ -101,6 +112,24 @@ router.delete('/:id', async function (req, res) {
 const sendError = async (res, code, message, image) => {
   if (image) await fs.remove(`${IMAGE_DIR}/${image}`);
   res.status(code).send(message);
+}
+
+const checkMusicStyles = types => {
+  types = types.split(',');
+  for (let i = 0; i < types.length; i++) {
+    const t = types[i];
+    if (!music.includes(t)) return false;
+  }
+  return true;
+}
+
+const checkDanceTypes = types => {
+  types = types.split(',');
+  for (let i = 0; i < types.length; i++) {
+    const t = types[i];
+    if (!dance.includes(t)) return false;
+  }
+  return true;
 }
 
 module.exports = router

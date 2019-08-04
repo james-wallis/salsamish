@@ -5,8 +5,17 @@ import { Typography, Form, Icon, Input, Button, Radio, Checkbox, Upload, message
 const { Title } = Typography;
 const { TextArea } = Input;
 
-const music = ['salsa/bachata', 'kizomba'];
-const dance = ['bachata', 'salsa', 'kizomba', 'rueda', 'chachacha'];
+const music = [
+  { value: 'BACHATA', text: 'Bachata/Salsa' }, 
+  { value: 'KIZOMBA', text: 'Kizomba' }
+];
+const dance = [
+  { value: 'BACHATA', text: 'Bachata' },
+  { value: 'SALSA', text: 'Salsa' },
+  { value: 'KIZOMBA', text: 'Kizomba' },
+  { value: 'RUEDA', text: 'Rueda' },
+  { value: 'CHACHACHA', text: 'Chachacha' }
+];
 const roles = ['DJ', 'TEACHER']
 
 class Add extends React.Component {
@@ -102,7 +111,7 @@ class Add extends React.Component {
             <Row>
               {music.map((type, i) => {
                 return <Col key={`music-checkbox-${i}`} span={8}>
-                  <Checkbox value={type} style={{ textTransform: 'capitalize' }}>{type}</Checkbox>
+                  <Checkbox value={type.value}>{type.text}</Checkbox>
                 </Col>
               })}
             </Row>
@@ -119,7 +128,7 @@ class Add extends React.Component {
             <Row>
               {dance.map((type, i) => {
                 return <Col key={`music-checkbox-${i}`} span={8}>
-                  <Checkbox value={type} style={{ textTransform: 'capitalize' }}>{type}</Checkbox>
+                  <Checkbox value={type.value}>{type.text}</Checkbox>
                 </Col>
               })}
             </Row>
@@ -135,7 +144,7 @@ class Add extends React.Component {
           </Col>
         </Row>
         <Row>
-          <Col xs={7} >
+          <Col xs={9} >
             <Form.Item label="Name" style={{ width: '100%' }}>
               {getFieldDecorator('name', {
                 rules: [{ required: true, message: 'Please input the employee\'s name' }],
@@ -150,7 +159,7 @@ class Add extends React.Component {
               {getFieldDecorator('description', {
                 rules: [{ required: true, message: 'Please input the employee\'s description' }],
               })(
-                <TextArea placeholder="Description" rows={6} />,
+                <TextArea placeholder="Description" rows={9} />,
               )}
             </Form.Item>
             
@@ -159,7 +168,7 @@ class Add extends React.Component {
               <Button type="primary" htmlType="submit" style={{ width: '100%' }}>Submit</Button>
             </Form.Item>
           </Col>
-          <Col xs={8} offset={1} >
+          <Col xs={12} offset={3} >
             <Form.Item label="Role">
               {getFieldDecorator('role', {
                 initialValue: roles[0],

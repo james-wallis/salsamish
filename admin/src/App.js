@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import Index from './pages/index';
 import Title from './components/title';
 import Navigation from './components/navigation';
@@ -8,10 +8,10 @@ import { Layout } from 'antd';
 
 import EmployeeViewAll from './pages/employees/viewAll'
 import EmployeeAdd from './pages/employees/add'
-import EmployeeDelete from './pages/employees/delete'
+import EmployeeViewSingle from './pages/employees/viewSingle'
 
 
-const { Header, Footer, Sider, Content } = Layout;
+const { Sider, Content } = Layout;
 
 function App() {
   return (
@@ -25,7 +25,7 @@ function App() {
           <Route path="/" exact component={Index} />
           <Route path="/employees" exact component={EmployeeViewAll} />
           <Route path="/employees/add" component={EmployeeAdd} />
-          {/* <Route path="/employees/delete" component={EmployeeDelete} /> */}
+          <Route path="/employees/view" component={EmployeeViewSingle} />
         </Content>
       </Layout>
     </Router>

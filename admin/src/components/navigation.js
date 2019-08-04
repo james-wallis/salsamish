@@ -1,6 +1,6 @@
 import React from 'react';
 import { Menu, Icon } from 'antd';
-import { withRouter } from "react-router-dom";
+import { withRouter } from 'react-router-dom';
 
 
 const { SubMenu } = Menu;
@@ -23,7 +23,7 @@ class Navigation extends React.Component {
         >
           <Menu.Item key="1" onClick={() => { history.push('/') }}>
             <Icon type="home" />
-            <span>Overview</span>
+            <span>This Week</span>
           </Menu.Item>
           <SubMenu
             key="sub1"
@@ -35,13 +35,13 @@ class Navigation extends React.Component {
             }
           >
             <Menu.Item key="2" onClick={() => { history.push('/employees/') }}>
+              <span>Overview</span>
+            </Menu.Item>
+            <Menu.Item key="3" onClick={() => { history.push('/employees/view') }}>
               <span>View</span>
             </Menu.Item>
-            <Menu.Item key="3" onClick={() => { history.push('/employees/add') }}>
+            <Menu.Item key="4" onClick={() => { history.push('/employees/add') }}>
               <span>Add</span>
-            </Menu.Item>
-            <Menu.Item key="4" onClick={() => { history.push('/employees/delete') }}>
-              <span>Delete</span>
             </Menu.Item>
           </SubMenu>
           <SubMenu

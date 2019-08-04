@@ -1,8 +1,6 @@
 import React from 'react';
 import { Card } from 'antd';
 import { Col } from 'antd';
-
-const { Meta } = Card;
     
 function EmployeeCard(props) {
   if (!props.employee) return null;
