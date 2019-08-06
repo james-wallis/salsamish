@@ -1,10 +1,13 @@
 import React from 'react';
-import Form from './form/main';
+import Form from './form/main'; 
+import { Typography } from 'antd';
+
+const { Title } = Typography;
 
 class Add extends React.Component {
   render() {
     return <div>
-      <h2>Create event</h2>
+      <Title level={2}>Create Event</Title>
       <Form />
     </div>
   }

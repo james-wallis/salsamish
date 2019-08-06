@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { Row, Col, Form, Icon, Button, Steps } from 'antd';
+import { Row, Col, Form, Icon, Button, Steps, Typography } from 'antd';
 
 import Agenda from './agenda';
 import Date from './date';
@@ -97,7 +97,7 @@ class Main extends React.Component {
           </Steps>
         </Col>
       </Row>
-      <Row>
+      <Row style={{ marginTop: 50 }}>
         <Col xs={24}>
           <ButtonGroup>
             {(currentStep !== 0) ? <Button type="primary" onClick={this._previous}>

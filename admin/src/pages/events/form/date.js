@@ -14,7 +14,7 @@ class Information extends React.Component {
   render() {
     const { values } = this.props;
     const { start, end } = this.state;
-    return <div style={{ marginBottom: 50 }}>
+    return <div>
       {(values.type === 'FRIDAY') ? this.friday() : this.custom() }
       <Row>
         <Col xs={18}>
