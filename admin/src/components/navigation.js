@@ -15,10 +15,11 @@ class Navigation extends React.Component {
     return (
       <div style={{ width: 'auto' }}>
         <Menu
-          defaultSelectedKeys={['1']}
-          defaultOpenKeys={['sub1']}
+          // defaultSelectedKeys={['1']}
+          defaultOpenKeys={['sub1', 'sub2']}
           mode="inline"
           theme="dark"
+          selectedKeys={[selectedItem(history.location.pathname)]}
           // inlineCollapsed={this.state.collapsed}
         >
           <Menu.Item key="1" onClick={() => { history.push('/') }}>
@@ -53,13 +54,40 @@ class Navigation extends React.Component {
               </span>
             }
           >
-            <Menu.Item key="5">View</Menu.Item>
-            <Menu.Item key="6">Add</Menu.Item>
-            <Menu.Item key="7">Delete</Menu.Item>
+            <Menu.Item key="5" onClick={() => { history.push('/events/') }}>
+              <span>Overview</span>
+            </Menu.Item>
+            <Menu.Item key="6" onClick={() => { history.push('/events/view') }}>
+              <span>View</span>
+            </Menu.Item>
+            <Menu.Item key="7" onClick={() => { history.push('/events/add') }}>
+              <span>Add</span>
+            </Menu.Item>
           </SubMenu>
         </Menu>
       </div>
     );
+  }
+}
+
+const selectedItem = path => {
+  switch (path) {
+    case '/':
+      return '1';
+    case '/employees/':
+      return '2';
+    case '/employees/view':
+      return '3';
+    case '/employees/add':
+      return '4';
+    case '/events/':
+      return '5';
+    case '/events/view':
+      return '6';
+    case '/events/add':
+      return '7';
+    default:
+      return '';
   }
 }
 

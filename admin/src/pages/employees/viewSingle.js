@@ -85,7 +85,7 @@ const information = (employee, cb) => {
   const description = formatDescription(employee.description);
   return <div style={{ marginTop: 50 }}>
     <Row>
-      <Col xs={16}>
+      <Col xs={15}>
         <Title level={3}>{employee.name}</Title>
         <p style={{ fontStyle: 'italic', textTransform: 'capitalize' }}>
           {((employee.role === 'TEACHER') ? 'Teacher' : employee.role)
@@ -97,7 +97,7 @@ const information = (employee, cb) => {
         </p>
         {description}
       </Col>
-      <Col xs={8}>
+      <Col xs={8} offset={1}>
         <img style={{ height: 200 }} alt={`Source: "${employee.image}"`} src={`/images/employees/${employee.image}`} />
       </Col>
     </Row>

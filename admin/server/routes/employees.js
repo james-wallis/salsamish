@@ -55,6 +55,7 @@ router.post('/', upload.single('image'), async function (req, res) {
     // If validation succeeds then rename image and add user into database
     await fs.rename(req.file.path, `${IMAGE_DIR}/${newFileName}`)
     const instance = new model({ 
+      _id: new m.Types.ObjectId(),
       name: req.body.name, 
       role: req.body.role.toUpperCase(), 
       image: newFileName,
@@ -94,8 +95,9 @@ router.delete('/:id', async function (req, res) {
   const model = m.model('Employee');
   try {
     const employee = await model.findById(id);
-    const del = await model.deleteOne(employee);
-    res.send(del)
+    await model.deleteOne(employee);
+    await fs.remove(`${IMAGE_DIR}/${employee.image}`);
+    res.sendStatus(200);
   } catch (err) {
     if (err.name === 'CastError') res.status(404).send('ID does not exist')
     res.status(500).send(err);

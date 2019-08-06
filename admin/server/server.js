@@ -12,6 +12,7 @@ mongoose.connect('mongodb://localhost/salsamish', {
 });
 // Mongoose Schemas
 require('./schema/employee');
+require('./schema/event');
 
 // Express Variables
 app.locals.mongoose = mongoose;
@@ -23,6 +24,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Express Routes
 // app.use('/api/images', express.static(path.join(__dirname, '../images')))
 app.use('/api/employees', require('./routes/employees'))
+app.use('/api/events', require('./routes/events'))
 
 const port = process.env.PORT || 3001;
 
