@@ -1,6 +1,7 @@
 import React from 'react';
+import { Row, Col, Form, Icon, Button, Steps } from 'antd';
 import axios from 'axios';
-import { Row, Col, Form, Icon, Button, Steps, Typography } from 'antd';
+import presets from './presets';
 
 import Agenda from './agenda';
 import Date from './date';
@@ -13,18 +14,29 @@ const { Step } = Steps;
 const defaultFridayName = 'This Friday at Salsa Mish';
 
 const initialState = {
-  currentStep: 3,
+  currentStep: 4,
   name: defaultFridayName,
   description: null,
   type: 'FRIDAY',
   start: null,
   end: null,
-  facebook: null
-
+  facebook: null,
+  agenda: presets.friday(),
+  employees: []
 }
 
 class Main extends React.Component {
   state = {...initialState};
+
+  componentDidMount() {
+    axios.get(`/api/employees`)
+      .then(res => {
+        const employees = res.data;
+        this.setState({ employees }, () => {
+          console.log(this.state.employees)
+        });
+      })
+  }
 
   handleSubmit = e => {
     e.preventDefault();
@@ -67,14 +79,23 @@ class Main extends React.Component {
     })
   }
 
+  submit = () => {
+    const values = {...this.state}
+    delete values.currentStep;
+    console.log('submit');
+    console.log(values);
+  }
+
   render() {
     const { currentStep } = this.state;
-    const { getFieldDecorator } = this.props.form;
+    const { form } = this.props;
+    const { getFieldDecorator } = form;
     const childProps = {
       getFieldDecorator,
+      form,
       handleChange: this.handleChange,
       values: this.state,
-      resetValue: this.resetValue
+      resetValue: this.resetValue,
     }
     return <div>
       <Row>
@@ -107,6 +128,10 @@ class Main extends React.Component {
             {(currentStep !== 4) ? <Button type="primary" onClick={this._next}>
               Next
               <Icon type="right" />
+            </Button> : null}
+            {(currentStep === 4) ? <Button type="danger" onClick={this.submit}>
+              Submit event
+              <Icon type="check" />
             </Button> : null}
           </ButtonGroup>
         </Col>
