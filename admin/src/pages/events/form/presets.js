@@ -1,6 +1,7 @@
-// const friday = require('./presets/friday');
 import friday from './presets/friday'
+import testing from './presets/testing'
 
 export default {
-  friday
+  friday,
+  testing
 }

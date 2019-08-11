@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, Form, Icon, Button, Steps } from 'antd';
+import { Row, Col, Form, Icon, Button, Steps, message } from 'antd';
 import axios from 'axios';
 import presets from './presets';
 
@@ -14,14 +14,14 @@ const { Step } = Steps;
 const defaultFridayName = 'This Friday at Salsa Mish';
 
 const initialState = {
-  currentStep: 4,
+  currentStep: 0,
   name: defaultFridayName,
   description: null,
   type: 'FRIDAY',
   start: null,
   end: null,
   facebook: null,
-  agenda: presets.friday(),
+  agenda: presets.testing(),
   employees: []
 }
 
@@ -82,8 +82,35 @@ class Main extends React.Component {
   submit = () => {
     const values = {...this.state}
     delete values.currentStep;
-    console.log('submit');
-    console.log(values);
+    delete values.employees;
+    axios.post('/api/events', values, { // receive two parameter endpoint url ,form data 
+    }).then(res => { // then print response status
+      message.success(`${values.name} has been successfully added (Status code ${res.status}).`)
+    }).catch(err => {
+      switch (err.response.status) {
+        case 400:
+          console.log('400, invalid role');
+          message.error('Error: An invalid employee role was sent to the server (Status code 400)');
+          break;
+        case 404:
+          console.log('404, missing field');
+          message.error('Error: The form is missing data (Status code 404)');
+          break;
+        case 409:
+          console.log('409, conflict');
+          message.error('Error: An employee with that name already exists in the database (Status code 409)');
+          break;
+        case 500:
+          console.log('500, server error');
+          message.error('Error: An error has occured on the server (Status code 500)');
+          break;
+        default:
+          console.log(err.response.status + ', unknown error');
+          console.log(err)
+          message.error('Error: An unknown error has occured (Status code ' + err.response.status + ')');
+          break;
+      }
+    })
   }
 
   render() {

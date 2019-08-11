@@ -1,6 +1,11 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const validEventTypes = ['FRIDAY', 'CHARITY', 'CUSTOM'];
+const validAgendaItemTypes = ['LESSON', 'DJSET'];
+// Null added as an enum so that the mongoose test will pass when lesson_level isn't included
+const validLessonLevels = [null, 'BEGINNERS', 'INTERMEDIATES'];
+
 const agenda = {
   name: {
     type: String,
@@ -12,18 +17,21 @@ const agenda = {
   type: {
     type: String,
     uppercase: true,
-    enum: ['LESSON', 'DJSET'],
+    enum: validAgendaItemTypes,
     required: true
   },
-  time: {
-    start: {
-      type: Date,
-      required: true
-    }, 
-    end: {
-      type: Date,
-      required: true
-    }
+  lesson_level: {
+    type: String,
+    uppercase: true,
+    enum: validLessonLevels,
+  },
+  start: {
+    type: Date,
+    required: true
+  }, 
+  end: {
+    type: Date,
+    required: true
   },
   employee: {
     type: Schema.Types.ObjectId,
@@ -56,11 +64,11 @@ const EventSchema = new Schema(
     type: {
       type: String,
       uppercase: true,
-      enum: ['FRIDAY', 'CHARITY'],
+      enum: validEventTypes,
       default: 'FRIDAY',
       required: true
     },
-    fbLink: {
+    facebook: {
       type: String,
     },
     agenda: [agenda]

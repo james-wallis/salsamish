@@ -2,6 +2,7 @@ const express = require('express')
 const multer = require('multer')
 const fs = require('fs-extra');
 const path = require('path');
+const mongoose = require('mongoose');
 
 // Variables
 const router = express.Router()
@@ -16,9 +17,7 @@ const dance = ['BACHATA', 'SALSA', 'KIZOMBA', 'RUEDA', 'CHACHACHA'];
  * @returns All employees in the database
  */
 router.get('/', async function (req, res) {
-  // Retrieve mongoose variable from app.locals
-  const m = req.app.locals.mongoose;
-  const model = m.model('Employee');
+  const model = mongoose.model('Employee');
   try {
     const employees = await model.find();
     res.send(employees)
@@ -46,9 +45,7 @@ router.post('/', upload.single('image'), async function (req, res) {
   if (req.body.role.toUpperCase() === 'DJ' && (!req.body.music || !checkMusicStyles(req.body.music))) return sendError(res, 404, 'DJ detected, Missing or invalid music information', req.file.filename);
   if (req.body.role.toUpperCase() === 'TEACHER' && (!req.body.dance || !checkDanceTypes(req.body.dance))) return sendError(res, 404, 'Teacher detected, Missing or invalid dance information', req.file.filename);
   if (!req.body.description || req.body.description === '') return sendError(res, 404, 'Missing description', req.file.filename);
-  // Retrieve mongoose variable from app.locals
-  const m = req.app.locals.mongoose;
-  const model = m.model('Employee');
+  const model = mongoose.model('Employee');
   if (await model.findOne({ name: req.body.name })) return sendError(res, 409, `Employee "${req.body.name}" already exists`, req.file.filename);
   const newFileName = `${(req.body.name).replace(/[^A-Z0-9]+/ig, "-")}-${Date.now()}${path.extname(req.file.originalname)}`;
   try {
@@ -77,8 +74,7 @@ router.post('/', upload.single('image'), async function (req, res) {
  */
 router.put('/:id', async function (req, res) {
   const id = req.params.id;
-  const m = req.app.locals.mongoose;
-  const model = m.model('Employee');
+  const model = mongoose.model('Employee');
   try {
     const employee = await model.findById(id);
   } catch (err) {
@@ -91,8 +87,7 @@ router.put('/:id', async function (req, res) {
  */
 router.delete('/:id', async function (req, res) {
   const id = req.params.id;
-  const m = req.app.locals.mongoose;
-  const model = m.model('Employee');
+  const model = mongoose.model('Employee');
   try {
     const employee = await model.findById(id);
     await model.deleteOne(employee);

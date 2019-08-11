@@ -3,7 +3,6 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const app = express();
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
 
 mongoose.connect('mongodb://localhost/salsamish', {
   useNewUrlParser: true, auth: {
@@ -13,9 +12,6 @@ mongoose.connect('mongodb://localhost/salsamish', {
 // Mongoose Schemas
 require('./schema/employee');
 require('./schema/event');
-
-// Express Variables
-app.locals.mongoose = mongoose;
 
 // Express Middleware
 app.use(bodyParser.json());
