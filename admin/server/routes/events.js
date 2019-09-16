@@ -14,11 +14,13 @@ const validLessonLevels = ['BEGINNERS', 'INTERMEDIATES'];
 router.get('/', async function (req, res) {
   const model = mongoose.model('Event');
   try {
-    const events = await model.find();
-    // createDummyEvent(m, model)
-    res.send(events)
+    await model.find()
+      .populate('agenda.employee')
+      .exec((err, evs) => {
+        if (err) return res.status(500).send('Error populating events');
+        return res.send(evs);
+      })
   } catch (err) {
-    // throw err;
     console.error(err);
     res.status(500).send(err);
   }
@@ -33,7 +35,6 @@ router.get('/:id', async function (req, res) {
   const id = req.params.id;
   const model = mongoose.model('Event');
   try {
-    // Check ID exists
     await model.findById(id);
     model.findById(id).populate('agenda.employee')
     .exec((err, event) => {
@@ -42,7 +43,6 @@ router.get('/:id', async function (req, res) {
       return res.send(event);
     })
   } catch (err) {
-    // throw err;
     if (err.name === 'CastError') res.status(404).send('ID does not exist')
     console.error(err);
     res.status(500).send(err);
@@ -67,7 +67,6 @@ router.get('/date', async function (req, res) {
   if (!moment(req.body.to).isValid()) return res.status(400).send('Invalid value given for Higher (to) date');
   const model = mongoose.model('Event');
   try {
-    // Create mongoose query
     const from = new Date(req.body.from);
     const to = new Date(req.body.to);
     const events = await model.find({
@@ -132,11 +131,26 @@ router.post('/', async function (req, res) {
     await instance.save();
     res.send(`New event ${name} added successfully`)
   } catch (err) {
-    // throw err;
     console.error(err);
     res.status(500).send(err);
   }
 });
+
+/**
+ * API Function to delete an event from the database
+ */
+router.delete('/:id', async function (req, res) {
+  const id = req.params.id;
+  const model = mongoose.model('Event');
+  try {
+    const event = await model.findById(id);
+    await event.remove();
+    res.sendStatus(200);
+  } catch (err) {
+    if (err.name === 'CastError') res.status(404).send('ID does not exist')
+    res.status(500).send(err);
+  }
+})
 
 async function isValidEmployee(id) {
   const model = mongoose.model('Employee');
@@ -146,32 +160,5 @@ async function isValidEmployee(id) {
     return false;
   }
 }
-
-async function createDummyEvent(m, model) {
-  const instance = new model({
-    _id: new m.Types.ObjectId(),
-    name: 'SalsaMish',
-    date: {
-      start: new Date(2019, 10, 10),
-      end: new Date(2019, 11, 10)
-    },
-    agenda: [{
-      name: 'Kizomba',
-      type: 'DJSET',
-      time: {
-        start: new Date(2019, 10, 10),
-        end: new Date(2019, 11, 10)
-      },
-      employee: new m.Types.ObjectId('5d477485c2a4792f12a8515e')
-    }]
-  });
-  await instance.save();
-}
-
-// const event = await model.find({
-//   date.start: {
-//     $lte: d
-//   }
-// })
 
 module.exports = router

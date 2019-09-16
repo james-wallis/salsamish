@@ -10,9 +10,10 @@ import EmployeeViewAll from './pages/employees/viewAll'
 import EmployeeAdd from './pages/employees/add'
 import EmployeeViewSingle from './pages/employees/viewSingle'
 
-import EventViewAll from './pages/employees/viewAll'
+import EventViewAll from './pages/events/viewAll'
 import EventAdd from './pages/events/add'
-import EventViewSingle from './pages/employees/viewSingle'
+import EventViewSingle from './pages/events/viewSingle'
+import EventEdit from './pages/events/edit'
 
 
 const { Sider, Content } = Layout;
@@ -33,6 +34,7 @@ function App() {
           <Route path="/events" exact component={EventViewAll} />
           <Route path="/events/add" component={EventAdd} />
           <Route path="/events/view" component={EventViewSingle} />
+          <Route path="/events/edit" component={EventEdit} />
         </Content>
       </Layout>
     </Router>

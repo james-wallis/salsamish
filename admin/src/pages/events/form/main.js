@@ -29,6 +29,14 @@ class Main extends React.Component {
   state = {...initialState};
 
   componentDidMount() {
+    const e = this.props.event;
+    for (const key in e) {
+      if (e.hasOwnProperty(key)) {
+        this.setState({
+          [key]: e[key]
+        })
+      }
+    }
     axios.get(`/api/employees`)
       .then(res => {
         const employees = res.data;
@@ -114,6 +122,7 @@ class Main extends React.Component {
   }
 
   render() {
+    console.log(this.state);
     const { currentStep } = this.state;
     const { form } = this.props;
     const { getFieldDecorator } = form;

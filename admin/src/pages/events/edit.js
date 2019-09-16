@@ -1,0 +1,38 @@
+import React from 'react';
+import axios from 'axios';
+import Form from './form/main';
+import { Typography } from 'antd';
+
+const { Title } = Typography;
+
+class Add extends React.Component {
+  state = {
+    event: null
+  }
+  componentDidMount() {
+    const { location } = this.props;
+    let params = new URLSearchParams(location.search);
+    axios.get(`/api/events/${params.get('id')}`)
+      .then(res => {
+        console.log(res.data);
+        const event = res.data;
+        // Add .end and .start into the event for the date
+        event.end = res.data.date.end;
+        event.start = res.data.date.start;
+        this.setState({ event });
+      })
+  }
+
+  render() {
+    const { event } = this.state;
+    return <div>
+      <Title level={2}>Edit Event</Title>
+      {(event) 
+        ? <Form event={event} />
+        : <p>Fetching event</p>}
+      
+    </div>
+  }
+}
+
+export default Add;
