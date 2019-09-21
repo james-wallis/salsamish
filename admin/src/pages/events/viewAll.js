@@ -10,7 +10,6 @@ class ViewAll extends React.Component {
   componentDidMount() {
     axios.get(`/api/events`)
       .then(res => {
-        console.log(res.data);
         const events = res.data;
         this.setState({ events });
       })
@@ -24,7 +23,7 @@ class ViewAll extends React.Component {
           <EmployeeCard key={`employee-card-${i}`} event={event} />
         )
       })}
-      
+      {(events.length === 0) ? <p>No events in the database.</p> : null}
     </div>
   }
 }

@@ -12,7 +12,6 @@ class ViewAll extends React.Component {
   componentDidMount() {
     axios.get(`/api/employees`)
       .then(res => {
-        console.log(res.data);
         const employees = res.data;
         this.setState({ employees });
       })
@@ -34,7 +33,7 @@ class ViewAll extends React.Component {
             </div>
           )
         })}
-        
+        {(splitArray.length === 0) ? <p>No employees in the database.</p> : null}
       </ul>
     )
   }

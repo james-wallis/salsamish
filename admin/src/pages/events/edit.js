@@ -14,7 +14,6 @@ class Add extends React.Component {
     let params = new URLSearchParams(location.search);
     axios.get(`/api/events/${params.get('id')}`)
       .then(res => {
-        console.log(res.data);
         const event = res.data;
         // Add .end and .start into the event for the date
         event.end = res.data.date.end;

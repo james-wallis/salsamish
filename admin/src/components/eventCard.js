@@ -7,7 +7,6 @@ const { Meta } = Card;
 
 function EventCard(props) {
   if (!props.event) return null;
-  console.log(props.event);
   const { name, type, date, description } = props.event;
   const dateString = (date.start) ? moment(date.start).format("DD/MM/YYYY") : null;
   return (

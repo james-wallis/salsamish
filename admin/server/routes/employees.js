@@ -36,7 +36,6 @@ router.get('/', async function (req, res) {
  * @param req.file - the image of the employee to be uploaded
  */
 router.post('/', upload.single('image'), async function (req, res) {
-  console.log(req.body)
   // Check image first as it'll need to be deleted if other validation occurs
   if (!req.file || req.file.originalname === '') return sendError(res, 404, 'Missing image');
   if (!req.body.name || req.body.name === '') return sendError(res, 404, 'Missing name', req.file.filename);

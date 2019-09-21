@@ -58,7 +58,6 @@ class Summary extends React.Component {
     const employee = values.employees.find(function ({ _id }) {
       return _id === id;
     });
-    console.log(employee);
     return (employee) ? employee.name : null;
   }
 

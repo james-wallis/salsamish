@@ -27,29 +27,6 @@ router.get('/', async function (req, res) {
 });
 
 /**
- * API Function to get a single event using its ID
- * The returned event will have the employee data filled rather than just an ID 
- * @returns A single event
- */
-router.get('/:id', async function (req, res) {
-  const id = req.params.id;
-  const model = mongoose.model('Event');
-  try {
-    await model.findById(id);
-    model.findById(id).populate('agenda.employee')
-    .exec((err, event) => {
-      if (err) return res.status(500).send('Error populating Mongoose query with ID ' + id);
-      console.log(event);
-      return res.send(event);
-    })
-  } catch (err) {
-    if (err.name === 'CastError') res.status(404).send('ID does not exist')
-    console.error(err);
-    res.status(500).send(err);
-  }
-});
-
-/**
  * API Function to get all events in the database which are inclusive of the given dates
  * Used to fetch events in a given bracket (To show the next few events)
  * @params from - The oldest date to get events from
@@ -58,7 +35,6 @@ router.get('/:id', async function (req, res) {
  */
 router.get('/date', async function (req, res) {
   const old = new Date(2000, 10, 10);
-  console.log(old.toISOString());
   req.body.from = old.toISOString();
   req.body.to = "2013-08-05T13:08:24.149Z";
   if (!req.body.from || req.body.from === '') return res.status(404).send('Lower (from) date missing');
@@ -83,13 +59,63 @@ router.get('/date', async function (req, res) {
 })
 
 /**
+ * API Function to get a single event from the database which comes after a given date
+ * Used to show the most upcoming event
+ * @params date - The date to get the next event after
+ * @returns All events in the database
+ */
+router.get('/next/:date', async function (req, res) {
+  if (!req.params.date || req.params.date === '') return res.status(404).send('Date missing');
+  if (!moment(req.params.date).isValid()) return res.status(400).send('Invalid value given for date');
+  const model = mongoose.model('Event');
+  try {
+    const date = new Date(req.params.date);
+    await model.find({
+      'date.start': {
+        $gte: date.toISOString()
+      }
+    })
+      .populate('agenda.employee')
+      .exec((err, events) => {
+        if (err) return res.status(500).send('Error populating event with employees');
+        const nextEvent = events[0];
+        return res.send(nextEvent);
+      })
+  } catch (err) {
+    console.error(err);
+    res.status(500).send(err);
+  }
+})
+
+/**
+ * API Function to get a single event using its ID
+ * The returned event will have the employee data filled rather than just an ID 
+ * @returns A single event
+ */
+router.get('/:id', async function (req, res) {
+  const id = req.params.id;
+  const model = mongoose.model('Event');
+  try {
+    await model.findById(id);
+    model.findById(id).populate('agenda.employee')
+      .exec((err, event) => {
+        if (err) return res.status(500).send('Error populating Mongoose query with ID ' + id);
+        return res.send(event);
+      })
+  } catch (err) {
+    if (err.name === 'CastError') res.status(404).send('ID does not exist')
+    console.error(err);
+    res.status(500).send(err);
+  }
+});
+
+/**
  * API Function to create a new event in the database
  * @returns 
  */
 router.post('/', async function (req, res) {
   const model = mongoose.model('Event');
   let { name, description, type, start, end, facebook, agenda } = req.body;
-  console.log(req.body);
   type = type.toUpperCase();
   if (typeof agenda === 'string' || agenda instanceof String) agenda = JSON.parse(agenda);
   try {

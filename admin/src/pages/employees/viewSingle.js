@@ -15,14 +15,12 @@ class ViewAll extends React.Component {
   componentDidMount() {
     axios.get(`/api/employees`)
       .then(res => {
-        console.log(res.data);
         const employees = res.data;
         this.setState({ employees });
       })
   }
 
   employeeSelected = value => {
-    console.log(`selected ${value}`);
     if (!value || value === '') return;
     const { employees } = this.state;
     const emp = employees.find(x => x._id === value);
@@ -44,7 +42,6 @@ class ViewAll extends React.Component {
         } else {
           message.error(`Error deleting employee, pre-response, `, err.message)
         }
-        console.log(err);
       });
   }
 
@@ -69,6 +66,7 @@ class ViewAll extends React.Component {
                 return <Option value={emp._id} key={`option-${i}`}>{emp.name}</Option>
               })}
             </Select>
+            {(employees.length === 0) ? <p>No employees in the database.</p> : null}
           </Col>
         </Row>
         <Row>

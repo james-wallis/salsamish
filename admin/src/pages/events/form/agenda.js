@@ -17,7 +17,6 @@ class Agenda extends React.Component {
   }
 
   setAgenda(values) {
-    console.log(values);
     if (values.agenda && values.agenda.length !== 0) return values.agenda;
     switch (values.type) {
       case 'FRIDAY':
@@ -59,7 +58,6 @@ class Agenda extends React.Component {
   updateScreen = () => {
     const { form } = this.props;
     const { agenda } = this.state;
-    console.log(agenda);
     for (let i = 0; i < agenda.length; i++) {
       form.setFields({
         [`item-name-${i}`]: { value: agenda[i].name },
@@ -82,7 +80,6 @@ class Agenda extends React.Component {
       agenda
     })
     handleChange(agenda, 'agenda');
-    console.log(this.state)
   }
 
   render() {
