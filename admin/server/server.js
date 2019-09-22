@@ -4,7 +4,11 @@ const path = require('path');
 const app = express();
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost/salsamish', {
+const dburl = (process.env.NODE_ENV === 'production') 
+            ? 'mongodb://salsamish-db/salsamish' 
+            : 'mongodb://localhost/salsamish';
+
+mongoose.connect(dburl, {
   useNewUrlParser: true, auth: {
     user: 'salsa', password: 'example'
   }
@@ -24,16 +28,14 @@ app.use('/api/events', require('./routes/events'))
 
 const port = process.env.PORT || 3001;
 
-
-
 // In production there is the need to serve the React files.
 if (process.env.NODE_ENV === 'production') {
   // Serve any static files
-  app.use(express.static(path.join(__dirname, 'client/build')));
+  app.use(express.static('/app/build'));
 
   // Handle React routing, return all requests to React app
   app.get('*', function (req, res) {
-    res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+    res.sendFile(path.join('/app/build', 'index.html'));
   });
 }
 

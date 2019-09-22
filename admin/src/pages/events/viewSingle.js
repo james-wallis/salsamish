@@ -18,6 +18,7 @@ class ViewAll extends React.Component {
     axios.get(`/api/events`)
       .then(res => {
         const events = res.data;
+        events.sort(compareDates);
         this.setState({ events });
       })
   }
@@ -82,6 +83,16 @@ class ViewAll extends React.Component {
   }
 }
 
-
+const compareDates = (firstEvent, secondEvent) => {
+  const first = moment(firstEvent.date.start);
+  const second = moment(secondEvent.date.start);
+  if (first < second) {
+    return -1;
+  }
+  if (second > first) {
+    return 1;
+  }
+  return 0;
+}
 
 export default withRouter(ViewAll);

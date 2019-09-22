@@ -25,7 +25,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "server": "nodemon --ignore 'src/' server/server.js",
-    "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn start\""
+    "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn start\"",
+    "production": "NODE_ENV=production node server/server.js"
   },
   "eslintConfig": {
     "extends": "react-app"
