@@ -4,9 +4,9 @@ const path = require('path');
 const app = express();
 const mongoose = require('mongoose');
 
-const dburl = (process.env.NODE_ENV === 'production') 
-            ? 'mongodb://salsamish-db/salsamish' 
-            : 'mongodb://localhost/salsamish';
+const dburl = (process.env.DB_HOSTNAME) 
+  ? `mongodb://${process.env.DB_HOSTNAME}/salsamish` 
+  : `mongodb://localhost/salsamish`;
 
 mongoose.connect(dburl, {
   useNewUrlParser: true, auth: {

@@ -11,7 +11,7 @@ import Summary from './summary';
 
 const ButtonGroup = Button.Group;
 const { Step } = Steps;
-const defaultFridayName = 'This Friday at Salsa Mish';
+const defaultFridayName = 'Salsa Mish Friday';
 
 const initialState = {
   currentStep: 0,
@@ -21,7 +21,7 @@ const initialState = {
   start: null,
   end: null,
   facebook: null,
-  agenda: presets.testing(),
+  agenda: null,
   employees: []
 }
 

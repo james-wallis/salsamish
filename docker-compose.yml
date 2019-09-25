@@ -22,6 +22,11 @@ services:
     depends_on:
       - salsamish-db
     image: salsamish-admin:latest
+    environment:
+      DB_HOSTNAME: salsamish-db
+    volumes:
+      - ./mongodb/setup/:/docker-entrypoint-initdb.d/
+      - ./mongodb/data:/data/db
     ports:
       - 5000:3001
     networks:

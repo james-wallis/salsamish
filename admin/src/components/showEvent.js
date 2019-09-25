@@ -5,7 +5,6 @@ const { Title } = Typography;
 
 const showEvent = props => {
   const { event, deleteEvent } = props;
-  console.log(event);
   const description = (event.description) ? formatDescription(event.description) : 'Description: N/A';
   return <div style={{ marginTop: 50 }}>
     <Row>

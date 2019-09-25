@@ -6,7 +6,9 @@ const mongoose = require('mongoose');
 
 // Variables
 const router = express.Router()
-const IMAGE_DIR = 'public/images/employees';
+const IMAGE_DIR = (process.env.NODE_ENV === 'production') 
+  ? 'build/images/employees' 
+  : 'public/images/employees';
 const upload = multer({ dest: IMAGE_DIR })
 const music = ['BACHATA', 'KIZOMBA'];
 const dance = ['BACHATA', 'SALSA', 'KIZOMBA', 'RUEDA', 'CHACHACHA'];
