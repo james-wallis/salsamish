@@ -40,25 +40,12 @@ const showEvent = props => {
       </Title>
       </Col>
       {
-        event.agenda.map((e, i) => (
-          <Col key={`event-agenda-${i}`} xs={8}>
-            <div style={{ backgroundColor: 'white', padding: 10, marginRight: 10 }}>
-              <Title level={4}>{e.name}</Title>
-              <p style={{ fontStyle: 'italic', marginBottom: 0 }}>
-                From: {moment(e.start).format('h:mm A')}
-              </p>
-              <p style={{ fontStyle: 'italic' }}>
-                Until: {moment(e.end).format('h:mm A')}
-              </p>
-              <p style={{ textDecoration: 'underline', marginBottom: 0 }}>Employee</p>
-              <p style={{ textTransform: 'capitalize' }}>{(e.employee) ? e.employee.name : 'N/A'}</p>
-              <p style={{ textDecoration: 'underline', marginBottom: 0 }}>Type</p>
-              <p style={{ textTransform: 'capitalize' }}>{e.type.toLowerCase()} <span style={{ textTransform: 'capitalize' }}>{(e.lesson_level) ? `(${e.lesson_level.toLowerCase()})` : null}</span></p>
-              <p style={{ textDecoration: 'underline', marginBottom: 0 }}>Description</p>
-              {(event.description) ? formatDescription(event.description) : <p>N/A</p>}
-            </div>
-
-          </Col>
+        splitArrayIntoColumns(event.agenda).map((e, i) => (
+          <Row style={{ marginBottom: 10 }} key={`event-agenda-row-${i}`}>
+            {agenda(event, e[0])}
+            {(e[1]) ? agenda(event, e[1]) : null}
+            {(e[2]) ? agenda(event, e[2]) : null}
+          </Row>
         ))
       }
     </Row>
@@ -81,6 +68,26 @@ const showEvent = props => {
   </div>
 }
 
+const agenda = (event, agenda) => {
+  return <Col xs={8} >
+    <div style={{ backgroundColor: 'white', padding: 10, marginRight: 10 }}>
+      <Title level={4}>{agenda.name}</Title>
+      <p style={{ fontStyle: 'italic', marginBottom: 0 }}>
+        From: {moment(agenda.start).format('h:mm A')}
+      </p>
+      <p style={{ fontStyle: 'italic' }}>
+        Until: {moment(agenda.end).format('h:mm A')}
+      </p>
+      <p style={{ textDecoration: 'underline', marginBottom: 0 }}>Employee</p>
+      <p style={{ textTransform: 'capitalize' }}>{(agenda.employee) ? agenda.employee.name : 'N/A'}</p>
+      <p style={{ textDecoration: 'underline', marginBottom: 0 }}>Type</p>
+      <p style={{ textTransform: 'capitalize' }}>{agenda.type.toLowerCase()} <span style={{ textTransform: 'capitalize' }}>{(agenda.lesson_level) ? `(${agenda.lesson_level.toLowerCase()})` : null}</span></p>
+      <p style={{ textDecoration: 'underline', marginBottom: 0 }}>Description</p>
+      {(event.description) ? formatDescription(event.description) : <p>N/A</p>}
+    </div>
+  </Col >
+}
+
 const formatDescription = unformatted => {
   const desc = unformatted.split('\n');
   return <div>
@@ -88,6 +95,14 @@ const formatDescription = unformatted => {
       return (text !== '') ? <p key={`description-${i}`}>{text}</p> : <br key={`description-${i}`} />;
     })}
   </div>
+}
+
+const splitArrayIntoColumns = array => {
+  const newArray = [];
+  for (let i = 0; i < array.length; i+=3) {
+    newArray.push([array[i], array[i+1], array[i+2]])
+  }
+  return newArray;
 }
 
 export default showEvent;

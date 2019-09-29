@@ -38,6 +38,7 @@ class Information extends React.Component {
       </Row>
     </div>
   }
+  
   custom = () => {
     const { getFieldDecorator, values } = this.props;
     const startDate = (values.start) ? moment(values.start) : null;

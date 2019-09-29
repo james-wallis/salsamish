@@ -119,6 +119,7 @@ class Agenda extends React.Component {
   }
 
   item = (properties, index) => {
+    console.log('agendaItem', properties);
     const { getFieldDecorator, values } = this.props;
     return <Row>
       <Col xs={11}>
@@ -180,6 +181,7 @@ class Agenda extends React.Component {
           <Col xs={24}>
             <Form.Item label="Assign employee">
               {getFieldDecorator(`item-employee-${index}`, {
+                initialValue: (properties.employee) ? properties.employee._id : null,
                 rules: [{ required: true, message: 'Please select the employee to assign to this item' }],
               })(
                 <Select

@@ -87,38 +87,25 @@ class Main extends React.Component {
     })
   }
 
-  submit = () => {
+  submitNew = () => {
     const values = {...this.state}
+    console.log('submitNew', values);
     delete values.currentStep;
     delete values.employees;
-    axios.post('/api/events', values, { // receive two parameter endpoint url ,form data 
-    }).then(res => { // then print response status
+    axios.post('/api/events', values, { 
+    }).then(res => {
       message.success(`${values.name} has been successfully added (Status code ${res.status}).`)
-    }).catch(err => {
-      switch (err.response.status) {
-        case 400:
-          console.log('400, invalid role');
-          message.error('Error: An invalid employee role was sent to the server (Status code 400)');
-          break;
-        case 404:
-          console.log('404, missing field');
-          message.error('Error: The form is missing data (Status code 404)');
-          break;
-        case 409:
-          console.log('409, conflict');
-          message.error('Error: An employee with that name already exists in the database (Status code 409)');
-          break;
-        case 500:
-          console.log('500, server error');
-          message.error('Error: An error has occured on the server (Status code 500)');
-          break;
-        default:
-          console.log(err.response.status + ', unknown error');
-          console.log(err)
-          message.error('Error: An unknown error has occured (Status code ' + err.response.status + ')');
-          break;
-      }
-    })
+    }).catch(showServerMessageOnError)
+  }
+
+  submitEdit = () => {
+    const values = { ...this.state }
+    delete values.currentStep;
+    delete values.employees;
+    axios.put(`/api/events/${values.id}`, values, {
+    }).then(res => {
+      message.success(`${values.name} has been successfully modified (Status code ${res.status}).`)
+    }).catch(showServerMessageOnError)
   }
 
   render() {
@@ -165,7 +152,7 @@ class Main extends React.Component {
               Next
               <Icon type="right" />
             </Button> : null}
-            {(currentStep === 4) ? <Button type="danger" onClick={this.submit}>
+            {(currentStep === 4) ? <Button type="danger" onClick={this.submitNew}>
               Submit event
               <Icon type="check" />
             </Button> : null}
@@ -173,6 +160,28 @@ class Main extends React.Component {
         </Col>
       </Row>
     </div>
+  }
+}
+
+const showServerMessageOnError = (err) => {
+  switch (err.response.status) {
+    case 400:
+      console.log('400, invalid role');
+      message.error('Error: The data sent contains an invalid type (Status code 400)');
+      break;
+    case 404:
+      console.log('404, missing field');
+      message.error('Error: The form is missing data (Status code 404)');
+      break;
+    case 500:
+      console.log('500, server error');
+      message.error('Error: An error has occured on the server (Status code 500)');
+      break;
+    default:
+      console.log(err.response.status + ', unknown error');
+      console.log(err)
+      message.error('Error: An unknown error has occured (Status code ' + err.response.status + ')');
+      break;
   }
 }
 
