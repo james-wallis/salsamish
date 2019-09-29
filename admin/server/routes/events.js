@@ -96,14 +96,16 @@ router.get('/:id', async function (req, res) {
   const id = req.params.id;
   const model = mongoose.model('Event');
   try {
-    await model.findById(id);
-    model.findById(id).populate('agenda.employee')
-      .exec((err, event) => {
-        if (err) return res.status(500).send('Error populating Mongoose query with ID ' + id);
-        return res.send(event);
-      })
+    if (eventExists(req.params.id)) {
+      model.findById(id).populate('agenda.employee')
+        .exec((err, event) => {
+          if (err) return res.status(500).send('Error populating Mongoose query with ID ' + id);
+          return res.send(event);
+        })
+    } else {
+      res.status(404).send('ID does not exist');
+    }
   } catch (err) {
-    if (err.name === 'CastError') res.status(404).send('ID does not exist')
     console.error(err);
     res.status(500).send(err);
   }
@@ -111,51 +113,30 @@ router.get('/:id', async function (req, res) {
 
 /**
  * API Function to create a new event in the database
- * @returns 
  */
 router.post('/', async function (req, res) {
-  const model = mongoose.model('Event');
-  let { name, description, type, start, end, facebook, agenda } = req.body;
-  type = type.toUpperCase();
-  if (typeof agenda === 'string' || agenda instanceof String) agenda = JSON.parse(agenda);
   try {
-    if (!name || name === '') return res.status(404).send('Missing event name');
-    if (!type || type === '') return res.status(404).send('Missing event type');
-    if (!(validEventTypes.includes(type))) return res.status(400).send('Invalid event type');
-    if (!start || start === '') return res.status(404).send('Missing event start date and time');
-    if (!end || end === '') return res.status(404).send('Missing event end date and time');
-    if (!moment(start).isValid()) return res.status(400).send('Invalid value given for event start date');
-    if (!moment(end).isValid()) return res.status(400).send('Invalid value given for event end date');
-    if (agenda.length > 0) {
-      for (let i = 0; i < agenda.length; i++) {
-        const item = agenda[i];
-        if (!item.name || item.name === '') return res.status(404).send('Missing agenda item name');
-        if (!item.type || item.type === '') return res.status(404).send('Missing agenda item type');
-        if (!(validAgendaItemTypes.includes(item.type))) return res.status(400).send('Invalid agenda item type');
-        if (item.type === 'LESSON' && (!item.lesson_level || item.lesson_level === '')) return res.status(404).send('Missing agenda item lesson level');
-        if (item.type === 'LESSON' && (!(validLessonLevels.includes(item.lesson_level)))) return res.status(400).send('Invalid agenda item lesson level');
-        if (!item.start || item.start === '') return res.status(404).send('Missing agenda item start date and time');
-        if (!item.end || item.end === '') return res.status(404).send('Missing agenda item end date and time');
-        if (!moment(item.start).isValid()) return res.status(400).send('Invalid value given for agenda item start date');
-        if (!moment(item.end).isValid()) return res.status(400).send('Invalid value given for agenda item end date');
-        if (!item.employee || item.employee === '') return res.status(404).send('Missing agenda item employee');
-        if (!await isValidEmployee(item.employee)) return res.status(400).send('Invalid id given for agenda item employee (Employee does not exist)');
-      }
+    const event = await validateEventRequest(req, res);
+    await saveEventToDatabase(event);
+    res.send(`New event ${event.name} added successfully`)
+  } catch (err) {
+    console.error(err);
+    res.status(500).send(err);
+  }
+});
+
+/**
+ * API Function to update an existing event in the database
+ */
+router.put('/:id', async function (req, res) {
+  try {
+    if (eventExists(req.params.id)) {
+      const event = await validateEventRequest(req, res);
+      await updateEventInDatabase(event, req.params.id);
+      res.send(`Existing event ${event.name} updated successfully`);
+    } else {
+      res.status(404).send('ID does not exist');
     }
-    const instance = new model({
-      _id: new mongoose.Types.ObjectId(),
-      name: name,
-      description: (!description || description === '') ? description : null,
-      type: type,
-      date: {
-        start: new Date(start),
-        end: new Date(end)
-      },
-      facebook: (!facebook || facebook === '') ? facebook : null,
-      agenda: agenda
-    });
-    await instance.save();
-    res.send(`New event ${name} added successfully`)
   } catch (err) {
     console.error(err);
     res.status(500).send(err);
@@ -178,11 +159,74 @@ router.delete('/:id', async function (req, res) {
   }
 })
 
+async function validateEventRequest(req, res) {
+  let { name, description, type, start, end, facebook, agenda } = req.body;
+  type = type.toUpperCase();
+  if (typeof agenda === 'string' || agenda instanceof String) agenda = JSON.parse(agenda);
+  if (!name || name === '') return res.status(404).send('Missing event name');
+  if (!type || type === '') return res.status(404).send('Missing event type');
+  if (!(validEventTypes.includes(type))) return res.status(400).send('Invalid event type');
+  if (!start || start === '') return res.status(404).send('Missing event start date and time');
+  if (!end || end === '') return res.status(404).send('Missing event end date and time');
+  if (!moment(start).isValid()) return res.status(400).send('Invalid value given for event start date');
+  if (!moment(end).isValid()) return res.status(400).send('Invalid value given for event end date');
+  if (agenda.length > 0) {
+    for (let i = 0; i < agenda.length; i++) {
+      const item = agenda[i];
+      if (!item.name || item.name === '') return res.status(404).send('Missing agenda item name');
+      if (!item.type || item.type === '') return res.status(404).send('Missing agenda item type');
+      if (!(validAgendaItemTypes.includes(item.type))) return res.status(400).send('Invalid agenda item type');
+      if (item.type === 'LESSON' && (!item.lesson_level || item.lesson_level === '')) return res.status(404).send('Missing agenda item lesson level');
+      if (item.type === 'LESSON' && (!(validLessonLevels.includes(item.lesson_level)))) return res.status(400).send('Invalid agenda item lesson level');
+      if (!item.start || item.start === '') return res.status(404).send('Missing agenda item start date and time');
+      if (!item.end || item.end === '') return res.status(404).send('Missing agenda item end date and time');
+      if (!moment(item.start).isValid()) return res.status(400).send('Invalid value given for agenda item start date');
+      if (!moment(item.end).isValid()) return res.status(400).send('Invalid value given for agenda item end date');
+      if (!item.employee || item.employee === '') return res.status(404).send('Missing agenda item employee');
+      if (!await isValidEmployee(item.employee)) return res.status(400).send('Invalid id given for agenda item employee (Employee does not exist)');
+    }
+  }
+  return { name, description, type, start, end, facebook, agenda };
+}
+
 async function isValidEmployee(id) {
   const model = mongoose.model('Employee');
   try {
     return (await model.findById(id) && true);
   } catch (e) {
+    return false;
+  }
+}
+
+async function saveEventToDatabase(event) {
+  const { name, description, type, start, end, facebook, agenda } = event;
+  const model = mongoose.model('Event');
+  const instance = new model({
+    _id: new mongoose.Types.ObjectId(),
+    name: name,
+    description: (!description || description === '') ? description : null,
+    type: type,
+    date: {
+      start: new Date(start),
+      end: new Date(end)
+    },
+    facebook: (!facebook || facebook === '') ? facebook : null,
+    agenda: agenda
+  });
+  await instance.save();
+}
+
+async function updateEventInDatabase(event, id) {
+  const model = mongoose.model('Event');
+  await model.updateOne({ _id: id}, event);
+}
+
+async function eventExists(id) {
+  const model = mongoose.model('Event');
+  try {
+    await model.findById(id);
+    return true;
+  } catch(e) {
     return false;
   }
 }

@@ -1,7 +1,6 @@
 import React from 'react';
 import { Row, Col, Form, Icon, Button, Steps, message } from 'antd';
 import axios from 'axios';
-import presets from './presets';
 
 import Agenda from './agenda';
 import Date from './date';
@@ -40,9 +39,7 @@ class Main extends React.Component {
     axios.get(`/api/employees`)
       .then(res => {
         const employees = res.data;
-        this.setState({ employees }, () => {
-          console.log(this.state.employees)
-        });
+        this.setState({ employees });
       })
   }
 
@@ -87,9 +84,17 @@ class Main extends React.Component {
     })
   }
 
+  submit = () => {
+    const { edit } = this.props;
+    if (edit) {
+      this.submitEdit();
+    } else {
+      this.submitNew();
+    }
+  }
+
   submitNew = () => {
     const values = {...this.state}
-    console.log('submitNew', values);
     delete values.currentStep;
     delete values.employees;
     axios.post('/api/events', values, { 
@@ -102,10 +107,14 @@ class Main extends React.Component {
     const values = { ...this.state }
     delete values.currentStep;
     delete values.employees;
-    axios.put(`/api/events/${values.id}`, values, {
-    }).then(res => {
-      message.success(`${values.name} has been successfully modified (Status code ${res.status}).`)
-    }).catch(showServerMessageOnError)
+    if (!values._id) {
+      message.error(`Error updating ${values.name} as no ID is present`);
+    } else {
+      axios.put(`/api/events/${values._id}`, values, {
+      }).then(res => {
+        message.success(`${values.name} has been successfully modified (Status code ${res.status}).`)
+      }).catch(showServerMessageOnError)
+    }
   }
 
   render() {
@@ -152,7 +161,7 @@ class Main extends React.Component {
               Next
               <Icon type="right" />
             </Button> : null}
-            {(currentStep === 4) ? <Button type="danger" onClick={this.submitNew}>
+            {(currentStep === 4) ? <Button type="danger" onClick={this.submit}>
               Submit event
               <Icon type="check" />
             </Button> : null}

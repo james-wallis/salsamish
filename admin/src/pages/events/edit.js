@@ -27,7 +27,7 @@ class Add extends React.Component {
     return <div>
       <Title level={2}>Edit Event</Title>
       {(event) 
-        ? <Form event={event} />
+        ? <Form event={event} edit/>
         : <p>Fetching event</p>}
       
     </div>

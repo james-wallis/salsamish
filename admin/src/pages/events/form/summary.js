@@ -52,22 +52,30 @@ class Summary extends React.Component {
       </Row>
     </div>
   }
-  displayEmployee = (id) => {
-    if (!id) return 'No employee given, this is an error.';
-    const { values } = this.props;
-    const employee = values.employees.find(function ({ _id }) {
-      return _id === id;
-    });
-    return (employee) ? employee.name : null;
+  displayEmployee = (emp) => {
+    if (!emp) return 'No employee given, this is an error.';
+    if (emp._id) {
+      return emp.name;
+    } else {
+      const { values } = this.props;
+      const employee = values.employees.find(function ({ _id }) {
+        return _id === emp;
+      });
+      return (employee) ? employee.name : null;
+    }
   }
 
-  displayEmployeePicture = (id) => {
-    if (!id) return 'No employee given, this is an error.';
-    const { values } = this.props;
-    const employee = values.employees.find(function ({ _id }) {
-      return _id === id;
-    });
-    return (employee) ? employee.image : null;
+  displayEmployeePicture = (emp) => {
+    if (!emp) return 'No employee given, this is an error.';
+    if (emp._id) {
+      return emp.image;
+    } else {
+      const { values } = this.props;
+      const employee = values.employees.find(function ({ _id }) {
+        return _id === emp;
+      });
+      return (employee) ? employee.image : null;
+    }
   }
 }
 
