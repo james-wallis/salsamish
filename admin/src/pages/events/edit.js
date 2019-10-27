@@ -2,10 +2,11 @@ import React from 'react';
 import axios from 'axios';
 import Form from './form/main';
 import { Typography } from 'antd';
+import withLayout from '../../components/withLayout';
 
 const { Title } = Typography;
 
-class Add extends React.Component {
+class Edit extends React.Component {
   state = {
     event: null
   }
@@ -34,4 +35,4 @@ class Add extends React.Component {
   }
 }
 
-export default Add;
+export default withLayout(Edit);

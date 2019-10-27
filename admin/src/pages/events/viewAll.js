@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import EmployeeCard from '../../components/eventCard';
+import withLayout from '../../components/withLayout';
 
 class ViewAll extends React.Component {
   state = {
@@ -28,4 +29,4 @@ class ViewAll extends React.Component {
   }
 }
 
-export default ViewAll;
+export default withLayout(ViewAll);

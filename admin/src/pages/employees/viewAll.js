@@ -1,8 +1,7 @@
 import React from 'react';
 import axios from 'axios';
-import EmployeeCard from '../../components/employeeCard'
-
-
+import EmployeeCard from '../../components/employeeCard';
+import withLayout from '../../components/withLayout';
 
 class ViewAll extends React.Component {
   state = {
@@ -33,10 +32,10 @@ class ViewAll extends React.Component {
             </div>
           )
         })}
-        {(splitArray.length === 0) ? <p>No employees in the database.</p> : null}
+        {(splitArray.length === 0) ? <p>No team members in the database.</p> : null}
       </ul>
     )
   }
 }
 
-export default ViewAll;
+export default withLayout(ViewAll);

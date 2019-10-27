@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 import { Typography, Select, Row, Col, Button, Popconfirm, message, Icon } from 'antd';
+import withLayout from '../../components/withLayout';
 
 const { Title } = Typography;
 const { Option } = Select;
@@ -34,13 +35,13 @@ class ViewAll extends React.Component {
       .then(res => {
         message
           .success(`${selectedEmployee.name} has been deleted (Status code ${res.status})`, 1)
-          .then(() => message.info('Redirecting to employee overview', 1))
+          .then(() => message.info('Redirecting to team member overview', 1))
           .then(() => history.push('/employees/'))
       }).catch(err => {
         if (err.response) {
-          message.error(`Error deleting employee (Status code ${err.response.status})`);
+          message.error(`Error deleting team member (Status code ${err.response.status})`);
         } else {
-          message.error(`Error deleting employee, pre-response, `, err.message)
+          message.error(`Error deleting team member, pre-response, `, err.message)
         }
       });
   }
@@ -51,11 +52,11 @@ class ViewAll extends React.Component {
       <div>
         <Row>
           <Col xs={24}>
-            <Title level={2}>View employee</Title>
+            <Title level={2}>View team member</Title>
             <Select
               showSearch
               style={{ width: 400 }}
-              placeholder="Select an employee"
+              placeholder="Select a team member"
               optionFilterProp="children"
               onChange={this.employeeSelected}
               filterOption={(input, option) =>
@@ -66,7 +67,7 @@ class ViewAll extends React.Component {
                 return <Option value={emp._id} key={`option-${i}`}>{emp.name}</Option>
               })}
             </Select>
-            {(employees.length === 0) ? <p>No employees in the database.</p> : null}
+            {(employees.length === 0) ? <p>No team members in the database.</p> : null}
           </Col>
         </Row>
         <Row>
@@ -105,7 +106,7 @@ const information = (employee, cb) => {
         <Button style={{ marginRight: 10 }} icon="edit" disabled>Edit</Button>
         <Popconfirm
           placement="bottomLeft"
-          title={'Are you sure you want to delete this employee?'}
+          title={'Are you sure you want to delete this team member?'}
           onConfirm={cb}
           okText="Yes"
           cancelText="No"
@@ -127,4 +128,4 @@ const formatDescription = unformatted => {
   </div>
 }
 
-export default withRouter(ViewAll);
+export default withLayout(withRouter(ViewAll));

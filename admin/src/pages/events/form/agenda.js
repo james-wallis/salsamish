@@ -119,7 +119,6 @@ class Agenda extends React.Component {
   }
 
   item = (properties, index) => {
-    console.log('agendaItem', properties);
     const { getFieldDecorator, values } = this.props;
     return <Row>
       <Col xs={11}>
@@ -179,14 +178,14 @@ class Agenda extends React.Component {
         </Row>
         <Row>
           <Col xs={24}>
-            <Form.Item label="Assign employee">
+            <Form.Item label="Assign team member">
               {getFieldDecorator(`item-employee-${index}`, {
                 initialValue: (properties.employee) ? properties.employee._id : null,
-                rules: [{ required: true, message: 'Please select the employee to assign to this item' }],
+                rules: [{ required: true, message: 'Please select the team member to assign to this item' }],
               })(
                 <Select
                   showSearch
-                  placeholder="Select an employee"
+                  placeholder="Select a team member"
                   optionFilterProp="children"
                   onChange={(value) => this.handleItemChange(value, 'employee', index)}
                   filterOption={(input, option) =>

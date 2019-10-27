@@ -1,6 +1,7 @@
 import React from 'react';
 import Form from './form/main'; 
 import { Typography } from 'antd';
+import withLayout from '../../components/withLayout';
 
 const { Title } = Typography;
 
@@ -13,4 +14,4 @@ class Add extends React.Component {
   }
 }
 
-export default Add;
+export default withLayout(Add);

@@ -44,7 +44,7 @@ class Summary extends React.Component {
                 {(item.type === 'LESSON') ? <p>Lesson Difficulty: {item.lesson_level}</p> : null}
                 <p>Start time &amp; time: {moment(item.start).format("dddd, MMMM Do YYYY, h:mm a")}</p>
                 <p>End time &amp; time: {moment(item.end).format("dddd, MMMM Do YYYY, h:mm a")}</p>
-                <p>Employee: {this.displayEmployee(item.employee)}</p>
+                <p>Team member: {this.displayEmployee(item.employee)}</p>
               </Card>
               
             </Col>
@@ -53,7 +53,7 @@ class Summary extends React.Component {
     </div>
   }
   displayEmployee = (emp) => {
-    if (!emp) return 'No employee given, this is an error.';
+    if (!emp) return 'No team member given, this is an error.';
     if (emp._id) {
       return emp.name;
     } else {
@@ -66,7 +66,7 @@ class Summary extends React.Component {
   }
 
   displayEmployeePicture = (emp) => {
-    if (!emp) return 'No employee given, this is an error.';
+    if (!emp) return 'No team member given, this is an error.';
     if (emp._id) {
       return emp.image;
     } else {

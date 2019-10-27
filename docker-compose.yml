@@ -24,6 +24,7 @@ services:
     image: salsamish-admin:latest
     environment:
       DB_HOSTNAME: salsamish-db
+      SECRET: development
     volumes:
       - ./mongodb/setup/:/docker-entrypoint-initdb.d/
       - ./mongodb/data:/data/db

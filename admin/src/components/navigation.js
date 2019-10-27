@@ -31,7 +31,7 @@ class Navigation extends React.Component {
             title={
               <span>
                 <Icon type="user" />
-                <span>Employees</span>
+                <span>Team Members</span>
               </span>
             }
           >

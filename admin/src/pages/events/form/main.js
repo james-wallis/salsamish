@@ -68,12 +68,15 @@ class Main extends React.Component {
 
   _next = () => {
     const { currentStep } = this.state;
-    console.log('next');
-    console.log(this.state);
-    this.props.form.validateFields((err, values) => {
-      if (!err) this.setState({
-        currentStep: currentStep + 1
-      })
+    const { form: { validateFields }, } = this.props;
+    validateFields((err) => {
+      if (err) {
+        ensureValid(err);
+      } else {
+        this.setState({
+          currentStep: currentStep + 1
+        })
+      }
     })
   }
 
@@ -191,6 +194,16 @@ const showServerMessageOnError = (err) => {
       console.log(err)
       message.error('Error: An unknown error has occured (Status code ' + err.response.status + ')');
       break;
+  }
+}
+
+const ensureValid = (errors) => {
+  for (const field in errors) {
+    if (errors.hasOwnProperty(field)) {
+      message.error(`Field ${field} missing`);
+      // Only show first error
+      return;
+    }
   }
 }
 
