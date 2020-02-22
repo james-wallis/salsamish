@@ -1,21 +1,37 @@
 import React from 'react';
 import { Form, Icon, Input, Button, Typography } from 'antd';
+import axios from 'axios';
 import './login.css';
 
 const { Title } = Typography;
 
 class LoginForm extends React.Component {
+  state = {
+    credentialError: false
+  }
+
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
+        axios.post(`/api/user/auth`, values)
+          .then(res => {
+            if (res.status === 200) {
+              this.props.history.push('/');
+            } else {
+              const error = new Error(res.error);
+              throw error;
+            }
+          }).catch(() => {
+            this.setState({ credentialError: true });
+          })
       }
     });
   };
 
   render() {
     const { getFieldDecorator } = this.props.form;
+    const { credentialError } = this.state;
     return (
       <Form id="login-form" onSubmit={this.handleSubmit} className="login-form">
         <Title level={1}>Salsa Mish admin</Title>
@@ -48,6 +64,7 @@ class LoginForm extends React.Component {
             Log in
           </Button>
         </Form.Item>
+        <p>{(credentialError) ? "Incorrect login details, please try again." : null}</p>
       </Form>
     );
   }

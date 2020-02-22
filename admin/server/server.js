@@ -11,9 +11,11 @@ const dburl = (process.env.DB_HOSTNAME)
 
 mongoose.connect(dburl, {
   useNewUrlParser: true, auth: {
-    user: 'salsa', password: 'example'
+    user: process.env.DB_USERNAME, 
+    password: process.env.DB_PASSWORD,
   }
 });
+
 // Mongoose Schemas
 require('./schema/user');
 require('./schema/employee');
