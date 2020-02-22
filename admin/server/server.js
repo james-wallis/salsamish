@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const app = express();
 const mongoose = require('mongoose');
+const cookieParser = require('cookie-parser');
 
 const dburl = (process.env.DB_HOSTNAME) 
   ? `mongodb://${process.env.DB_HOSTNAME}/salsamish` 
@@ -10,19 +11,24 @@ const dburl = (process.env.DB_HOSTNAME)
 
 mongoose.connect(dburl, {
   useNewUrlParser: true, auth: {
-    user: 'salsa', password: 'example'
+    user: process.env.DB_USERNAME, 
+    password: process.env.DB_PASSWORD,
   }
 });
+
 // Mongoose Schemas
+require('./schema/user');
 require('./schema/employee');
 require('./schema/event');
 
-// Express Middleware
+// Middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 // Express Routes
 // app.use('/api/images', express.static(path.join(__dirname, '../images')))
+app.use('/api/user', require('./routes/user'))
 app.use('/api/employees', require('./routes/employees'))
 app.use('/api/events', require('./routes/events'))
 

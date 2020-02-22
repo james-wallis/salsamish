@@ -78,7 +78,7 @@ const agenda = (event, agenda) => {
       <p style={{ fontStyle: 'italic' }}>
         Until: {moment(agenda.end).format('h:mm A')}
       </p>
-      <p style={{ textDecoration: 'underline', marginBottom: 0 }}>Employee</p>
+      <p style={{ textDecoration: 'underline', marginBottom: 0 }}>Team Member</p>
       <p style={{ textTransform: 'capitalize' }}>{(agenda.employee) ? agenda.employee.name : 'N/A'}</p>
       <p style={{ textDecoration: 'underline', marginBottom: 0 }}>Type</p>
       <p style={{ textTransform: 'capitalize' }}>{agenda.type.toLowerCase()} <span style={{ textTransform: 'capitalize' }}>{(agenda.lesson_level) ? `(${agenda.lesson_level.toLowerCase()})` : null}</span></p>

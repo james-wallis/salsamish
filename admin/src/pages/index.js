@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { Typography, message } from 'antd';
 import ShowEvent from '../components/showEvent';
+import withLayout from '../components/withLayout';
 
 const { Title } = Typography;
 
@@ -42,14 +43,15 @@ class Index extends React.Component {
 
   render() {
     const { event } = this.state;
+    const errorText = (event === null) ? 'Fetching next event' : 'No upcoming events in the calendar';
     return <div>
       <Title level={2}>Next Event</Title>
       {(event) 
         ? <ShowEvent event={event} deleteEvent={this.deleteEvent} />
-        : <p>Fetching next event</p>
+        : <p>{errorText}</p>
       }
     </div>
   }
 }
 
-export default Index;
+export default withLayout(Index);

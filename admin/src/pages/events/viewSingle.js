@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { Typography, Select, Row, Col, message } from 'antd';
 import moment from 'moment';
 import ShowEvent from '../../components/showEvent';
+import withLayout from '../../components/withLayout';
 
 const { Title } = Typography;
 const { Option } = Select;
@@ -15,19 +16,31 @@ class ViewAll extends React.Component {
   }
 
   componentDidMount() {
+    const { location } = this.props;
+    const params = new URLSearchParams(location.search);
+    const id = params.get('id');
     axios.get(`/api/events`)
       .then(res => {
         const events = res.data;
         events.sort(compareDates);
         this.setState({ events });
+        if (id) this.eventSelected(id);
       })
   }
 
   eventSelected = value => {
     if (!value || value === '') return;
     const { events } = this.state;
+    const { history, location } = this.props;
     const event = events.find(x => x._id === value);
+    if (!event) return;
     this.setState({ selectedEvent: event });
+    const params = new URLSearchParams(location.search);
+    if (event._id !== params.get('id')) {
+      history.replace({
+        search: `?id=${event._id}`
+      })
+    }
   }
 
   deleteEvent = e => {
@@ -50,6 +63,7 @@ class ViewAll extends React.Component {
 
   render() {
     const { events, selectedEvent } = this.state;
+    const value = (selectedEvent && selectedEvent._id) ? selectedEvent._id : undefined;
     return (
       <div>
         <Row>
@@ -61,6 +75,7 @@ class ViewAll extends React.Component {
               placeholder="Select an event (use the date or name)"
               optionFilterProp="children"
               onChange={this.eventSelected}
+              value={value}
               filterOption={(input, option) => 
                 option.props.children.join('').toLowerCase().indexOf(input.toLowerCase()) >= 0
               }
@@ -95,4 +110,4 @@ const compareDates = (firstEvent, secondEvent) => {
   return 0;
 }
 
-export default withRouter(ViewAll);
+export default withLayout(withRouter(ViewAll));

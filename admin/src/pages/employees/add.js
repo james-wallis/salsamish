@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Typography, Form, Icon, Input, Button, Radio, Checkbox, Upload, message, Row, Col } from 'antd';
+import withLayout from '../../components/withLayout';
 
 const { Title } = Typography;
 const { TextArea } = Input;
@@ -55,13 +56,13 @@ class Add extends React.Component {
         }).catch(err => {
           switch (err.response.status) {
             case 400:
-              message.error('Error: An invalid employee role was sent to the server (Status code 400)');
+              message.error('Error: An invalid team member role was sent to the server (Status code 400)');
               break;
             case 404:
               message.error('Error: The form is missing data (Status code 404)');
               break;
             case 409:
-              message.error('Error: An employee with that name already exists in the database (Status code 409)');
+              message.error('Error: A team member with that name already exists in the database (Status code 409)');
               break;
             case 500:
               message.error('Error: An error has occured on the server (Status code 500)');
@@ -133,14 +134,14 @@ class Add extends React.Component {
       <Form onSubmit={this.handleSubmit} layout='horizontal'>
         <Row>
           <Col xs={24}>
-            <Title level={2}>Add an employee</Title>
+            <Title level={2}>Add a Team Member</Title>
           </Col>
         </Row>
         <Row>
           <Col xs={9} >
             <Form.Item label="Name" style={{ width: '100%' }}>
               {getFieldDecorator('name', {
-                rules: [{ required: true, message: 'Please input the employee\'s name' }],
+                rules: [{ required: true, message: 'Please input the team member\'s name' }],
               })(
                 <Input
                   prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
@@ -150,7 +151,7 @@ class Add extends React.Component {
             </Form.Item>
             <Form.Item label="Description" style={{ width: '100%' }}>
               {getFieldDecorator('description', {
-                rules: [{ required: true, message: 'Please input the employee\'s description' }],
+                rules: [{ required: true, message: 'Please input the team member\'s description' }],
               })(
                 <TextArea placeholder="Description" rows={9} />,
               )}
@@ -165,7 +166,7 @@ class Add extends React.Component {
             <Form.Item label="Role">
               {getFieldDecorator('role', {
                 initialValue: roles[0],
-                rules: [{ required: true, message: 'Please select the employee\'s role' }],
+                rules: [{ required: true, message: 'Please select the team member\'s role' }],
               })(
                 <Radio.Group onChange={(e) => this.setState({ role: e.target.value })}>
                   <Radio.Button checked={true} value={roles[0]}>DJ</Radio.Button>
@@ -174,9 +175,9 @@ class Add extends React.Component {
               )}
             </Form.Item>
             {(role && role === 'TEACHER') ? typeOfDance : styleOfMusic}
-            <Form.Item label="Upload employee image">
+            <Form.Item label="Upload team member image">
               {getFieldDecorator('upload', {
-                rules: [{ required: true, message: 'Please add the employee\'s picture' }],
+                rules: [{ required: true, message: 'Please add the team member\'s picture' }],
               })(
                 <Upload
                   name="avatar"
@@ -206,4 +207,4 @@ function getBase64(img, callback) {
 
 const WrappedNormalLoginForm = Form.create({ name: 'employee_add' })(Add);
 
-export default WrappedNormalLoginForm;
+export default withLayout(WrappedNormalLoginForm);

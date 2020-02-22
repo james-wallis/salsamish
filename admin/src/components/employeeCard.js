@@ -1,6 +1,5 @@
 import React from 'react';
-import { Card } from 'antd';
-import { Col } from 'antd';
+import { Card, Col } from 'antd';
     
 function EmployeeCard(props) {
   if (!props.employee) return null;
