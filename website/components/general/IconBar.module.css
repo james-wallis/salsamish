@@ -1,0 +1,27 @@
+.container {
+    background-color: black;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 8vh;
+}
+
+.icon {
+    margin: 8px 5px;
+}
+
+.icon:first-child {
+    margin-left: 15px;
+}
+
+.icon:last-child {
+    margin-right: 15px;
+}
+
+.icon img {
+    width: 80%;
+    max-width: 50px;
+}
