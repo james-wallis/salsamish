@@ -1,35 +1,45 @@
-import Head from 'next/head';
-import Hero from '../components/home/hero';
-import Navbar from '../components/navbar';
+import Header from '../components/general/Header';
+import IconBar from '../components/general/IconBar';
+import Welcome from '../components/home/Welcome';
+import ThisFriday from '../components/home/ThisFriday';
+import Upcoming from '../components/home/Upcoming';
+
 
 export default () => {
-  return <div>
-    <Head>
-      <title>Salsa Mish</title>
-      <link href="https://fonts.googleapis.com/css?family=Parisienne|Roboto:300,500&display=swap" rel="stylesheet" />
-    </Head>
-    <Hero />
-    <Navbar />
-    <div id='content' style={{height: '200vh'}}>
-      <p>
-        <span>Welcome to Salsa Mish, the heart of Salsa in Herts</span>
-        <span>Every Friday - the salsa social of the week</span>
-        <span>7.30pm - 1.00am</span>
-        <span>Dance, meet people, get fit and above all have fun!</span>
-      </p>
-      <p>Listen to the music, feel the passion and dance like no-one is watching</p>
-      <p>
-        <span>Fantastic atmosphere</span>
-        <span>Salsa &amp; Bachata room</span>
-        <span>Kizomba room</span>
-        <span>Soft drinks bar, tea room with complimentary tea, coffee, biscuits and cake</span>
-      </p>
-      <p>
-        <span>Classes from 7.30pm - 9.45pm</span>
-        <span>Freestyle 9.45pm - 1.00am</span>
-        <span>Greenwood Park, Tippendell Lane, AL2 3HW</span>
-      </p>
-    </div>
+    return <div>
+        <Header />
+        {/* <Welcome /> */}
+        <ThisFriday />
+        <Upcoming />
+        <div className="paragraph">
+            <p>Every Friday night dance, meet people, get fit and above all have fun!</p>
+            <p>
+                <span>Listen to the music,</span>
+                <span>feel the passion and</span>
+                <span>dance like no-one</span>
+                <span>is watching</span>
+            </p>
+            <p>
+                <span>Fantastic atmosphere</span>
+                <span>Salsa &amp; Bachata room</span>
+                <span>Kizomba room</span>
+                <span>Soft drinks bar</span>
+                <span>Tea room with</span>
+                <span>complimentary tea</span>
+                <span>coffee, biscuits and cake</span>
+            </p>
+            <p>
+                <span>Classes from</span>
+                <span>7.30pm - 9.45pm</span>
+                <span>Freestyle</span>
+                <span>9.45pm - 1.00am</span>
+            </p>
+            <p>
+                Greenwood Park, Tippendell Lane, AL2 3HW
+            </p>
+        </div>
+        <IconBar />
+      </div>
     <style global jsx>{`
       body { 
         margin: 0;

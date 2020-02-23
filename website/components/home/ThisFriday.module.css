@@ -1,0 +1,76 @@
+.container {
+    background-color: black;
+}
+
+.carousel {
+    height: 40vh;
+    background-color: purple;
+    position: relative;
+    z-index: 2;
+}
+
+.carousel .social {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    top: 4px;
+    right: 8px;
+}
+
+.carousel .social img {
+    width: 100%;
+}
+
+.carousel .date {
+    width: 60px;
+    height: 60px;
+    background-color: white;
+    position: absolute;
+    bottom: -2px;
+    left: 12px;
+    transform: rotate(-5deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.carousel .date p {
+    color: black;
+    word-spacing: 100vw;
+    text-transform: uppercase;
+    font-size: 14px;
+    line-height: 16px;
+}
+
+.carousel .date p span {
+    color: red;
+    font-size: 26px;
+    font-weight: 600;
+}
+
+.carouselFooter {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px 3%;
+}
+
+.carouselFooter h1 {
+    text-transform: uppercase;
+    font-size: 18px;
+    align-self: flex-start;
+    color: var(--salsa-green);
+}
+
+.carouselFooter div {
+    justify-self: flex-end;
+}
+
+.radioButton {
+    border-radius: 10px;
+    height: 12px;
+    width: 12px;
+    margin: 0 3px;
+    background-color: var(--salsa-light-grey);
+    display: inline-block;
+}

@@ -31,7 +31,7 @@ export default () => {
     return <div className={styles.container}>
         {icons.map(icon => {
             const { src, alt } = icon;
-            return <div className={styles.icon}>
+            return <div className={styles.icon}  key={`icon-${src}`}>
                 <img src={src} alt={alt} />
             </div>
         })}

@@ -6,30 +6,40 @@ body {
     display: flex;
     margin: 0;
     padding: 0;
+    text-align: center;
+    margin-bottom: 8vh; /* Needs to be the same as the footer */
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3, h4, h5, h6, p {
     margin: 0;
     padding: 0;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    margin-inline-start: 0;
+    margin-inline-end: 0;
 }
 
-/* COLOURS */
-.salsa-pink-text {
-    color: #C03480;
+/* SALSA VARIABLES  */
+:root {
+    --salsa-purple: #7317B0;
+    --salsa-pink: #C03480;
+    --salsa-green: #00F4B0;
+    --salsa-dark-grey: #4A4949;
+    --salsa-light-grey: #989797;
+    --salsa-header-font: 'Shadows Into Light';
 }
 
-.salsa-green-text {
-    color: #00F4B0;
+.paragraph {
+    background-color: black;
+    padding: 15px;
+    text-align: left;
 }
 
-.salsa-purple-text {
-    color: #7317B0;
+.paragraph p {
+    font-size: 16px;
+    margin: 20px 0;
 }
 
-.salsa-dark-grey-background {
-    background-color: #4A4949;
-}
-
-.salsa-light-grey-background {
-    background-color: #989797;
+.paragraph p span {
+    display: block;
 }
