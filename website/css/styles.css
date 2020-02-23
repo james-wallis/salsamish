@@ -1,0 +1,35 @@
+/* DEFAULTS */
+body {
+    font-family: "Roboto", Helvetica, Arial, sans-serif;
+    background-color: white;
+    color: white;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+    padding: 0;
+}
+
+/* COLOURS */
+.salsa-pink-text {
+    color: #C03480;
+}
+
+.salsa-green-text {
+    color: #00F4B0;
+}
+
+.salsa-purple-text {
+    color: #7317B0;
+}
+
+.salsa-dark-grey-background {
+    background-color: #4A4949;
+}
+
+.salsa-light-grey-background {
+    background-color: #989797;
+}
