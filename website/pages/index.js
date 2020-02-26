@@ -1,3 +1,4 @@
+import withLayout from '../components/hoc/withLayout';
 import Header from '../components/general/Header';
 import IconBar from '../components/general/IconBar';
 import Welcome from '../components/home/Welcome';
@@ -5,9 +6,8 @@ import ThisFriday from '../components/home/ThisFriday';
 import Upcoming from '../components/home/Upcoming';
 
 
-export default () => {
+const page = () => {
     return <div>
-        <Header />
         {/* <Welcome /> */}
         <ThisFriday />
         <Upcoming />
@@ -38,6 +38,7 @@ export default () => {
                 Greenwood Park, Tippendell Lane, AL2 3HW
             </p>
         </div>
-        <IconBar />
     </div>
 }
+
+export default withLayout(page)
