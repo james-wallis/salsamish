@@ -43,3 +43,43 @@ h1, h2, h3, h4, h5, h6, p {
 .paragraph p span {
     display: block;
 }
+
+.italic {
+    font-style: italic !important;
+}
+
+/* FAQ PAGE */
+.faq, .faq .paragraph, .faq h1 {
+    background-color: var(--salsa-dark-grey);
+    font-size: 14px;
+}
+
+.faq h1 {
+    text-align: left;
+    padding: 15px;
+    font-size: 16px;
+    box-shadow: 0px 0px 10px 6px rgba(0,0,0,0.75);
+    position: fixed;
+    z-index: 10;
+    width: 100%;
+}
+
+.faq .paragraph p:first-child {
+    margin-top: 50px;
+}
+
+.faq p {
+    margin: 0;
+    margin-bottom: 15px;
+    font-style: italic;
+}
+
+.faq p span {
+    font-style: normal;
+}
+
+.faq p.question {
+    color: var(--salsa-green);
+    margin: 0;
+    font-style: normal;
+}
