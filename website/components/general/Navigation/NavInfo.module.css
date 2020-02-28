@@ -1,0 +1,16 @@
+.container {
+  border-color: white;
+  border-width: 1px;
+  border-top-style: solid;
+  border-bottom-style: solid;
+  padding: 5% 0;
+}
+
+.mobileNumber, .email {
+  color: var(--salsa-green);
+  font-size: 1.4em;
+}
+
+.email {
+  font-size: 1.2em;
+}
