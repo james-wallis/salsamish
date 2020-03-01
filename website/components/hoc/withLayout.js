@@ -7,10 +7,12 @@ export default Page => {
   return () => (
     <div className={styles.container}>
       <Header />
-      <Navigation />
-      <main>
-        <Page />
-      </main>
+      <div id="content" className={styles.content}>
+        <Navigation />
+        <main>
+          <Page />
+        </main>
+      </div>
       <IconBar />
     </div>
   )

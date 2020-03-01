@@ -1,5 +1,4 @@
 .header {
-    /* flex: 0 1 auto; */
     width: 100vw;
     display: flex;
     flex-direction: column;
@@ -10,7 +9,6 @@
     position: relative;
     line-height: 22px;
     z-index: 100;
-    /* top: 0; */
 }
 
 .header img {

@@ -1,5 +1,11 @@
 .container {
   display: flex;
   flex-flow: column;
-  height: 100vh;
+  height: 100%;
+}
+
+.content {
+    flex: 2;
+    overflow: auto;
+    position: relative;
 }

@@ -11,10 +11,13 @@ export default () => {
 
 const showNavigation = () => {
     console.log('clicked');
+    const contentContainer = document.getElementById('content');
     const navigationContainer = document.getElementById('navigation');
-    if (navigationContainer.style.height === '100%') {
+    if (navigationContainer.style.height !== '') {
         navigationContainer.style.height = '';
+        contentContainer.style.overflow = '';
     } else {
-        navigationContainer.style.height = '100%';
+        navigationContainer.style.height = `${contentContainer.offsetHeight}px`;
+        contentContainer.style.overflow = 'hidden';
     }
 }
