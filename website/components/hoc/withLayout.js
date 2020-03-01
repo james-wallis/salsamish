@@ -5,7 +5,7 @@ import styles from './withLayout.module.css';
 
 export default Page => {
   return () => (
-    <div className={styles.container}>
+    <div id="container" className={styles.container}>
       <Header />
       <div id="content" className={styles.content}>
         <Navigation />

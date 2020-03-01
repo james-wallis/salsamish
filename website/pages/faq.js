@@ -2,8 +2,10 @@ import withLayout from '../components/hoc/withLayout';
 
 const page = () => {
     return <div className="faq">
-        <h1>FAQ's</h1>
-        <div className="paragraph">
+        <div className="page-title">
+            <h1>FAQ's</h1>
+        </div>
+        <section>
             <p className="question">Do I need a partner?</p>
             <p>No, during classes you are moved to different partners. Freestyle - ask people to dance with you.</p>
             <p className="question">Do I need to pre book?</p>
@@ -51,7 +53,7 @@ const page = () => {
             <p></p>
             <p className="question">Where can I see the photos taken?</p>
             <p></p>
-        </div>
+        </section>
     </div>
 }
 

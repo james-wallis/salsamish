@@ -1,17 +1,15 @@
 import withLayout from '../components/hoc/withLayout';
-import Header from '../components/general/Header';
-import IconBar from '../components/general/IconBar';
 import Welcome from '../components/home/Welcome';
 import ThisFriday from '../components/home/ThisFriday';
 import Upcoming from '../components/home/Upcoming';
 
 
 const page = () => {
-    return <div>
-        {/* <Welcome /> */}
+    return <div className="home">
+        <Welcome />
         <ThisFriday />
         <Upcoming />
-        <div className="paragraph">
+        <section>
             <p>Every Friday night dance, meet people, get fit and above all have fun!</p>
             <p>
                 <span>Listen to the music,</span>
@@ -37,7 +35,7 @@ const page = () => {
             <p>
                 Greenwood Park, Tippendell Lane, AL2 3HW
             </p>
-        </div>
+        </section>
     </div>
 }
 

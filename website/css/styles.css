@@ -22,7 +22,12 @@ h1, h2, h3, h4, h5, h6, p {
     margin-inline-end: 0;
 }
 
-/* SALSA VARIABLES  */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* VARIABLES  */
 :root {
     --salsa-purple: #7317B0;
     --salsa-pink: #C03480;
@@ -30,59 +35,95 @@ h1, h2, h3, h4, h5, h6, p {
     --salsa-dark-grey: #4A4949;
     --salsa-light-grey: #989797;
     --salsa-header-font: 'Shadows Into Light';
-}
 
-.paragraph {
-    background-color: black;
-    padding: 15px;
-    text-align: left;
-}
-
-.paragraph p {
-    font-size: 16px;
-    margin: 20px 0;
-}
-
-.paragraph p span {
-    display: block;
+    --header-height: 12vh;
+    --footer-height: 8vh;
 }
 
 .italic {
     font-style: italic !important;
 }
 
-/* FAQ PAGE */
-.faq, .faq .paragraph, .faq h1 {
-    background-color: var(--salsa-dark-grey);
-    font-size: 14px;
+strong {
+    color: var(--salsa-green);
+    font-weight: inherit;
 }
 
-.faq h1 {
+/* MAIN */
+main .page-title {
     text-align: left;
-    padding: 15px;
-    font-size: 16px;
+    padding-left: 15px;
     box-shadow: 0px 0px 10px 6px rgba(0,0,0,0.75);
     position: fixed;
     z-index: 10;
     width: 100%;
+    background-color: var(--salsa-dark-grey);
+    height: 6vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
-.faq .paragraph p:first-child {
-    margin-top: 50px;
+main .page-title h1 {
+    font-size: 1.6em;
 }
 
-.faq p {
-    margin: 0;
-    margin-bottom: 15px;
-    font-style: italic;
+main section {
+    padding: 15px;
 }
 
-.faq p span {
+main section:first-of-type {
+    padding-top: 6vh !important;
+}
+
+main section p {
+    font-size: 16px;
+    margin: 20px 0;
+}
+
+main section>p>span {
+    display: block;
+}
+
+main p span {
     font-style: normal;
 }
 
+/* HOME */
+.home section {
+    text-align: left;
+}
+
+/* FAQ */
+.faq {
+    background-color: var(--salsa-dark-grey);
+    text-align: left;
+}
+.faq p {
+    font-style: italic;
+}
 .faq p.question {
     color: var(--salsa-green);
     margin: 0;
     font-style: normal;
+    margin-top: 15px;
+}
+.faq section p {
+    margin: 0;
+    margin-bottom: 15px;
+}
+
+/* PARKING */
+.parking section.map {
+    padding: 0;
+}
+
+.parking .address {
+    color: var(--salsa-green);
+    text-transform: uppercase;
+}
+
+main .parking section {
+    padding-left: 20px;
+    padding-right: 20px;
 }

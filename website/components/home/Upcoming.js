@@ -12,7 +12,7 @@ export default () => {
     return <div className={styles.container}>
         <p>2020 Fridays</p>
         {dates.map(date => {
-            return <p>{date}</p>
+            return <p key={`date-${date}`}>{date}</p>
         })}
     </div>
 }

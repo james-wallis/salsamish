@@ -64,6 +64,7 @@
 
 .carouselFooter div {
     justify-self: flex-end;
+    align-self: center;
 }
 
 .radioButton {
