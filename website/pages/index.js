@@ -3,7 +3,6 @@ import Welcome from '../components/home/Welcome';
 import ThisFriday from '../components/home/ThisFriday';
 import Upcoming from '../components/home/Upcoming';
 
-
 const page = () => {
     return <div className="home">
         <Welcome />

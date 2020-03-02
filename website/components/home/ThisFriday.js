@@ -1,24 +1,57 @@
+import { useReducer } from 'react';
 import styles from './ThisFriday.module.css';
 
+const images = [
+    1,2,3,4,5,6
+]
+
+const initialState = {
+    currentIndex: 0,
+}
+
+function reducer(state, action) {
+    const { currentIndex } = state;
+    switch (action.type) {
+        case 'goto':
+            return { currentIndex: action.index };
+        case 'next':
+            return { currentIndex: (currentIndex + 1 < images.length) ? currentIndex + 1 : currentIndex };
+        case 'previous':
+            return { currentIndex: (currentIndex - 1 >= 0) ? currentIndex - 1 : currentIndex };
+        default:
+            throw new Error();
+    }
+}
+
 export default () => {
+    const [state, dispatch] = useReducer(reducer, initialState);
+    const { currentIndex } = state;
+    const carouselStyle = {
+        width: `${images.length * 100}%`,
+        transform: `translateX(-${currentIndex * 100}vw)`,
+    };
     return <div className={styles.container}>
         <div className={styles.carousel}>
+            <div className={styles.imageContainer} style={carouselStyle}>
+                {images.map((image) => {
+                    return <div className={styles.image}>{image}</div>
+                })}
+            </div>
             <div className={styles.social}>
                 <img src="/icons/Icons-Facebook.png" alt="facebook icon" />
             </div>
             <div className={styles.date}>
                 <p><span>20</span> Mar</p>
             </div>
+            <div className={styles.nextArrow} onClick={() => dispatch({ type: 'next' })}></div>
+            <div className={styles.previousArrow} onClick={() => dispatch({ type: 'previous' })}></div>
         </div>
         <div className={styles.carouselFooter}>
             <h1>This friday at salsa mish</h1>
             <div>
-                <div className={styles.radioButton}></div>
-                <div className={styles.radioButton}></div>
-                <div className={styles.radioButton}></div>
-                <div className={styles.radioButton}></div>
-                <div className={styles.radioButton}></div>
-                <div className={styles.radioButton}></div>
+                {images.map((val, index) => {
+                    return <div className={styles.radioButton} onClick={() => dispatch({ type: 'goto', index })}></div>
+                })}
             </div>
         </div>
     </div>
