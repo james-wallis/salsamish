@@ -191,3 +191,59 @@ main .parking section {
     font-size: 0.8em;
     align-self: center;
 }
+
+/* WHO IS WHO */
+.who-is-who {
+    background-color: var(--salsa-dark-grey);
+}
+.who-is-who section:first-of-type {
+    width: 100vw;
+    padding: 0;
+    padding-top: 4vh !important;
+    display: flex;
+    align-content: center;
+    flex-direction: column;
+}
+
+.who-is-who h1 {
+    text-transform: uppercase;
+}
+
+.who-is-who p {
+    width: 60%;
+    align-self: center;
+    color: var(--salsa-green);
+    margin: 5% 0;
+}
+
+.who-is-who .icon-links {
+    height: 50vh;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+.who-is-who a {
+    display: block;
+}
+
+.who-is-who a img {
+    width: 20%;
+}
+
+.who-is-who a h2 {
+    font-size: 2em;
+    text-transform: uppercase;
+    font-weight: 300;
+}
+
+.who-is-who-djs-teachers section:first-of-type {
+    width: 100vw;
+    padding: 0;
+    padding-top: 10vh !important;
+    display: flex;
+    flex-direction: row;
+    background-color: white;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}

@@ -23,6 +23,7 @@ const links = [
   },
   {
     name: 'Who is Who',
+    href: '/who-is-who'
   },
   {
     name: 'The Dances',
