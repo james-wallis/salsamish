@@ -19,6 +19,7 @@ const links = [
   },
   {
     name: '2020 Dates',
+    href: '/calendar',
   },
   {
     name: 'Who is Who',

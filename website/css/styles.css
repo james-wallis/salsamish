@@ -127,3 +127,67 @@ main .parking section {
     padding-left: 20px;
     padding-right: 20px;
 }
+
+/* CALENDAR */
+.calendar .page-title {
+    text-align: center;
+    padding: 10px 0 0 0;
+    text-transform: uppercase;
+}
+.calendar .calendar-dates {
+    padding-top: 9vh !important;
+    display: flex;
+    flex-wrap: wrap;
+    background-color: white;
+}
+
+.calendar .date-tile {
+    position: relative;
+    width: 20%;
+}
+
+.calendar .date-tile-inner {
+    position: relative;
+    background-color: var(--salsa-dark-grey);
+    padding: 20% 0;
+    margin: 5% 3%;
+    overflow: hidden;
+}
+
+.calendar .date-tile-inner.closed {
+    opacity: 0.6;
+}
+
+.calendar .date-tile span {
+    display: block;
+    font-size: 1.2em;
+    line-height: 1em;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.calendar .date-tile span:first-of-type {
+    font-size: 2.3em;
+    font-weight: 300;
+}
+
+.calendar .date-tile .date-tile-inner .closed-banner {
+    position: absolute;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    height: 20%;
+    width: 200%;
+    background-color: black;
+    transform: rotate(-20deg);
+    top: 8%;
+    left: -70%;
+}
+
+.calendar .date-tile .date-tile-inner .closed-banner>span {
+    background-color: black;
+    color: var(--salsa-green);
+    text-transform: uppercase;
+    font-size: 0.8em;
+    align-self: center;
+}
