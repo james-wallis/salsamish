@@ -12,7 +12,7 @@ export default (props) => {
           <img src="/icons/Icon-DJ-Salsa.png" alt="salsa-bachata icon" />
         </a>
       </Link>
-      <Link href="/who-is-who/kizomba">
+      <Link href="/who-is-who/kizomba-djs">
         <a>
           <img src="/icons/Icon-DJ-Kizomba.png" alt="kizomba icon" />
         </a>

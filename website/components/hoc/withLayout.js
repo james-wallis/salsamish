@@ -4,16 +4,23 @@ import Navigation from '../general/Navigation';
 import styles from './withLayout.module.css';
 
 export default Page => {
-  return () => (
-    <div id="container" className={styles.container}>
+  const Layout = (props) => {
+    return <div id="container" className={styles.container}>
       <Header />
       <div id="content" className={styles.content}>
         <Navigation />
         <main>
-          <Page />
+          <Page {...props} />
         </main>
       </div>
       <IconBar />
     </div>
-  )
+  }
+
+  // Call the pages getInitialProps function
+  if (Page.getInitialProps) {
+    Layout.getInitialProps = Page.getInitialProps;
+  }
+
+  return Layout;
 }

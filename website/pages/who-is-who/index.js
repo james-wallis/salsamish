@@ -14,7 +14,7 @@ const page = () => {
             <h2>Salsa &amp; Bachata</h2>
           </a>
         </Link>
-        <Link href="/who-is-who/kizomba">
+        <Link href="/who-is-who/kizomba-djs">
           <a>
             <img src="/icons/Icon-DJ-Kizomba.png" alt="kizomba icon" />
             <h2>Kizomba</h2>

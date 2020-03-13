@@ -14,7 +14,7 @@ const Page = ({ djs }) => {
 };
 
 Page.getInitialProps = async () => {
-  const res = await fetch('http://localhost:4000/api/employees/djs?type=bachata');
+  const res = await fetch('http://localhost:4000/api/employees/djs?type=kizomba');
   const json = await res.json();
 
   return { djs: json };

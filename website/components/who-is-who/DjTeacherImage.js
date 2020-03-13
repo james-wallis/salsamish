@@ -9,10 +9,15 @@ export default (props) => {
   </div>
 }
 
-const tile = (name) => {
-  return <div className={styles.outer}>
-    <div className={styles.inner}>
-      <p className={styles.name}>{name}</p>
-    </div>
+const tile = (dj) => {
+  const { _id: id, name, urlSafeName, image } = dj;
+  const imageSrc = `/images/employees/${image}`;
+  return <div key={id} className={styles.outer}>
+    <Link href={`/who-is-who/${urlSafeName}`}>
+      <a className={styles.inner}>
+        <img className={styles.image} src={imageSrc} alt={`An image of ${name}`} />
+        <p className={styles.name}>{name}</p>
+      </a>
+    </Link>
   </div>
 }

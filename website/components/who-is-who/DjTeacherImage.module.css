@@ -21,6 +21,12 @@
   width: 90%;
   background-color: var(--salsa-dark-grey);
   position: relative;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.image {
+  height: 100%;
 }
 
 .name {
