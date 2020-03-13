@@ -237,13 +237,75 @@ main .parking section {
     font-weight: 300;
 }
 
-.who-is-who-djs-teachers section:first-of-type {
+.who-is-who-djs-teachers section:first-of-type, .who-is-who-individuals section:first-of-type {
     width: 100vw;
     padding: 0;
-    padding-top: 10vh !important;
     display: flex;
-    flex-direction: row;
+}
+
+.who-is-who-djs-teachers section:first-of-type {
+    padding-top: 10vh !important;
     background-color: white;
     flex-wrap: wrap;
     justify-content: space-around;
+    flex-direction: row;
+}
+
+.who-is-who-individuals section:first-of-type {
+    padding-top: 8vh !important;
+    color: white;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.who-is-who-individuals h2, .who-is-who-individuals p {
+    width: 40%;
+    text-align: left;
+    padding: 0 5%;
+    font-weight: 300;
+    z-index: 4;
+}
+
+.who-is-who-individuals h2 {
+    font-size: 2.6em;
+    text-transform: uppercase;
+
+}
+
+.who-is-who-individuals .role {
+    font-size: 2.4em;
+    text-transform: uppercase;
+}
+
+.who-is-who-individuals .description {
+    display: flex;
+    align-items: flex-end;
+    min-height: 25vh;
+}
+
+.who-is-who-individuals .description p {
+    font-size: 1.4em;
+}
+
+.who-is-who-individuals .image {
+    position: absolute;
+    align-self: flex-end;
+    z-index: 2;
+    bottom: 15vh;
+}
+
+.who-is-who-individuals .next-date {
+    background-color: var(--salsa-purple);
+    position: absolute;
+    bottom: 6vh;
+    width: 100vw;
+    height: 10vh;
+    z-index: 4;
+}
+
+.who-is-who-individuals .next-date p {
+    text-transform: uppercase;
+    font-size: 1.2em;
+    padding-top: 3%;
+    width: 70%;
 }

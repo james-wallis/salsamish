@@ -95,7 +95,7 @@
 
 .carouselFooter h1 {
     text-transform: uppercase;
-    font-size: 18px;
+    font-size: 1.4em;
     justify-self: flex-start;
     color: var(--salsa-green);
 }

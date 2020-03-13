@@ -1,24 +1,29 @@
+import fetch from 'isomorphic-unfetch';
+
 import withLayout from '../../components/hoc/withLayout';
 import PageTitle from '../../components/who-is-who/PageTitle';
+import DjTeacherImage from '../../components/who-is-who/DjTeacherImage';
 
-const DJS = [
-  'julian',
-  'erick',
-  'otto',
-  'tuli',
-  'mani',
-  'rosi'
-]
-
-const page = () => {
+const Page = ({ teachers }) => {
   return <div className="who-is-who-djs-teachers">
-    <PageTitle title="Teachers DJ's" />
+    <PageTitle title="Teachers" />
     <section>
-      {DJS.map(dj => {
-        return <div>{dj}</div>
-      })}
+      <DjTeacherImage array={teachers} />
     </section>
+    <style global jsx>{`
+      /* Overwrite background color for this page */
+      body, #container {
+        background-color: white;
+      }
+    `}</style>
   </div>
+};
+
+Page.getInitialProps = async () => {
+  const res = await fetch('http://localhost:4000/api/employees/teachers');
+  const json = await res.json();
+
+  return { teachers: json };
 }
 
-export default withLayout(page)
+export default withLayout(Page)

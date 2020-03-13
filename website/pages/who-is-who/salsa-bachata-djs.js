@@ -10,6 +10,12 @@ const Page = ({ djs }) => {
     <section>
       <DjTeacherImage array={djs} />
     </section>
+    <style global jsx>{`
+      /* Overwrite background color for this page */
+      body, #container {
+        background-color: white;
+      }
+    `}</style>
   </div>
 };
 
