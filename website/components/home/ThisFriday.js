@@ -38,14 +38,14 @@ export default () => {
         <div className={styles.carousel}>
             <div className={styles.imageContainer} style={carouselStyle}>
                 {images.map((image) => {
-                    return <div className={styles.image}>{image}</div>
+                    return <div className={styles.image} key={image}>{image}</div>
                 })}
             </div>
             <div className={styles.carouselFooter}>
                 <h1>This friday at salsa mish</h1>
                 <div>
                     {images.map((val, index) => {
-                        return <div className={styles.radioButton} onClick={() => dispatch({ type: 'goto', index })}></div>
+                        return <div className={styles.radioButton} key={`radio-button-${index}`} onClick={() => dispatch({ type: 'goto', index })}></div>
                     })}
                 </div>
             </div>
