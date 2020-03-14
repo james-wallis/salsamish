@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const withAuth = require('../middleware/authentication');
 const router = express.Router();
 
-const secret = process.env.SECRET;
+const secret = process.env.AUTH_SECRET;
 
 router.post('/register', (req, res) => {
   const model = mongoose.model('User');
@@ -29,9 +29,13 @@ router.post('/auth', (req, res) => {
   console.log(email, password);
   const model = mongoose.model('User');
   model.findOne({ email }, function (err, user) {
+    console.log('user', user);
+    
     if (err) return res.status(500).send(err);
     if (!user) return res.status(401).send('Incorrect email or password');
     user.isCorrectPassword(password, function (err, same) {
+      console.log('same', same);
+      
       if (err) return res.status(500).send(err);
       if (!same) return res.status(401).send('Incorrect email or password');
       const payload = { email };
