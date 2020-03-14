@@ -1,4 +1,6 @@
 import moment from 'moment';
+import fetch from 'isomorphic-unfetch';
+import Link from 'next/link';
 
 import withLayout from '../components/hoc/withLayout';
 
@@ -11,57 +13,124 @@ const CLOSED_DAYS = [
   '2021-01-01',
 ]
 
-// Make API call to server to get all events
-//  For Fridays just display normal square
-//  For Special events display the special box + name if exists
-//  For Special events that are not on a Friday display the weekday on square
-
-const page = () => {
-  const eventDays = getEventDays([]);
+const Page = ({ events }) => {
+  const eventDays = getEventDays(events);
   return <div className="calendar">
     <div className="page-title">
       <h1>2020 Salsa Mish Dates</h1>
     </div>
     <section className='calendar-dates'>
-      {eventDays.map(dateTile)}
+      <div className='calendar-dates-container'>
+        {eventDays.map(dateTile)}
+      </div>
     </section>
   </div>
 }
 
-const dateTile = (date) => {
-  const day = moment(date);
+Page.getInitialProps = async () => {
+  const res = await fetch('http://localhost:4000/api/events');
+  const json = await res.json();
+  return { events: json };
+}
+
+const dateTile = (event) => {
+  const { date, url } = event;
+
+  const dateHasPassed = moment().isAfter(date, 'day');
+  const datePassedClassName = (dateHasPassed) ? 'past-date' : '';
+
+  const isNextFriday = getNextFriday().isSame(date, 'day');
+  const nextFridayClassName = (isNextFriday) ? 'next-friday' : '';
+
+  const additionalCSSClasses = `${datePassedClassName} ${nextFridayClassName}`;
+
   if (CLOSED_DAYS.includes(date)) {
-    return <div className='date-tile'>
-      <div className='date-tile-inner closed'>
-        <span>{day.format('D')}</span>
-        <span>{day.format('MMM')}</span>
-        <div className='closed-banner'>
-          <span>closed</span>
-        </div>
-      </div>
-    </div>
+    return closedTile(event, additionalCSSClasses);
+  } else if (!url) {
+    return comingSoonTile(event, additionalCSSClasses);
   }
-  return <div className='date-tile'>
-    <div className='date-tile-inner'>
-      <a>
+  return defaultTile(event, additionalCSSClasses);
+}
+
+const defaultTile = (event, additionalCSSClasses) => {
+  const { date, url } = event;
+  const day = moment(date);
+  return <div key={date} className={`date-tile ${additionalCSSClasses}`}>
+    <Link href={url}>
+      <a className={`date-tile-inner ${additionalCSSClasses}`}>
         <span>{day.format('D')}</span>
         <span>{day.format('MMM')}</span>
       </a>
+    </Link>
+  </div>
+}
+
+const closedTile = (event, additionalCSSClasses) => {
+  const { date } = event;
+  const day = moment(date);
+  return <div key={date} className={`date-tile ${additionalCSSClasses}`}>
+    <div className={`date-tile-inner closed ${additionalCSSClasses}`}>
+      <span>{day.format('D')}</span>
+      <span>{day.format('MMM')}</span>
+      <div className='closed-banner'>
+        <span>closed</span>
+      </div>
     </div>
   </div>
+}
+
+const comingSoonTile = (event, additionalCSSClasses) => {
+  const { date } = event;
+  const day = moment(date);
+  return <div key={date} className={`date-tile ${additionalCSSClasses}`}>
+    <div className={`date-tile-inner coming-soon ${additionalCSSClasses}`}>
+      <span>{day.format('D')}</span>
+      <span>{day.format('MMM')}</span>
+      <div className='coming-soon-banner'>
+        <span>info soon</span>
+      </div>
+    </div>
+  </div>
+}
+
+const getNextFriday = () => {
+  const today = moment().isoWeekday();
+  if (today <= FRIDAY) {
+    return moment().isoWeekday(FRIDAY);
+  } else {
+    return moment().add(1, 'weeks').isoWeekday(FRIDAY);
+  }
 }
 
 const getAllDaysInYear = () => {
   const allDays = [];
   for (let m = moment(START_OF_YEAR); m.isBefore(END_OF_YEAR); m.add(1, 'days')) {
-    allDays.push(m.format('YYYY-MM-DD'));
+    allDays.push({ date: m.format('YYYY-MM-DD') });
   }
   return allDays;
 }
 
-const getEventDays = (eventDays) => {
+const getEventDays = (eventsFromServer) => {
   const allDays = getAllDaysInYear();
-  return allDays.filter(day => eventDays.includes(day) || moment(day).day() === FRIDAY);
+
+  const populatedEventDates = allDays.map(singleDay => {
+    const { date } = singleDay;
+    const event = eventsFromServer.find(({ date: { start } }) => start && moment(start).isSame(date, 'day'));
+    if (event) {
+      const { type } = event;
+      const url = `/events/${date}`;
+      return {
+        ...singleDay,
+        type,
+        url,
+      }
+    }
+    // If event from database does not match a day return the orignal object ({ date })
+    return singleDay;
+  });
+
+  // Remove non-friday dates that do not exist on the server
+  return populatedEventDates.filter(({ date, url }) => url || moment(date).day() === FRIDAY);
 }
 
-export default withLayout(page)
+export default withLayout(Page)
