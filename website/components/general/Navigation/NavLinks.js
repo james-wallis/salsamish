@@ -16,6 +16,7 @@ const links = [
   },
   {
     name: 'The Venue',
+    href: '/venue',
   },
   {
     name: '2020 Dates',
@@ -27,12 +28,14 @@ const links = [
   },
   {
     name: 'The Dances',
+    href: '/dances',
   },
   {
     name: 'Salsa For Kids',
   },
   {
     name: 'About SalsaMish',
+    href: '/about',
   },
   {
     name: 'Corporate Parties',

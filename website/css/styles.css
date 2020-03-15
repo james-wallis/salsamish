@@ -13,13 +13,14 @@ body {
     font-size: 10px;
 }
 
-h1, h2, h3, h4, h5, h6, p {
+h1, h2, h3, h4, h5, h6, p, li {
     margin: 0;
     padding: 0;
     margin-block-start: 0;
     margin-block-end: 0;
     margin-inline-start: 0;
     margin-inline-end: 0;
+    font-weight: 300 !important;
 }
 
 a {
@@ -75,10 +76,14 @@ main section {
 
 main section:first-of-type {
     padding-top: 6vh !important;
+    padding-bottom: 4vh;
+}
+
+main section p, main section ul {
+    font-size: 1.5em;
 }
 
 main section p {
-    font-size: 16px;
     margin: 20px 0;
 }
 
@@ -88,6 +93,15 @@ main section>p>span {
 
 main p span {
     font-style: normal;
+}
+
+main ul {
+    padding: 0;
+    margin: 0;
+}
+
+main ul li {
+    list-style-type: none;
 }
 
 /* HOME */
@@ -101,23 +115,35 @@ main p span {
     padding-right: 15px;
 }
 
-/* FAQ */
-.faq {
+/* FAQ / VENUE / ABOUT */
+.faq, .venue, .about {
     background-color: var(--salsa-dark-grey);
     text-align: left;
 }
-.faq p {
+.faq p, .faq li, .venue p, .venue li, .about p {
     font-style: italic;
+    padding-left: 15px;
+    padding-right: 15px;
 }
-.faq p.question {
+.faq p.question, .venue p.question, .about p.question {
     color: var(--salsa-green);
     margin: 0;
     font-style: normal;
     margin-top: 15px;
 }
-.faq section p {
+.faq section p, .venue section p, .about section p {
     margin: 0;
     margin-bottom: 15px;
+}
+
+/* VENUE / ABOUT */
+.venue section:first-of-type, .about section:first-of-type {
+    padding-top: 9vh !important;
+}
+
+/* ABOUT */
+.about h2 {
+    padding: 15px 15px 0 15px;
 }
 
 /* PARKING */
@@ -135,12 +161,14 @@ main p span {
     padding-right: 15px;
 }
 
-/* CALENDAR */
-.calendar .page-title {
+/* CALENDAR / VENUE / ABOUT */
+.calendar .page-title, .venue .page-title, .about .page-title {
     text-align: center;
     padding: 10px 0 0 0;
     text-transform: uppercase;
 }
+
+/* CALENDAR */
 .calendar .calendar-dates {
     padding-top: 9vh !important;
     background-color: white;
@@ -176,7 +204,7 @@ main p span {
 
 .calendar .date-tile .next-friday {
     box-shadow: 0px 0px 0px 0.7em red;
-    z-index: 10;
+    z-index: 6;
 }
 
 .calendar .date-tile span {

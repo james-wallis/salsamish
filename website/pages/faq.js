@@ -42,17 +42,34 @@ const page = () => {
                 <span className="italic">Please do not park in nearby streets.</span>
             </p>
             <p className="question">Is it near a train station?</p>
-            <p></p>
+            <p>St Albans is the nearest</p>
             <p className="question">Is it near a motorway?</p>
-            <p></p>
+            <p>The venue is close to J21a M25 and J6a M1</p>
             <p className="question">Are there any hotels nearby?</p>
-            <p></p>
+            <ul>
+                <li>Mercure St Albans Noke Hotel</li>
+                <li>Sopwell House</li>
+                <li>St Michael's Manor Hotel</li>
+                <li>White Hart Hotel St Albans</li>
+                <li>Premier Inn St Albans City Centre Hotel</li>
+            </ul>
             <p className="question">What happens to lost property?</p>
-            <p></p>
+            <p>
+                Any left items are kept at Greenwood Park. 
+                Please ask at the front desk next time you are at Salsa Mish. 
+                After a few months items are dontated to charity.
+            </p>
             <p className="question">Is there any photography?</p>
-            <p></p>
+            <p>
+                Photographs are taken most Fridays. 
+                If you do not want to be in any photos posted on 
+                social media pleaes tell the photographer.
+            </p>
             <p className="question">Where can I see the photos taken?</p>
-            <p></p>
+            <p>
+                Julian Robbins and John Boot are photographers that regularly take photos. 
+                They add them to albums on Facebook, usually with a link on the Salsa Mish page.
+            </p>
         </section>
     </div>
 }
