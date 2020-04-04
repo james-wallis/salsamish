@@ -7,7 +7,6 @@ const { Title } = Typography;
 class Summary extends React.Component {
   render() {
     const { values } = this.props;
-    console.log(values);
     return <div style={{ marginBottom: 50 }}>
       <Title level={3} style={{ fontSize: 20 }}>Summary</Title>
       <Row>

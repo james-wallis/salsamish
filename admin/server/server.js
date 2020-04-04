@@ -4,15 +4,20 @@ const path = require('path');
 const app = express();
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
+const { validateProcessEnvs } = require('./modules/utils');
 
-const dburl = (process.env.DB_HOSTNAME) 
-  ? `mongodb://${process.env.DB_HOSTNAME}/salsamish` 
+const { DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, PORT, NODE_ENV } = process.env;
+
+validateProcessEnvs();
+
+const dburl = (DB_HOSTNAME) 
+  ? `mongodb://${DB_HOSTNAME}/salsamish` 
   : `mongodb://localhost/salsamish`;
 
 mongoose.connect(dburl, {
   useNewUrlParser: true, auth: {
-    user: process.env.DB_USERNAME, 
-    password: process.env.DB_PASSWORD,
+    user: DB_USERNAME, 
+    password: DB_PASSWORD,
   }
 });
 
@@ -32,10 +37,10 @@ app.use('/api/user', require('./routes/user'))
 app.use('/api/employees', require('./routes/employees'))
 app.use('/api/events', require('./routes/events'))
 
-const port = process.env.PORT || 3001;
+const port = PORT || 3001;
 
 // In production there is the need to serve the React files.
-if (process.env.NODE_ENV === 'production') {
+if (NODE_ENV === 'production') {
   // Serve any static files
   app.use(express.static('/app/build'));
 

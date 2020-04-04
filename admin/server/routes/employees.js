@@ -39,34 +39,35 @@ router.get('/', async function (req, res) {
  */
 router.post('/', upload.single('image'), async function (req, res) {
   // Check image first as it'll need to be deleted if other validation occurs
-  if (!req.file || req.file.originalname === '') return sendError(res, 404, 'Missing image');
-  if (!req.body.name || req.body.name === '') return sendError(res, 404, 'Missing name', req.file.filename);
-  if (!req.body.role || req.body.role === '') return sendError(res, 404, 'Missing role', req.file.filename);
-  if (req.body.role.toUpperCase() !== 'DJ' && req.body.role.toUpperCase() !== 'TEACHER') return sendError(res, 400, 'Invalid role', req.file.filename);
-  if (req.body.role.toUpperCase() === 'DJ' && (!req.body.music || !checkMusicStyles(req.body.music))) return sendError(res, 404, 'DJ detected, Missing or invalid music information', req.file.filename);
-  if (req.body.role.toUpperCase() === 'TEACHER' && (!req.body.dance || !checkDanceTypes(req.body.dance))) return sendError(res, 404, 'Teacher detected, Missing or invalid dance information', req.file.filename);
-  if (!req.body.description || req.body.description === '') return sendError(res, 404, 'Missing description', req.file.filename);
+  const { file, body: { name, role, description } } = req;
+  if (!file || file.originalname === '') return sendError(res, 404, 'Missing image');
+  if (!name) return sendError(res, 404, 'Missing name', file.filename);
+  if (!role) return sendError(res, 404, 'Missing role', file.filename);
+  const validatedRole = role.toUpperCase();
+  if (validatedRole !== 'DJ' && validatedRole !== 'TEACHER') return sendError(res, 400, 'Invalid role', file.filename);
+  if (validatedRole === 'DJ' && (!music || !checkMusicStyles(music))) return sendError(res, 404, 'DJ detected, Missing or invalid music information', file.filename);
+  if (validatedRole === 'TEACHER' && (!dance || !checkDanceTypes(dance))) return sendError(res, 404, 'Teacher detected, Missing or invalid dance information', file.filename);
+  if (!description) return sendError(res, 404, 'Missing description', file.filename);
   const model = mongoose.model('Employee');
-  const urlSafeName = createURLSafeName(req.body.name);
-  if (await model.findOne({ name: req.body.name }) || await model.findOne({ urlSafeName })) return sendError(res, 409, `Employee "${req.body.name}" already exists`, req.file.filename);
-  const newFileName = `${(req.body.name).replace(/[^A-Z0-9]+/ig, "-")}-${Date.now()}${path.extname(req.file.originalname)}`;
+  const urlSafeName = createURLSafeName(name);
+  if (await model.findOne({ name }) || await model.findOne({ urlSafeName })) return sendError(res, 409, `Employee "${name}" already exists`, file.filename);
+  const newFileName = `${(name).replace(/[^A-Z0-9]+/ig, "-")}-${Date.now()}${path.extname(file.originalname)}`;
   try {
     // If validation succeeds then rename image and add user into database
-    await fs.rename(req.file.path, `${IMAGE_DIR}/${newFileName}`);
+    await fs.rename(file.path, `${IMAGE_DIR}/${newFileName}`);
 
-    const { name, role, description, music, dance } = req.body;
     const instance = new model({ 
       _id: new mongoose.Types.ObjectId(),
       name,
       urlSafeName,
-      role: role.toUpperCase(),
+      role: validatedRole,
       image: newFileName,
       description,
-      stylesOfMusic: (role.toUpperCase() === 'DJ') ? music.split(',') : null,
-      typesOfDance: (role.toUpperCase() === 'TEACHER') ? dance.split(',') : null,
+      stylesOfMusic: (validatedRole === 'DJ') ? music : null,
+      typesOfDance: (validatedRole === 'TEACHER') ? dance : null,
     });
     await instance.save();
-    res.send(`New employee ${req.body.name} added successfully`)
+    res.send(`New employee ${name} added successfully`)
   } catch (err) {
     console.error(err);
     sendError(res, 500, err.message, newFileName);
@@ -74,7 +75,7 @@ router.post('/', upload.single('image'), async function (req, res) {
 })
 
 router.get('/:id', async function (req, res) {
-  const id = req.params.id;
+  const { id } = req.params;
   const model = mongoose.model('Employee');
   try {
     const employee = await model.findById(id);
@@ -90,12 +91,12 @@ router.get('/:id', async function (req, res) {
  * Used at the moment to fix a bad employee
  */
 router.put('/:id', async function (req, res) {
-  const id = req.params.id;
+  const { id } = req.params;
   const model = mongoose.model('Employee');
   try {
     const employee = await model.findById(id);
     employee.urlSafeName = createURLSafeName(employee.name);
-    await updateEmployeeInDatabase(employee, req.params.id);
+    await updateEmployeeInDatabase(employee, id);
 
     return res.json(await model.findById(id));
   } catch (err) {
@@ -107,7 +108,7 @@ router.put('/:id', async function (req, res) {
  * API Function to delete an employee from the database
  */
 router.delete('/:id', async function (req, res) {
-  const id = req.params.id;
+  const { id } = req.params;
   const model = mongoose.model('Employee');
   try {
     const employee = await model.findById(id);
@@ -133,7 +134,6 @@ const sendError = async (res, code, message, image) => {
 }
 
 const checkMusicStyles = types => {
-  types = types.split(',');
   for (let i = 0; i < types.length; i++) {
     const t = types[i];
     if (!music.includes(t)) return false;
@@ -142,7 +142,6 @@ const checkMusicStyles = types => {
 }
 
 const checkDanceTypes = types => {
-  types = types.split(',');
   for (let i = 0; i < types.length; i++) {
     const t = types[i];
     if (!dance.includes(t)) return false;
@@ -159,4 +158,4 @@ async function updateEmployeeInDatabase(employee, id) {
   await model.updateOne({ _id: id }, employee);
 }
 
-module.exports = router
+module.exports = router;

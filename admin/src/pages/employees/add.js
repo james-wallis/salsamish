@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import { withRouter } from 'react-router-dom';
 import { Typography, Form, Icon, Input, Button, Radio, Checkbox, Upload, message, Row, Col } from 'antd';
 import withLayout from '../../components/withLayout';
 
@@ -40,7 +41,7 @@ class Add extends React.Component {
     this.setState({
       uploading: true,
     });
-
+    const { history } = this.props;
     this.props.form.validateFields((err, values) => {
       if (!err) {
         const formData = new FormData();
@@ -52,24 +53,30 @@ class Add extends React.Component {
         formData.append('description', values.description)
         axios.post('/api/employees', formData, { // receive two parameter endpoint url ,form data 
         }).then(res => { // then print response status
-          message.success(`${values.name} has been successfully added (Status code ${res.status}).`)
+          message.success(`${values.name} has been successfully added (Status code ${res.status}).`, 2)
+                .then(() => history.push('/employees/'));
         }).catch(err => {
-          switch (err.response.status) {
-            case 400:
-              message.error('Error: An invalid team member role was sent to the server (Status code 400)');
-              break;
-            case 404:
-              message.error('Error: The form is missing data (Status code 404)');
-              break;
-            case 409:
-              message.error('Error: A team member with that name already exists in the database (Status code 409)');
-              break;
-            case 500:
-              message.error('Error: An error has occured on the server (Status code 500)');
-              break;
-            default:
-              message.error('Error: An unknown error has occured (Status code ' + err.response.status + ')');
-              break;
+          console.error(err);
+          if (err.response) {
+            switch (err.response.status) {
+              case 400:
+                message.error('Error: An invalid team member role was sent to the server (Status code 400)');
+                break;
+              case 404:
+                message.error('Error: The form is missing data (Status code 404)');
+                break;
+              case 409:
+                message.error('Error: A team member with that name already exists in the database (Status code 409)');
+                break;
+              case 500:
+                message.error('Error: An error has occured on the server (Status code 500)');
+                break;
+              default:
+                message.error('Error: An unknown error has occured (Status code ' + err.response.status + ')');
+                break;
+            }
+          } else {
+            message.error(`Unknown error occurred: ${err.message}`);
           }
         })
       }
@@ -207,4 +214,4 @@ function getBase64(img, callback) {
 
 const WrappedNormalLoginForm = Form.create({ name: 'employee_add' })(Add);
 
-export default withLayout(WrappedNormalLoginForm);
+export default withLayout(withRouter(WrappedNormalLoginForm));

@@ -37,14 +37,15 @@ router.get('/date', async function (req, res) {
   const old = new Date(2000, 10, 10);
   req.body.from = old.toISOString();
   req.body.to = "2013-08-05T13:08:24.149Z";
-  if (!req.body.from || req.body.from === '') return res.status(404).send('Lower (from) date missing');
-  if (!req.body.to || req.body.to === '') return res.status(404).send('Higher (to) date missing');
-  if (!moment(req.body.from).isValid()) return res.status(400).send('Invalid value given for Lower (from) date');
-  if (!moment(req.body.to).isValid()) return res.status(400).send('Invalid value given for Higher (to) date');
+  const { from: fromDate, to: toDate } = res.body;
+  if (!fromDate) return res.status(404).send('Lower (from) date missing');
+  if (!toDate) return res.status(404).send('Higher (to) date missing');
+  if (!moment(fromDate).isValid()) return res.status(400).send('Invalid value given for Lower (from) date');
+  if (!moment(toDate).isValid()) return res.status(400).send('Invalid value given for Higher (to) date');
   const model = mongoose.model('Event');
   try {
-    const from = new Date(req.body.from);
-    const to = new Date(req.body.to);
+    const from = new Date(fromDate);
+    const to = new Date(toDate);
     const events = await model.find({
       'date.start': {
         $gte: from.toISOString(),
@@ -65,11 +66,12 @@ router.get('/date', async function (req, res) {
  * @returns All events in the database
  */
 router.get('/next/:date', async function (req, res) {
-  if (!req.params.date || req.params.date === '') return res.status(404).send('Date missing');
-  if (!moment(req.params.date).isValid()) return res.status(400).send('Invalid value given for date');
+  const { date: paramDate } = req.params;
+  if (!paramDate) return res.status(404).send('Date missing');
+  if (!moment(paramDate).isValid()) return res.status(400).send('Invalid value given for date');
   const model = mongoose.model('Event');
   try {
-    const date = new Date(req.params.date);
+    const date = new Date(paramDate);
     await model.find({
       'date.start': {
         $gte: date.toISOString()
@@ -78,7 +80,7 @@ router.get('/next/:date', async function (req, res) {
       .populate('agenda.employee')
       .exec((err, events) => {
         if (err) return res.status(500).send('Error populating event with employees');
-        const nextEvent = events[0];
+        const [nextEvent] = events;
         return res.send(nextEvent);
       })
   } catch (err) {
@@ -93,13 +95,13 @@ router.get('/next/:date', async function (req, res) {
  * @returns A single event
  */
 router.get('/:id', async function (req, res) {
-  const id = req.params.id;
+  const { id } = req.params;
   const model = mongoose.model('Event');
   try {
-    if (eventExists(req.params.id)) {
+    if (eventExists(id)) {
       model.findById(id).populate('agenda.employee')
         .exec((err, event) => {
-          if (err) return res.status(500).send('Error populating Mongoose query with ID ' + id);
+          if (err) return res.status(500).send(`Error populating Mongoose query with ID ${id}`);
           return res.send(event);
         })
     } else {
@@ -117,8 +119,8 @@ router.get('/:id', async function (req, res) {
 router.post('/', async function (req, res) {
   try {
     const event = await validateEventRequest(req, res);
-    await saveEventToDatabase(event);
-    res.send(`New event ${event.name} added successfully`)
+    const id = await saveEventToDatabase(event);
+    res.send({ id });
   } catch (err) {
     console.error(err);
     res.status(500).send(err);
@@ -129,10 +131,12 @@ router.post('/', async function (req, res) {
  * API Function to update an existing event in the database
  */
 router.put('/:id', async function (req, res) {
+  const { id } = req.params;
   try {
-    if (eventExists(req.params.id)) {
+    const exists = await eventExists(id);
+    if (exists) {
       const event = await validateEventRequest(req, res);
-      await updateEventInDatabase(event, req.params.id);
+      await updateEventInDatabase(event, id);
       res.send(`Existing event ${event.name} updated successfully`);
     } else {
       res.status(404).send('ID does not exist');
@@ -147,7 +151,7 @@ router.put('/:id', async function (req, res) {
  * API Function to delete an event from the database
  */
 router.delete('/:id', async function (req, res) {
-  const id = req.params.id;
+  const { id } = req.params;
   const model = mongoose.model('Event');
   try {
     const event = await model.findById(id);
@@ -201,19 +205,21 @@ async function isValidEmployee(id) {
 async function saveEventToDatabase(event) {
   const { name, description, type, start, end, facebook, agenda } = event;
   const model = mongoose.model('Event');
+  const _id = new mongoose.Types.ObjectId();
   const instance = new model({
-    _id: new mongoose.Types.ObjectId(),
-    name: name,
+    _id,
+    name,
     description: (!description || description === '') ? description : null,
-    type: type,
+    type,
     date: {
       start: new Date(start),
       end: new Date(end)
     },
     facebook: (!facebook || facebook === '') ? facebook : null,
-    agenda: agenda
+    agenda
   });
   await instance.save();
+  return _id;
 }
 
 async function updateEventInDatabase(event, id) {
@@ -231,4 +237,4 @@ async function eventExists(id) {
   }
 }
 
-module.exports = router
+module.exports = router;

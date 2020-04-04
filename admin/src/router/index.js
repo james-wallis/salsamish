@@ -25,7 +25,6 @@ class CustomRoutes extends React.Component {
   }
 
   setAuthenticated(newState) {
-    console.log('setAuth', newState);
     this.setState({
       authenticated: newState
     });

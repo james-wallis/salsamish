@@ -11,7 +11,7 @@ class ViewAll extends React.Component {
   componentDidMount() {
     axios.get(`/api/employees`)
       .then(res => {
-        const employees = res.data;
+        const { data: employees } = res;
         this.setState({ employees });
       })
   }
