@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import { Row, Col, Form, Icon, Button, Steps, message } from 'antd';
 import axios from 'axios';
 
@@ -49,13 +50,10 @@ class Main extends React.Component {
 
   handleChange = (e, name) => {
     const value = (e.target) ? e.target.value : e;
-    console.log('handle change')
-    console.log(name, value);
     if (name === 'type' && value !== 'FRIDAY' && this.state.name === defaultFridayName) this.setState({ name: null });
     this.setState({
       [name]: value
-    })
-    console.log(this.state);
+    });
     return value;
   }
 
@@ -97,16 +95,20 @@ class Main extends React.Component {
   }
 
   submitNew = () => {
+    const { history } = this.props;
     const values = {...this.state}
     delete values.currentStep;
     delete values.employees;
     axios.post('/api/events', values, { 
     }).then(res => {
+      const { id } = res.data;
       message.success(`${values.name} has been successfully added (Status code ${res.status}).`)
+        .then(() => history.push(`/events/view?id=${id}`));
     }).catch(showServerMessageOnError)
   }
 
   submitEdit = () => {
+    const { history } = this.props;
     const values = { ...this.state }
     delete values.currentStep;
     delete values.employees;
@@ -116,12 +118,12 @@ class Main extends React.Component {
       axios.put(`/api/events/${values._id}`, values, {
       }).then(res => {
         message.success(`${values.name} has been successfully modified (Status code ${res.status}).`)
+          .then(() => history.push(`/events/view?id=${values._id}`));
       }).catch(showServerMessageOnError)
     }
   }
 
   render() {
-    console.log(this.state);
     const { currentStep } = this.state;
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -209,4 +211,4 @@ const ensureValid = (errors) => {
 
 const WrappedNormalLoginForm = Form.create({ name: 'event' })(Main);
 
-export default WrappedNormalLoginForm;
+export default withRouter(WrappedNormalLoginForm);

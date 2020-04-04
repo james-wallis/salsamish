@@ -119,8 +119,8 @@ router.get('/:id', async function (req, res) {
 router.post('/', async function (req, res) {
   try {
     const event = await validateEventRequest(req, res);
-    await saveEventToDatabase(event);
-    res.send(`New event ${event.name} added successfully`)
+    const id = await saveEventToDatabase(event);
+    res.send({ id });
   } catch (err) {
     console.error(err);
     res.status(500).send(err);
@@ -205,19 +205,21 @@ async function isValidEmployee(id) {
 async function saveEventToDatabase(event) {
   const { name, description, type, start, end, facebook, agenda } = event;
   const model = mongoose.model('Event');
+  const _id = new mongoose.Types.ObjectId();
   const instance = new model({
-    _id: new mongoose.Types.ObjectId(),
-    name: name,
+    _id,
+    name,
     description: (!description || description === '') ? description : null,
-    type: type,
+    type,
     date: {
       start: new Date(start),
       end: new Date(end)
     },
     facebook: (!facebook || facebook === '') ? facebook : null,
-    agenda: agenda
+    agenda
   });
   await instance.save();
+  return _id;
 }
 
 async function updateEventInDatabase(event, id) {

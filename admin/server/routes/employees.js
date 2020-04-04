@@ -63,8 +63,8 @@ router.post('/', upload.single('image'), async function (req, res) {
       role: validatedRole,
       image: newFileName,
       description,
-      stylesOfMusic: (validatedRole === 'DJ') ? music.split(',') : null,
-      typesOfDance: (validatedRole === 'TEACHER') ? dance.split(',') : null,
+      stylesOfMusic: (validatedRole === 'DJ') ? music : null,
+      typesOfDance: (validatedRole === 'TEACHER') ? dance : null,
     });
     await instance.save();
     res.send(`New employee ${name} added successfully`)
@@ -134,7 +134,6 @@ const sendError = async (res, code, message, image) => {
 }
 
 const checkMusicStyles = types => {
-  types = types.split(',');
   for (let i = 0; i < types.length; i++) {
     const t = types[i];
     if (!music.includes(t)) return false;
@@ -143,7 +142,6 @@ const checkMusicStyles = types => {
 }
 
 const checkDanceTypes = types => {
-  types = types.split(',');
   for (let i = 0; i < types.length; i++) {
     const t = types[i];
     if (!dance.includes(t)) return false;
