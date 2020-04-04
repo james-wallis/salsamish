@@ -1,0 +1,28 @@
+.container {
+    background-color: black;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* height: var(--footer-height); */
+    padding: 1% 0;
+    z-index: 100;
+
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.icon:first-child {
+    margin-left: 3%;
+}
+
+.icon:last-child {
+    margin-right: 3%;
+}
+
+.icon img {
+    width: 80%;
+    max-width: 50px;
+}

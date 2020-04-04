@@ -16,6 +16,7 @@ services:
     ports:
       - 27017-27019:27017-27019
     networks:
+       - frontend
        - backend
   salsamish-admin:
     container_name: salsamish-admin
@@ -26,14 +27,28 @@ services:
       DB_HOSTNAME: salsamish-db
       DB_USERNAME: salsa
       DB_PASSWORD: example
-      SECRET: development
+      AUTH_SECRET: development
     volumes:
-      - ./mongodb/setup/:/docker-entrypoint-initdb.d/
-      - ./mongodb/data:/data/db
+      - ./images/employees:/app/build/images/employees
     ports:
       - 5000:3001
     networks:
        - backend
+  salsamish-website:
+    container_name: salsamish-website
+    depends_on:
+      - salsamish-db
+    image: salsamish-website:latest
+    environment:
+      DB_HOSTNAME: salsamish-db
+      DB_USERNAME: salsa
+      DB_PASSWORD: example
+    volumes:
+      - ./images/employees:/app/public/images/employees
+    ports:
+      - 4000:4000
+    networks:
+       - frontend
 networks:
   frontend:
   backend:

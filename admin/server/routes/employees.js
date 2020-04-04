@@ -47,19 +47,23 @@ router.post('/', upload.single('image'), async function (req, res) {
   if (req.body.role.toUpperCase() === 'TEACHER' && (!req.body.dance || !checkDanceTypes(req.body.dance))) return sendError(res, 404, 'Teacher detected, Missing or invalid dance information', req.file.filename);
   if (!req.body.description || req.body.description === '') return sendError(res, 404, 'Missing description', req.file.filename);
   const model = mongoose.model('Employee');
-  if (await model.findOne({ name: req.body.name })) return sendError(res, 409, `Employee "${req.body.name}" already exists`, req.file.filename);
+  const urlSafeName = createURLSafeName(req.body.name);
+  if (await model.findOne({ name: req.body.name }) || await model.findOne({ urlSafeName })) return sendError(res, 409, `Employee "${req.body.name}" already exists`, req.file.filename);
   const newFileName = `${(req.body.name).replace(/[^A-Z0-9]+/ig, "-")}-${Date.now()}${path.extname(req.file.originalname)}`;
   try {
     // If validation succeeds then rename image and add user into database
-    await fs.rename(req.file.path, `${IMAGE_DIR}/${newFileName}`)
+    await fs.rename(req.file.path, `${IMAGE_DIR}/${newFileName}`);
+
+    const { name, role, description, music, dance } = req.body;
     const instance = new model({ 
       _id: new mongoose.Types.ObjectId(),
-      name: req.body.name, 
-      role: req.body.role.toUpperCase(), 
+      name,
+      urlSafeName,
+      role: role.toUpperCase(),
       image: newFileName,
-      description: req.body.description,
-      stylesOfMusic: (req.body.role.toUpperCase() === 'DJ') ? req.body.music.split(',') : null,
-      typesOfDance: (req.body.role.toUpperCase() === 'TEACHER') ? req.body.dance.split(',') : null,
+      description,
+      stylesOfMusic: (role.toUpperCase() === 'DJ') ? music.split(',') : null,
+      typesOfDance: (role.toUpperCase() === 'TEACHER') ? dance.split(',') : null,
     });
     await instance.save();
     res.send(`New employee ${req.body.name} added successfully`)
@@ -69,15 +73,31 @@ router.post('/', upload.single('image'), async function (req, res) {
   }
 })
 
+router.get('/:id', async function (req, res) {
+  const id = req.params.id;
+  const model = mongoose.model('Employee');
+  try {
+    const employee = await model.findById(id);
+    return res.json(employee);
+  } catch (err) {
+    if (err.name === 'CastError') res.status(404).send('ID does not exist')
+  }
+})
+
 /**
  * TODO
  * API Function to update an employee in the database
+ * Used at the moment to fix a bad employee
  */
 router.put('/:id', async function (req, res) {
   const id = req.params.id;
   const model = mongoose.model('Employee');
   try {
     const employee = await model.findById(id);
+    employee.urlSafeName = createURLSafeName(employee.name);
+    await updateEmployeeInDatabase(employee, req.params.id);
+
+    return res.json(await model.findById(id));
   } catch (err) {
     if (err.name === 'CastError') res.status(404).send('ID does not exist')
   }
@@ -128,6 +148,15 @@ const checkDanceTypes = types => {
     if (!dance.includes(t)) return false;
   }
   return true;
+}
+
+const createURLSafeName = name => {
+  return name.toLowerCase().replace(/[^A-Z0-9]+/ig, "_");
+}
+
+async function updateEmployeeInDatabase(employee, id) {
+  const model = mongoose.model('Employee');
+  await model.updateOne({ _id: id }, employee);
 }
 
 module.exports = router

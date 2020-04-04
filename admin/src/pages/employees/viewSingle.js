@@ -81,23 +81,25 @@ class ViewAll extends React.Component {
 }
 
 const information = (employee, cb) => {
-  const description = formatDescription(employee.description);
+  const { name, description: unformattedDescription, stylesOfMusic, typesOfDance, image, role, urlSafeName } = employee;
+  const description = formatDescription(unformattedDescription);
   return <div style={{ marginTop: 50 }}>
     <Row>
       <Col xs={15}>
-        <Title level={3}>{employee.name}</Title>
+        <Title level={3}>{name}</Title>
         <p style={{ fontStyle: 'italic', textTransform: 'capitalize' }}>
-          {((employee.role === 'TEACHER') ? 'Teacher' : employee.role)
+          {((role === 'TEACHER') ? 'Teacher' : role)
           + ' - ' +
-          ((employee.stylesOfMusic) 
-            ? employee.stylesOfMusic.join(', ').toLowerCase() 
-            : employee.typesOfDance.join(', ').toLowerCase())
+          ((stylesOfMusic)
+            ? stylesOfMusic.join(', ').toLowerCase()
+            : typesOfDance.join(', ').toLowerCase())
           }
         </p>
+        <p>URL will end with: {urlSafeName}</p>
         {description}
       </Col>
       <Col xs={8} offset={1}>
-        <img style={{ height: 200 }} alt={`Source: "${employee.image}"`} src={`/images/employees/${employee.image}`} />
+        <img style={{ height: 200 }} alt={`Source: "${image}"`} src={`/images/employees/${image}`} />
       </Col>
     </Row>
     <Row>

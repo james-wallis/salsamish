@@ -1,0 +1,17 @@
+.container {
+    background-color: black;
+    line-height: 22px;
+    position: relative;
+}
+
+.container div {
+    background-color: purple;
+    height: 100px;
+    width: 100%;
+}
+
+.container h2 {
+    padding: 10px 0;
+    font-family: var(--salsa-header-font);
+    color: var(--salsa-green);
+}

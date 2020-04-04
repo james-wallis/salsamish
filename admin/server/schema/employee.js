@@ -10,6 +10,10 @@ const EmployeeSchema = new Schema(
       type: String,
       required: true
     },
+    urlSafeName: {
+      type: String,
+      required: true
+    },
     role: {
       type: String,
       uppercase: true,
