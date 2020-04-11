@@ -4,6 +4,8 @@ const fs = require('fs-extra');
 const path = require('path');
 const mongoose = require('mongoose');
 
+const { uploadImageToS3, deleteImageFromS3 } = require('../modules/aws');
+
 // Variables
 const router = express.Router()
 const IMAGE_DIR = (process.env.NODE_ENV === 'production') 
@@ -53,15 +55,16 @@ router.post('/', upload.single('image'), async function (req, res) {
   if (await model.findOne({ name }) || await model.findOne({ urlSafeName })) return sendError(res, 409, `Employee "${name}" already exists`, file.filename);
   const newFileName = `${(name).replace(/[^A-Z0-9]+/ig, "-")}-${Date.now()}${path.extname(file.originalname)}`;
   try {
-    // If validation succeeds then rename image and add user into database
-    await fs.rename(file.path, `${IMAGE_DIR}/${newFileName}`);
+    const { Location: imageLocationOnAWS } = await uploadImageToS3(file.path, newFileName);
+    // If AWS upload succeeds, delete the local image
+    await fs.remove(file.path);
 
     const instance = new model({ 
       _id: new mongoose.Types.ObjectId(),
       name,
       urlSafeName,
       role: validatedRole,
-      image: newFileName,
+      image: imageLocationOnAWS,
       description,
       stylesOfMusic: (validatedRole === 'DJ') ? music : null,
       typesOfDance: (validatedRole === 'TEACHER') ? dance : null,
@@ -95,7 +98,9 @@ router.put('/:id', async function (req, res) {
   const model = mongoose.model('Employee');
   try {
     const employee = await model.findById(id);
-    employee.urlSafeName = createURLSafeName(employee.name);
+    // employee.urlSafeName = createURLSafeName(employee.name);
+    const { Location: imageLocationOnAWS } = await uploadImageToS3(`${IMAGE_DIR}/${employee.image}`, employee.image);
+    employee.image = imageLocationOnAWS;
     await updateEmployeeInDatabase(employee, id);
 
     return res.json(await model.findById(id));
@@ -113,7 +118,7 @@ router.delete('/:id', async function (req, res) {
   try {
     const employee = await model.findById(id);
     await employee.remove();
-    await fs.remove(`${IMAGE_DIR}/${employee.image}`);
+    await deleteImageFromS3(employee.image);
     res.sendStatus(200);
   } catch (err) {
     if (err.name === 'CastError') res.status(404).send('ID does not exist')

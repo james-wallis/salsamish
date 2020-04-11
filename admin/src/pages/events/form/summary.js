@@ -32,7 +32,7 @@ class Summary extends React.Component {
                     height={200}
                     style={{ objectFit: 'contain' }}
                     alt={`headshot for ${this.displayEmployee(item.employee)}`}
-                    src={`/images/employees/${this.displayEmployeePicture(item.employee)}`}
+                    src={this.displayEmployeePicture(item.employee)}
                   />
                 }
               >

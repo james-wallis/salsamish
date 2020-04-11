@@ -7,7 +7,6 @@ const Page = ({ employee }) => {
   console.log(employee);
   const { name, role, image, description, stylesOfMusic, typesOfDance } = employee;
   const formattedRole = formatRole(role, stylesOfMusic, typesOfDance);
-  const imagePath = `/images/employees/${image}`;
   return <div className="who-is-who-individuals">
     <PageTitle />
     <section>
@@ -16,7 +15,7 @@ const Page = ({ employee }) => {
       <div className="description">
         <p>{description}</p>
       </div>
-      <img className="image" src={imagePath} alt={name} />
+      <img className="image" src={image} alt={name} />
     </section>
     <div className="next-date">
       <p>The next date I'm at Salsa Mish...</p>

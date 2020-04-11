@@ -99,7 +99,7 @@ const information = (employee, cb) => {
         {description}
       </Col>
       <Col xs={8} offset={1}>
-        <img style={{ height: 200 }} alt={`Source: "${image}"`} src={`/images/employees/${image}`} />
+        <img style={{ height: 200 }} alt={`Source: "${image}"`} src={image} />
       </Col>
     </Row>
     <Row>

@@ -1,68 +1,34 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Salsa Mish
+This project is made up of two applications
+1. Website (Frontend that users will see)
+2. Admin (Manages the back end for the Salsa Mish admin to add events/employees that dynamically show up on the website)
 
-## Available Scripts
+## Goal for Salsa Mish
+1. Take weight off admin's shoulders as they currently manually update the pages each few weeks with no events - each time having to create an image with the employees for different weeks
+2. Refresh the design of the website, due to technology limitations certain aspects of the current website, such as a responsive design for mobile, were hindered by the technology used to create it.
+3. Enhance the SEO, currently the site is made up predominately by images but the new site would use mostly HTML and CSS to achieve the same visuals
 
-In the project directory, you can run:
+## Technologies used
 
-### `npm start`
+## Running locally
+To run locally you can `cd` into either directory's and run `npm run dev`.
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Website
+Need to set a few environment variables:
+```Javascript
+DB_HOSTNAME='' // hostname for MongoDB (defaults to localhost)
+DB_USERNAME='' // username for MongoDB
+DB_PASSWORD='' // password for MongoDB
+```
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+### Admin
+Need to set a few environment variables:
+```Javascript
+DB_HOSTNAME='' // hostname for MongoDB (defaults to localhost)
+DB_USERNAME='' // username for MongoDB
+DB_PASSWORD='' // password for MongoDB
+AWS_ACCESS_KEY='' // Access token for AWS account with read/write access to an S3 bucket
+AWS_SECRET_KEY='' // Access token for AWS account with read/write access to an S3 bucket
+AUTH_SECRET='' // A secret token used for authentication
+```
