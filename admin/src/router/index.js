@@ -3,16 +3,18 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import Index from '../pages/index';
 // import 'antd/dist/antd.css';
 
-import Login from '../pages/user/login'
+import Login from '../pages/user/login';
 
-import EmployeeViewAll from '../pages/employees/viewAll'
-import EmployeeAdd from '../pages/employees/add'
-import EmployeeViewSingle from '../pages/employees/viewSingle'
+import EmployeeViewAll from '../pages/employees/viewAll';
+import EmployeeAdd from '../pages/employees/add';
+import EmployeeViewSingle from '../pages/employees/viewSingle';
 
-import EventViewAll from '../pages/events/viewAll'
-import EventAdd from '../pages/events/add'
-import EventViewSingle from '../pages/events/viewSingle'
-import EventEdit from '../pages/events/edit'
+import EventViewAll from '../pages/events/viewAll';
+import EventAdd from '../pages/events/add';
+import EventViewSingle from '../pages/events/viewSingle';
+import EventEdit from '../pages/events/edit';
+
+import ManageAccount from '../pages/user/manage';
 
 class CustomRoutes extends React.Component {
   constructor(props) {
@@ -42,6 +44,7 @@ class CustomRoutes extends React.Component {
       <Route path="/events/add" render={() => <EventAdd authenticated={authenticated} setAuth={this.setAuthenticated}/>} />
       <Route path="/events/view" render={() => <EventViewSingle authenticated={authenticated} setAuth={this.setAuthenticated}/>} />
       <Route path="/events/edit" render={() => <EventEdit authenticated={authenticated} setAuth={this.setAuthenticated}/>} />
+      <Route path="/account" render={() => <ManageAccount authenticated={authenticated} setAuth={this.setAuthenticated} />} />
     </Router>
   }
 }

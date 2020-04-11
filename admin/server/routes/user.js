@@ -1,10 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const jwt = require('jsonwebtoken');
-const withAuth = require('../middleware/authentication');
 const router = express.Router();
-
-const { AUTH_SECRET } = process.env;
 
 router.post('/register', (req, res) => {
   const model = mongoose.model('User');
@@ -23,26 +19,33 @@ router.post('/register', (req, res) => {
   });
 });
 
-router.post('/auth', (req, res) => {
-  const { email, password } = req.body;
+router.put('/password', async(req, res) => {
   const model = mongoose.model('User');
-  model.findOne({ email }, function (err, user) {
-    if (err) return res.status(500).send(err);
-    if (!user) return res.status(401).send('Incorrect email or password');
-    user.isCorrectPassword(password, function (err, same) {
-      if (err) return res.status(500).send(err);
-      if (!same) return res.status(401).send('Incorrect email or password');
-      const payload = { email };
-      const token = jwt.sign(payload, AUTH_SECRET, {
-        expiresIn: '1h'
-      });
-      res.cookie('token', token, { httpOnly: true }).sendStatus(200);
+  const { name, email } = req.user;
+  const { password } = req.body;
+  if (!password) return res.status(400).send('Requires a password in req.body');
+  try {
+    const user = await model.findOne({ name, email });
+    user.password = password;
+    user.save(function (err) {
+      console.log(err);
+      
+      res.status(200).send('password updated');
     });
-  });
+    // await model.updateOne({ name, email }, updatedUser);
+    
+  } catch(err) {
+    res.status(500).send(err);
+  }
 });
 
-router.get('/auth', withAuth, (req, res) => {
-  res.sendStatus(200);
-});
+router.get('/me', (req, res) => {
+  const { name, email } = req.user;
+  if (!name || !email) {
+    console.log('unidentified user in the system');
+    return res.sendStatus(500);
+  }
+  res.status(200).send({ name, email });
+})
 
 module.exports = router;

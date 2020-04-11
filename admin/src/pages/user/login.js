@@ -14,7 +14,7 @@ class LoginForm extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        axios.post(`/api/user/auth`, values)
+        axios.post(`/api/auth`, values)
           .then(res => {
             if (res.status === 200) {
               this.props.history.push('/');

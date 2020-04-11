@@ -5,6 +5,7 @@ const app = express();
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const { validateProcessEnvs } = require('./modules/utils');
+const withAuth = require('./middleware/authentication');
 
 const { DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, PORT, NODE_ENV } = process.env;
 
@@ -32,8 +33,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // Express Routes
-// app.use('/api/images', express.static(path.join(__dirname, '../images')))
-app.use('/api/user', require('./routes/user'))
+app.use('/api/auth', require('./routes/auth'));
+
+// Enforce authentication after auth route is set up
+app.use(withAuth);
+
+app.use('/api/user', require('./routes/user'));
 app.use('/api/employees', require('./routes/employees'))
 app.use('/api/events', require('./routes/events'))
 
