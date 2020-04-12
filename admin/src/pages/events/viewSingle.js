@@ -9,7 +9,7 @@ import withLayout from '../../components/withLayout';
 const { Title } = Typography;
 const { Option } = Select;
 
-class ViewAll extends React.Component {
+class ViewSingle extends React.Component {
   state = {
     events: [],
     selectedEvent: null
@@ -110,4 +110,4 @@ const compareDates = (firstEvent, secondEvent) => {
   return 0;
 }
 
-export default withLayout(withRouter(ViewAll));
+export default withLayout(withRouter(ViewSingle));

@@ -18,21 +18,10 @@ class ViewAll extends React.Component {
 
   render() {
     const { employees } = this.state;
-    const splitArray = [];
-    while (employees.length > 0)
-      splitArray.push(employees.splice(0, 3));
     return (
       <ul>
-        {splitArray.map((employee, index) => {
-          return (
-            <div gutter={10} key={index}>
-              <EmployeeCard employee={employee[0]} />
-              <EmployeeCard employee={employee[1]} />
-              <EmployeeCard employee={employee[2]} />
-            </div>
-          )
-        })}
-        {(splitArray.length === 0) ? <p>No team members in the database.</p> : null}
+        {employees.map((employee, index) => <EmployeeCard employee={employee} key={`employee-card-${index}`} />)}
+        {(employees.length === 0) ? <p>No team members in the database.</p> : null}
       </ul>
     )
   }

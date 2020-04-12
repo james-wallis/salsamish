@@ -17,7 +17,6 @@ export default function withAuth(ComponentToSurround) {
       this.state = {
         loading: !authenticated,
         redirect: false,
-        user: {},
       };
     }
 
@@ -27,20 +26,21 @@ export default function withAuth(ComponentToSurround) {
         .then(res => {
           if (res.status === 200) {
             const user = res.data;
-            this.setState({ loading: false, redirect: false, user });
-            setAuth(true);
+            this.setState({ loading: false, redirect: false });
+            setAuth({ authenticated: true, user });
           } else {
             const error = new Error(res.error);
             throw error;
           }
         }).catch((e) => {
           this.setState({ loading: false, redirect: true });
-          setAuth(false);
+          setAuth({ authenticated: false });
         })
     }
 
     render() {
-      const { loading, redirect, user } = this.state;
+      const { loading, redirect } = this.state;
+      const { user } = this.props;      
       if (loading) {
         return null;
       }
@@ -53,7 +53,7 @@ export default function withAuth(ComponentToSurround) {
             <Sider>
               <Title />
               <Navigation />
-              <CurrentUser name={user.name}/>
+              <CurrentUser user={user}/>
             </Sider>
             <Content style={{ background: '#ECECEC', padding: '50px' }}>
               <ComponentToSurround {...this.props} user={user}  />

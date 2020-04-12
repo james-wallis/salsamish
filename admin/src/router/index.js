@@ -22,29 +22,32 @@ class CustomRoutes extends React.Component {
 
     this.setAuthenticated = this.setAuthenticated.bind(this)
     this.state = {
-      authenticated: false
+      authenticated: false,
+      user: null,
     }
   }
 
   setAuthenticated(newState) {
+    const { authenticated, user } = newState;
     this.setState({
-      authenticated: newState
+      authenticated,
+      user,
     });
   }
 
   render() {
-    const { authenticated } = this.state;
+    const { authenticated, user } = this.state;
     return <Router>
-      <Route path="/" exact render={() => <Index authenticated={authenticated} setAuth={this.setAuthenticated} />} />
+      <Route path="/" exact render={() => <Index authenticated={authenticated} user={user} setAuth={this.setAuthenticated} />} />
       <Route path="/login" component={Login} />
-      <Route path="/employees" exact render={() => <EmployeeViewAll authenticated={authenticated} setAuth={this.setAuthenticated} />} />
-      <Route path="/employees/add" render={() => <EmployeeAdd authenticated={authenticated} setAuth={this.setAuthenticated}/>} />
-      <Route path="/employees/view" render={() => <EmployeeViewSingle authenticated={authenticated} setAuth={this.setAuthenticated}/>} />
-      <Route path="/events" exact render={() => <EventViewAll authenticated={authenticated} setAuth={this.setAuthenticated}/>} />
-      <Route path="/events/add" render={() => <EventAdd authenticated={authenticated} setAuth={this.setAuthenticated}/>} />
-      <Route path="/events/view" render={() => <EventViewSingle authenticated={authenticated} setAuth={this.setAuthenticated}/>} />
-      <Route path="/events/edit" render={() => <EventEdit authenticated={authenticated} setAuth={this.setAuthenticated}/>} />
-      <Route path="/account" render={() => <ManageAccount authenticated={authenticated} setAuth={this.setAuthenticated} />} />
+      <Route path="/employees" exact render={() => <EmployeeViewAll authenticated={authenticated} user={user} setAuth={this.setAuthenticated} />} />
+      <Route path="/employees/add" render={() => <EmployeeAdd authenticated={authenticated} user={user} setAuth={this.setAuthenticated}/>} />
+      <Route path="/employees/view" render={() => <EmployeeViewSingle authenticated={authenticated} user={user} setAuth={this.setAuthenticated}/>} />
+      <Route path="/events" exact render={() => <EventViewAll authenticated={authenticated} user={user} setAuth={this.setAuthenticated}/>} />
+      <Route path="/events/add" render={() => <EventAdd authenticated={authenticated} user={user} setAuth={this.setAuthenticated}/>} />
+      <Route path="/events/view" render={() => <EventViewSingle authenticated={authenticated} user={user} setAuth={this.setAuthenticated}/>} />
+      <Route path="/events/edit" render={() => <EventEdit authenticated={authenticated} user={user} setAuth={this.setAuthenticated}/>} />
+      <Route path="/account" render={() => <ManageAccount authenticated={authenticated} user={user} setAuth={this.setAuthenticated} />} />
     </Router>
   }
 }

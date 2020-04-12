@@ -11,7 +11,7 @@ class ViewAll extends React.Component {
   componentDidMount() {
     axios.get(`/api/events`)
       .then(res => {
-        const events = res.data;
+        const events = res.data;        
         this.setState({ events });
       })
   }

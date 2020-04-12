@@ -1,9 +1,8 @@
 import React from 'react';
 
 function CurrentUser(props) {
-  console.log(props);
-  
-  const { name } = props;
+  const { user } = props;
+  const name = (user && user.name) ? user.name : '';
   const containerStyles = {
     backgroundColor: 'rgb(0, 12, 23)',
     width: '100%', 

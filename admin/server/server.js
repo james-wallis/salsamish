@@ -34,13 +34,9 @@ app.use(cookieParser());
 
 // Express Routes
 app.use('/api/auth', require('./routes/auth'));
-
-// Enforce authentication after auth route is set up
-app.use(withAuth);
-
-app.use('/api/user', require('./routes/user'));
-app.use('/api/employees', require('./routes/employees'))
-app.use('/api/events', require('./routes/events'))
+app.use('/api/user', withAuth, require('./routes/user'));
+app.use('/api/employees', withAuth, require('./routes/employees'))
+app.use('/api/events', withAuth, require('./routes/events'))
 
 const port = PORT || 3001;
 
