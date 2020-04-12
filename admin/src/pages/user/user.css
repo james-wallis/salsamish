@@ -1,0 +1,29 @@
+html, body {
+  background: rgb(236, 236, 236)
+}
+
+h1.ant-typography, .ant-typography h1 {
+  font-size: 34px;
+}
+
+#login-form.ant-form, .emailSent, .reset-using-token {
+  width: 400px;
+  margin: 0 auto;
+  padding-top: 200px;
+}
+
+.reset-password {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+}
+
+.reset-password a, .reset-password a:hover {
+  text-decoration: underline;
+  font-size: 0.8em;
+}
+
+#change-password-form.ant-form {
+  width: 300px;
+  padding-top: 20px;
+}

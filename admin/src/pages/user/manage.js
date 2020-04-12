@@ -2,7 +2,7 @@ import React from 'react';
 import { Form, Icon, Input, Button, Typography } from 'antd';
 import axios from 'axios';
 import withLayout from '../../components/withLayout';
-import './manage.css';
+import './user.css';
 
 const { Title } = Typography;
 

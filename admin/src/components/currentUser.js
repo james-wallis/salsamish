@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 
 function CurrentUser(props) {
   const { user } = props;
@@ -14,7 +15,7 @@ function CurrentUser(props) {
   return (
     <div style={containerStyles}>
       <p style={{ color: 'white', fontSize: 20, fontWeight: 400, margin: 0 }}>Signed in as {name}</p>
-      <a href='/account' style={{ color: 'white', textDecoration: 'underline', fontSize: 10 }}>Manage account</a>
+      <Link to='/account' style={{ color: 'white', textDecoration: 'underline', fontSize: 10 }}>Manage account</Link>
     </div>
   );
 }

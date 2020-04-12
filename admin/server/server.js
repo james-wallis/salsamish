@@ -14,6 +14,7 @@ validateProcessEnvs();
 const dburl = (DB_HOSTNAME) 
   ? `mongodb://${DB_HOSTNAME}/salsamish` 
   : `mongodb://localhost/salsamish`;
+console.log(`Using database url: ${dburl}`);
 
 mongoose.connect(dburl, {
   useNewUrlParser: true, auth: {
@@ -21,6 +22,10 @@ mongoose.connect(dburl, {
     password: DB_PASSWORD,
   }
 });
+
+mongoose.connection.on('connected', () => 'MongoDB connected');
+mongoose.connection.on('error', (err) => `MongoDB error: ${err}`);
+mongoose.connection.on('disconnected', () => 'MongoDB disconnected');
 
 // Mongoose Schemas
 require('./schema/user');
@@ -34,7 +39,7 @@ app.use(cookieParser());
 
 // Express Routes
 app.use('/api/auth', require('./routes/auth'));
-app.use('/api/user', withAuth, require('./routes/user'));
+app.use('/api/user', require('./routes/user'));
 app.use('/api/employees', withAuth, require('./routes/employees'))
 app.use('/api/events', withAuth, require('./routes/events'))
 

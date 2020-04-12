@@ -1,7 +1,8 @@
 import React from 'react';
 import { Form, Icon, Input, Button, Typography } from 'antd';
 import axios from 'axios';
-import './login.css';
+import { Link } from "react-router-dom";
+import './user.css';
 
 const { Title } = Typography;
 
@@ -32,7 +33,7 @@ class LoginForm extends React.Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     const { credentialError } = this.state;
-    return (
+    return <div>
       <Form id="login-form" onSubmit={this.handleSubmit} className="login-form">
         <Title level={1}>Salsa Mish admin</Title>
         <Form.Item>
@@ -66,7 +67,10 @@ class LoginForm extends React.Component {
         </Form.Item>
         <p>{(credentialError) ? "Incorrect login details, please try again." : null}</p>
       </Form>
-    );
+      <div className='reset-password'>
+        <Link to='/reset-password'>forgot password</Link>
+      </div>
+    </div>
   }
 }
 

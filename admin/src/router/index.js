@@ -15,6 +15,8 @@ import EventViewSingle from '../pages/events/viewSingle';
 import EventEdit from '../pages/events/edit';
 
 import ManageAccount from '../pages/user/manage';
+import ResetPassword from '../pages/user/resetPassword';
+import SetNewPasswordUsingToken from '../pages/user/setNewPasswordUsingToken';
 
 class CustomRoutes extends React.Component {
   constructor(props) {
@@ -40,6 +42,8 @@ class CustomRoutes extends React.Component {
     return <Router>
       <Route path="/" exact render={() => <Index authenticated={authenticated} user={user} setAuth={this.setAuthenticated} />} />
       <Route path="/login" component={Login} />
+      <Route path="/reset-password" exact component={ResetPassword} />
+      <Route path="/reset-password/:userID/:token" exact component={SetNewPasswordUsingToken} />
       <Route path="/employees" exact render={() => <EmployeeViewAll authenticated={authenticated} user={user} setAuth={this.setAuthenticated} />} />
       <Route path="/employees/add" render={() => <EmployeeAdd authenticated={authenticated} user={user} setAuth={this.setAuthenticated}/>} />
       <Route path="/employees/view" render={() => <EmployeeViewSingle authenticated={authenticated} user={user} setAuth={this.setAuthenticated}/>} />
