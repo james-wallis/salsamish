@@ -54,7 +54,7 @@ router.post('/reset-password', async(req, res) => {
     if (!user) return res.status(404).send('invalid user');
 
     const token = usePasswordHashToMakeToken(user);
-    const url = getPasswordResetURL(req.protocol, user, token);
+    const url = getPasswordResetURL(user, token);
     const info = await sendResetPasswordEmail(user, url);
     console.log(`Reset password email sent`, info.response)
     res.sendStatus(200);

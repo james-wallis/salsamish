@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form, Icon, Input, Button, Typography } from 'antd';
 import axios from 'axios';
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 import './user.css';
 
 const { Title } = Typography;

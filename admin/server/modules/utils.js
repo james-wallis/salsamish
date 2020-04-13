@@ -22,9 +22,9 @@ const decodeUserIDFromToken = (user, token) => {
   return jwt.verify(token, secret);
 }
 
-const getPasswordResetURL = (protocol, user, token) => {
+const getPasswordResetURL = (user, token) => {
   const { REDIRECT_URL } = process.env;
-  return `${protocol}://${REDIRECT_URL}/reset-password/${user._id}/${token}`;
+  return `${REDIRECT_URL}/reset-password/${user._id}/${token}`;
 }
 
 const sendEmail = (emailTemplate) => {

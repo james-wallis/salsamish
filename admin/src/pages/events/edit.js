@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import Form from './form/main';
 import { Typography } from 'antd';
+import { withRouter } from 'react-router-dom';
 import withLayout from '../../components/withLayout';
 
 const { Title } = Typography;
@@ -35,4 +36,4 @@ class Edit extends React.Component {
   }
 }
 
-export default withLayout(Edit);
+export default withLayout(withRouter(Edit));

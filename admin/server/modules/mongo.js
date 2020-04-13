@@ -21,7 +21,7 @@ const setupMongoose = async() => {
   })
 
   mongoose.connection.on('error', (err) => {
-    console.error(`MongoDB error: ${err}`)
+    throw err;
   })
 
   const dburl = (DB_HOSTNAME)
@@ -36,9 +36,6 @@ const setupMongoose = async() => {
       user: DB_USERNAME,
       password: DB_PASSWORD,
     },
-    autoReconnect: true,
-    reconnectTries: 1000000,
-    reconnectInterval: 3000,
   };
 
   await mongoose.connect(dburl, mongoOpts);

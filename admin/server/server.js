@@ -39,4 +39,4 @@ const main = async() => {
   app.listen(port, () => console.log(`Listening on port ${port}`));
 }
 
-main().catch(err => console.error(err));
+main().catch(err => console.error('main', err));
