@@ -30,11 +30,8 @@ router.put('/password', withAuth, async(req, res) => {
   try {
     const user = await model.findOne({ name, email });
     user.password = password;
-    user.save(function (err) {
-      console.log(err);
-      
-      res.status(200).send('password updated');
-    });
+    await user.save();
+    res.status(200).send('password updated');
   } catch(err) {
     res.status(500).send(err);
   }

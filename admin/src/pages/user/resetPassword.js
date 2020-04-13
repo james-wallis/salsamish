@@ -10,6 +10,7 @@ class ResetPasswordForm extends React.Component {
     invalidEmail: false,
     emailSent: false,
     emailAddress: '',
+    error: null,
   }
 
   handleSubmit = e => {
@@ -20,13 +21,15 @@ class ResetPasswordForm extends React.Component {
           .then(res => {
             if (res.status === 200) {
               const { email: emailAddress } = values;
-              this.setState({ emailSent: true, emailAddress });
+              this.setState({ emailSent: true, emailAddress, invalidEmail: false, error: false });
+            } else if (res.status === 404) {
+              this.setState({ invalidEmail: true, error: null });
             } else {
               const error = new Error(res.error);
               throw error;
             }
-          }).catch(() => {
-            this.setState({ invalidEmail: true });
+          }).catch((error) => {
+            this.setState({ error, invalidEmail: false });
           })
       }
     });
@@ -34,14 +37,14 @@ class ResetPasswordForm extends React.Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { invalidEmail, emailSent, emailAddress } = this.state;
+    const { invalidEmail, emailSent, emailAddress, error } = this.state;
     return <div>
-      {(emailSent) ? showEmailSent(emailAddress) : showResetForm(getFieldDecorator, invalidEmail, this.handleSubmit)}
+      {(emailSent) ? showEmailSent(emailAddress) : showResetForm(getFieldDecorator, invalidEmail, this.handleSubmit, error)}
     </div>
   }
 }
 
-const showResetForm = (getFieldDecorator, invalidEmail, handleSubmit) => {
+const showResetForm = (getFieldDecorator, invalidEmail, handleSubmit, error) => {
   return <Form id="login-form" onSubmit={handleSubmit} className="login-form">
     <Title level={1}>Salsa Mish admin</Title>
     <Title level={4}>Reset password</Title>
@@ -62,9 +65,10 @@ const showResetForm = (getFieldDecorator, invalidEmail, handleSubmit) => {
     <Form.Item>
       <Button type="primary" htmlType="submit" className="login-form-button">
         Reset
-          </Button>
+      </Button>
     </Form.Item>
     <p>{(invalidEmail) ? "Invalid email" : null}</p>
+    <p>{(error) ? `Error making request ${error}` : null}</p>
   </Form>
 }
 

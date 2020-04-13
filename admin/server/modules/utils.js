@@ -2,13 +2,9 @@ const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 
 const validateProcessEnvs = () => {
-  const { DB_USERNAME, DB_PASSWORD, AUTH_SECRET, EMAIL_USERNAME, EMAIL_PASSWORD, REDIRECT_URL } = process.env;
-  if (!DB_USERNAME) throw new Error('Must provide DB_USERNAME to connect to database');
-  if (!DB_PASSWORD) throw new Error('Must provide DB_PASSWORD to connect to database');
-  if (!AUTH_SECRET) throw new Error('Must provide AUTH_SECRET for database validation');
-  if (!EMAIL_USERNAME) throw new Error('Must provide EMAIL_USERNAME for sending emails');
-  if (!EMAIL_PASSWORD) throw new Error('Must provide EMAIL_PASSWORD for sending emails');
-  if (!REDIRECT_URL) throw new Error('Must provide REDIRECT_URL for redirecting back to the application');
+  const requiredEnvs = ['DB_USERNAME', 'DB_PASSWORD', 'AUTH_SECRET', 'EMAIL_USERNAME', 'EMAIL_PASSWORD', 'REDIRECT_URL', 'AWS_ACCESS_KEY', 'AWS_SECRET_KEY'];
+  const missingEnvs = requiredEnvs.filter(env => !process.env[env]);
+  if (missingEnvs.length > 0) throw new Error(`Missing required environment variables: ${missingEnvs}`);
 };
 
 const usePasswordHashToMakeToken = (user) => {

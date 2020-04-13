@@ -20,7 +20,7 @@ h1.ant-typography, .ant-typography h1 {
 
 .reset-password a, .reset-password a:hover {
   text-decoration: underline;
-  font-size: 0.8em;
+  font-size: 1em;
 }
 
 #change-password-form.ant-form {

@@ -28,8 +28,6 @@ services:
       DB_USERNAME: salsa
       DB_PASSWORD: example
       AUTH_SECRET: development
-    volumes:
-      - ./images/employees:/app/build/images/employees
     ports:
       - 5000:3001
     networks:
@@ -43,8 +41,6 @@ services:
       DB_HOSTNAME: salsamish-db
       DB_USERNAME: salsa
       DB_PASSWORD: example
-    volumes:
-      - ./images/employees:/app/public/images/employees
     ports:
       - 4000:4000
     networks:

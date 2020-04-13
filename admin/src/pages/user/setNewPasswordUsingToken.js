@@ -42,7 +42,11 @@ class setNewPasswordUsingToken extends React.Component {
           (changeSuccess)
             ? <div>
                 <p>Password changed successfully</p>
-                <Link to='/login'>Login</Link>
+                <Link to='/login'>
+                  <Button type="primary">
+                    Login
+                  </Button>
+                </Link>
               </div>
             : <div>
               <p>Enter a new password</p>
@@ -60,7 +64,7 @@ class setNewPasswordUsingToken extends React.Component {
               <Form.Item>
                 <Button type="primary" htmlType="submit" className="change-password-form-button">
                   Submit
-              </Button>
+                </Button>
               </Form.Item>
             </div>
         }
