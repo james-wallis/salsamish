@@ -4,13 +4,13 @@ const AWS = require('aws-sdk');
 
 const { AWS_ACCESS_KEY, AWS_SECRET_KEY, NODE_ENV } = process.env;
 const S3_BUCKET = 'salsamish';
-const S3_BUCKET_DIR = `${S3_BUCKET}/${(NODE_ENV === 'production') ? `public` : 'test'}`;
+const S3_BUCKET_DIR = `${S3_BUCKET}/${(NODE_ENV === 'production') ? 'public' : 'test'}`;
 
 AWS.config.update({ region: 'eu-west-2' });
 
 const s3 = new AWS.S3({
-  accessKeyId: AWS_ACCESS_KEY,
-  secretAccessKey: AWS_SECRET_KEY
+    accessKeyId: AWS_ACCESS_KEY,
+    secretAccessKey: AWS_SECRET_KEY
 });
 
 const uploadImageToS3 = async(filePath, fileName) => {

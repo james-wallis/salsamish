@@ -22,7 +22,9 @@
     "react-scripts": "3.0.1"
   },
   "devDependencies": {
-    "concurrently": "^4.0.1"
+    "concurrently": "^4.0.1",
+    "eslint": "^6.8.0",
+    "eslint-plugin-react": "^7.19.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -31,7 +33,8 @@
     "eject": "react-scripts eject",
     "server": "nodemon --ignore 'src/' server/server.js",
     "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn start\"",
-    "production": "NODE_ENV=production node server/server.js"
+    "production": "NODE_ENV=production node server/server.js",
+    "eslint": "eslint --fix ."
   },
   "eslintConfig": {
     "extends": "react-app"
