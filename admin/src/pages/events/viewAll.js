@@ -5,15 +5,15 @@ import withLayout from '../../components/withLayout';
 
 class ViewAll extends React.Component {
   state = {
-    events: []
+    events: [],
   }
 
   componentDidMount() {
-    axios.get(`/api/events`)
+    axios.get('/api/events')
       .then(res => {
         const events = res.data;        
         this.setState({ events });
-      })
+      });
   }
 
   render() {
@@ -22,10 +22,10 @@ class ViewAll extends React.Component {
       {events.map((event, i) => {
         return (
           <EmployeeCard key={`employee-card-${i}`} event={event} />
-        )
+        );
       })}
       {(events.length === 0) ? <p>No events in the database.</p> : null}
-    </div>
+    </div>;
   }
 }
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { Row, Col, Form, Icon, Button, Steps, message } from 'antd';
 import axios from 'axios';
@@ -22,26 +23,26 @@ const initialState = {
   end: null,
   facebook: null,
   agenda: null,
-  employees: []
-}
+  employees: [],
+};
 
 class Main extends React.Component {
   state = {...initialState};
 
   componentDidMount() {
-    const e = this.props.event;
-    for (const key in e) {
-      if (e.hasOwnProperty(key)) {
+    const { event } = this.props;
+    for (const key in event) {
+      if (Object.prototype.hasOwnProperty.call(event, key)) {
         this.setState({
-          [key]: e[key]
-        })
+          [key]: event[key],
+        });
       }
     }
-    axios.get(`/api/employees`)
+    axios.get('/api/employees')
       .then(res => {
         const employees = res.data;
         this.setState({ employees });
-      })
+      });
   }
 
   handleSubmit = e => {
@@ -52,42 +53,42 @@ class Main extends React.Component {
     const value = (e.target) ? e.target.value : e;
     if (name === 'type' && value !== 'FRIDAY' && this.state.name === defaultFridayName) this.setState({ name: null });
     this.setState({
-      [name]: value
+      [name]: value,
     });
     return value;
   }
 
   resetValue = name => {
     this.setState({
-      [name]: initialState[name]
-    })
+      [name]: initialState[name],
+    });
     return initialState[name];
   }
 
   _next = () => {
     const { currentStep } = this.state;
-    const { form: { validateFields }, } = this.props;
+    const { form: { validateFields } } = this.props;
     validateFields((err) => {
       if (err) {
         ensureValid(err);
       } else {
         this.setState({
-          currentStep: currentStep + 1
-        })
+          currentStep: currentStep + 1,
+        });
       }
-    })
+    });
   }
 
   _previous = () => {
     const { currentStep } = this.state;
     this.setState({
-      currentStep: currentStep - 1
-    })
+      currentStep: currentStep - 1,
+    });
   }
 
   submit = () => {
-    const { edit } = this.props;
-    if (edit) {
+    const { edit: isEdit } = this.props;
+    if (isEdit) {
       this.submitEdit();
     } else {
       this.submitNew();
@@ -96,7 +97,7 @@ class Main extends React.Component {
 
   submitNew = () => {
     const { history } = this.props;
-    const values = {...this.state}
+    const values = {...this.state};
     delete values.currentStep;
     delete values.employees;
     axios.post('/api/events', values, { 
@@ -104,12 +105,12 @@ class Main extends React.Component {
       const { id } = res.data;
       message.success(`${values.name} has been successfully added (Status code ${res.status}).`)
         .then(() => history.push(`/events/view?id=${id}`));
-    }).catch(showServerMessageOnError)
+    }).catch(showServerMessageOnError);
   }
 
   submitEdit = () => {
     const { history } = this.props;
-    const values = { ...this.state }
+    const values = { ...this.state };
     delete values.currentStep;
     delete values.employees;
     if (!values._id) {
@@ -119,7 +120,7 @@ class Main extends React.Component {
       }).then(res => {
         message.success(`${values.name} has been successfully modified (Status code ${res.status}).`)
           .then(() => history.push(`/events/view?id=${values._id}`));
-      }).catch(showServerMessageOnError)
+      }).catch(showServerMessageOnError);
     }
   }
 
@@ -133,7 +134,7 @@ class Main extends React.Component {
       handleChange: this.handleChange,
       values: this.state,
       resetValue: this.resetValue,
-    }
+    };
     return <div>
       <Row>
         <Col xs={18}>
@@ -173,41 +174,49 @@ class Main extends React.Component {
           </ButtonGroup>
         </Col>
       </Row>
-    </div>
+    </div>;
   }
 }
 
 const showServerMessageOnError = (err) => {
-  switch (err.response.status) {
+  const { response: { status } } = err;
+  switch (status) {
     case 400:
-      console.log('400, invalid role');
       message.error('Error: The data sent contains an invalid type (Status code 400)');
       break;
     case 404:
-      console.log('404, missing field');
       message.error('Error: The form is missing data (Status code 404)');
       break;
     case 500:
-      console.log('500, server error');
       message.error('Error: An error has occured on the server (Status code 500)');
       break;
     default:
-      console.log(err.response.status + ', unknown error');
-      console.log(err)
-      message.error('Error: An unknown error has occured (Status code ' + err.response.status + ')');
+      message.error(`Error: An unknown error has occured (Status code ${status})`);
       break;
   }
-}
+};
 
 const ensureValid = (errors) => {
   for (const field in errors) {
-    if (errors.hasOwnProperty(field)) {
+    if (Object.prototype.hasOwnProperty.call(errors, field)) {
       message.error(`Field ${field} missing`);
       // Only show first error
       return;
     }
   }
-}
+};
+
+Main.propTypes = {
+  event: PropTypes.object,
+  edit: PropTypes.bool,
+  form: PropTypes.shape({
+    getFieldDecorator: PropTypes.func.isRequired,
+    validateFields: PropTypes.func.isRequired,
+  }),
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }),
+};
 
 const WrappedNormalLoginForm = Form.create({ name: 'event' })(Main);
 

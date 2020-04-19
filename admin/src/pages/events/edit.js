@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import axios from 'axios';
 import Form from './form/main';
 import { Typography } from 'antd';
@@ -9,11 +10,11 @@ const { Title } = Typography;
 
 class Edit extends React.Component {
   state = {
-    event: null
+    event: null,
   }
   componentDidMount() {
-    const { location } = this.props;
-    let params = new URLSearchParams(location.search);
+    const { location: { search } } = this.props;
+    let params = new URLSearchParams(search);
     axios.get(`/api/events/${params.get('id')}`)
       .then(res => {
         const event = res.data;
@@ -21,7 +22,7 @@ class Edit extends React.Component {
         event.end = res.data.date.end;
         event.start = res.data.date.start;
         this.setState({ event });
-      })
+      });
   }
 
   render() {
@@ -32,8 +33,14 @@ class Edit extends React.Component {
         ? <Form event={event} edit/>
         : <p>Fetching event</p>}
       
-    </div>
+    </div>;
   }
 }
+
+Edit.propTypes = {
+  location: PropTypes.shape({
+    search: PropTypes.string.isRequired,
+  }),
+};
 
 export default withLayout(withRouter(Edit));

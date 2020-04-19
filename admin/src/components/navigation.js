@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Menu, Icon } from 'antd';
 import { withRouter } from 'react-router-dom';
 
@@ -12,6 +13,7 @@ class Navigation extends React.Component {
 
   render() {
     const { history } = this.props;
+    const { location: { pathname } } = history;
     return (
       <div style={{ width: 'auto' }}>
         <Menu
@@ -19,10 +21,10 @@ class Navigation extends React.Component {
           defaultOpenKeys={['sub1', 'sub2']}
           mode="inline"
           theme="dark"
-          selectedKeys={[selectedItem(history.location.pathname)]}
+          selectedKeys={[selectedItem(pathname)]}
           // inlineCollapsed={this.state.collapsed}
         >
-          <Menu.Item key="1" onClick={() => { history.push('/') }}>
+          <Menu.Item key="1" onClick={() => { history.push('/'); }}>
             <Icon type="home" />
             <span>This Week</span>
           </Menu.Item>
@@ -35,13 +37,13 @@ class Navigation extends React.Component {
               </span>
             }
           >
-            <Menu.Item key="2" onClick={() => { history.push('/employees/') }}>
+            <Menu.Item key="2" onClick={() => { history.push('/employees/'); }}>
               <span>Overview</span>
             </Menu.Item>
-            <Menu.Item key="3" onClick={() => { history.push('/employees/view') }}>
+            <Menu.Item key="3" onClick={() => { history.push('/employees/view'); }}>
               <span>View</span>
             </Menu.Item>
-            <Menu.Item key="4" onClick={() => { history.push('/employees/add') }}>
+            <Menu.Item key="4" onClick={() => { history.push('/employees/add'); }}>
               <span>Add</span>
             </Menu.Item>
           </SubMenu>
@@ -54,13 +56,13 @@ class Navigation extends React.Component {
               </span>
             }
           >
-            <Menu.Item key="5" onClick={() => { history.push('/events/') }}>
+            <Menu.Item key="5" onClick={() => { history.push('/events/'); }}>
               <span>Overview</span>
             </Menu.Item>
-            <Menu.Item key="6" onClick={() => { history.push('/events/view') }}>
+            <Menu.Item key="6" onClick={() => { history.push('/events/view'); }}>
               <span>View</span>
             </Menu.Item>
-            <Menu.Item key="7" onClick={() => { history.push('/events/add') }}>
+            <Menu.Item key="7" onClick={() => { history.push('/events/add'); }}>
               <span>Add</span>
             </Menu.Item>
           </SubMenu>
@@ -89,6 +91,15 @@ const selectedItem = path => {
     default:
       return '';
   }
-}
+};
+
+Navigation.propTypes = {
+  history: PropTypes.shape({
+    location: PropTypes.shape({
+      pathname: PropTypes.string.isRequired,
+    }),
+    push: PropTypes.func.isRequired,
+  }),
+};
 
 export default withRouter(Navigation);

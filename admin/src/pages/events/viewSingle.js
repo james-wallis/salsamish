@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 import { Typography, Select, Row, Col, message } from 'antd';
@@ -12,38 +13,40 @@ const { Option } = Select;
 class ViewSingle extends React.Component {
   state = {
     events: [],
-    selectedEvent: null
+    selectedEvent: null,
   }
 
   componentDidMount() {
-    const { location } = this.props;
-    const params = new URLSearchParams(location.search);
+    const { location: { search } } = this.props;
+    const params = new URLSearchParams(search);
     const id = params.get('id');
-    axios.get(`/api/events`)
+    axios.get('/api/events')
       .then(res => {
         const events = res.data;
         events.sort(compareDates);
         this.setState({ events });
         if (id) this.eventSelected(id);
-      })
+      });
   }
 
   eventSelected = value => {
     if (!value || value === '') return;
     const { events } = this.state;
-    const { history, location } = this.props;
+    const { history, location: { search } } = this.props;
     const event = events.find(x => x._id === value);
     if (!event) return;
     this.setState({ selectedEvent: event });
-    const params = new URLSearchParams(location.search);
-    if (event._id !== params.get('id')) {
+
+    const params = new URLSearchParams(search);
+    const { _id: id } = event;
+    if (id !== params.get('id')) {
       history.replace({
-        search: `?id=${event._id}`
-      })
+        search: `?id=${id}`,
+      });
     }
   }
 
-  deleteEvent = e => {
+  deleteEvent = () => {
     const { history } = this.props;
     const { selectedEvent } = this.state;
     axios.delete(`/api/events/${selectedEvent._id}`)
@@ -51,12 +54,12 @@ class ViewSingle extends React.Component {
         message
           .success(`${selectedEvent.name} has been deleted (Status code ${res.status})`, 1)
           .then(() => message.info('Redirecting to event overview', 1))
-          .then(() => history.push('/events/'))
+          .then(() => history.push('/events/'));
       }).catch(err => {
         if (err.response) {
           message.error(`Error deleting event (Status code ${err.response.status})`);
         } else {
-          message.error(`Error deleting event, pre-response, `, err.message)
+          message.error('Error deleting event, pre-response, ', err.message);
         }
       });
   }
@@ -82,7 +85,7 @@ class ViewSingle extends React.Component {
             >
               {events.map((event, i) => {
                 const dateString = (event.date) ? `${moment(event.date.start).format('DD/MM/YY')} - ` : null;
-                return <Option value={event._id} key={`option-${i}`}>{dateString}{event.name}</Option>
+                return <Option value={event._id} key={`option-${i}`}>{dateString}{event.name}</Option>;
               })}
             </Select>
             {(events.length === 0) ? <p>No events in the database.</p> : null}
@@ -94,13 +97,15 @@ class ViewSingle extends React.Component {
           </Col>
         </Row>
       </div>
-    )
+    );
   }
 }
 
 const compareDates = (firstEvent, secondEvent) => {
-  const first = moment(firstEvent.date.start);
-  const second = moment(secondEvent.date.start);
+  const { date: { firstStart } } = firstEvent;
+  const { date: { secondStart } } = secondEvent;
+  const first = moment(firstStart);
+  const second = moment(secondStart);
   if (first < second) {
     return -1;
   }
@@ -108,6 +113,16 @@ const compareDates = (firstEvent, secondEvent) => {
     return 1;
   }
   return 0;
-}
+};
+
+ViewSingle.propTypes = {
+  location: PropTypes.shape({
+    search: PropTypes.string.isRequired,
+  }),
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+    replace: PropTypes.func.isRequired,
+  }),
+};
 
 export default withLayout(withRouter(ViewSingle));

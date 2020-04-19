@@ -1,14 +1,15 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Form, Row, Col, DatePicker, message } from 'antd';
 import moment from 'moment';
 
 moment.locale('en');
 const { RangePicker } = DatePicker;
 
-class Information extends React.Component {
+class Date extends React.Component {
   state = {
     start: this.props.values.start,
-    end: this.props.values.end
+    end: this.props.values.end,
   }
 
   render() {
@@ -28,15 +29,15 @@ class Information extends React.Component {
           </Row>
           <Row>
             <Col xs={11}>
-              <p>{(start) ? moment(start).format("dddd, MMMM Do YYYY, h:mm a") : 'The start date will appear here once you have selected it.'}</p>
+              <p>{(start) ? moment(start).format('dddd, MMMM Do YYYY, h:mm a') : 'The start date will appear here once you have selected it.'}</p>
             </Col>
             <Col xs={12} offset={1}>
-              <p>{(end) ? moment(end).format("dddd, MMMM Do YYYY, h:mm a") : 'The end date will appear here once you have selected it.'}</p>
+              <p>{(end) ? moment(end).format('dddd, MMMM Do YYYY, h:mm a') : 'The end date will appear here once you have selected it.'}</p>
             </Col>
           </Row>
         </Col>
       </Row>
-    </div>
+    </div>;
   }
   
   custom = () => {
@@ -51,7 +52,7 @@ class Information extends React.Component {
       {getFieldDecorator('range-time-picker', rangeConfig)(
         <RangePicker onChange={this.changeCustom} showTime={{ hideDisabledOptions: true, format: 'HH:mm', minuteStep: 5 }} format="DD-MM-YYYY HH:mm" />,
       )}
-    </Form.Item>
+    </Form.Item>;
   }
 
   friday = () => {
@@ -63,15 +64,14 @@ class Information extends React.Component {
     };
     return <Form.Item label="Date">
       {getFieldDecorator('date-picker', config)(
-        <DatePicker onChange={this.changeFriday} format={"DD-MM-YYYY"} />
+        <DatePicker onChange={this.changeFriday} format={'DD-MM-YYYY'} />
       )}
-    </Form.Item>
+    </Form.Item>;
   }
 
   changeCustom = arr => {
     if (!arr || !arr[0] || !arr[1]) return this.updateValues(null, null);
-    const start = arr[0];
-    const end = arr[1];
+    const [start, end] = arr;
     this.updateValues(start, end);
   }
 
@@ -80,7 +80,7 @@ class Information extends React.Component {
     start.set({
       hour: '19',
       minute: '30',
-      second: '00'
+      second: '00',
     });
     const end = moment(start.toISOString());
     end.add(1, 'days').seconds(0).minutes(0).hours(1);
@@ -93,13 +93,25 @@ class Information extends React.Component {
     const { handleChange, resetValue } = this.props;
     this.setState({
       start: (start) ? start.toISOString() : null,
-      end: (end) ? end.toISOString() : null
+      end: (end) ? end.toISOString() : null,
     });
     (start) ? handleChange(start.toISOString(), 'start') : resetValue('start');
     (end) ? handleChange(end.toISOString(), 'end') : resetValue('end');
   }
 }
 
+Date.propTypes = {
+  values: PropTypes.shape({
+    start: PropTypes.string,
+    end: PropTypes.string,
+    type: PropTypes.string.isRequired,
+  }),
+  form: PropTypes.shape({
+    setFields: PropTypes.func.isRequired,
+  }),
+  handleChange: PropTypes.func.isRequired,
+  resetValue: PropTypes.func.isRequired,
+  getFieldDecorator: PropTypes.func.isRequired,
+};
 
-
-export default Information;
+export default Date;

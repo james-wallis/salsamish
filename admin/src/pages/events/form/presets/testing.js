@@ -9,7 +9,7 @@ export default () => {
             lesson_level: 'BEGINNERS',
             start: moment().toISOString(),
             end: moment().toISOString(),
-            employee: null
+            employee: null,
         },
     ];
 };

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Form, Icon, Input, Button, Typography } from 'antd';
 import axios from 'axios';
 import './user.css';
@@ -17,7 +18,7 @@ class ResetPasswordForm extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        axios.post(`/api/user/reset-password`, values)
+        axios.post('/api/user/reset-password', values)
           .then(res => {
             if (res.status === 200) {
               const { email: emailAddress } = values;
@@ -30,7 +31,7 @@ class ResetPasswordForm extends React.Component {
             }
           }).catch((error) => {
             this.setState({ error, invalidEmail: false });
-          })
+          });
       }
     });
   };
@@ -40,7 +41,7 @@ class ResetPasswordForm extends React.Component {
     const { invalidEmail, emailSent, emailAddress, error } = this.state;
     return <div>
       {(emailSent) ? showEmailSent(emailAddress) : showResetForm(getFieldDecorator, invalidEmail, this.handleSubmit, error)}
-    </div>
+    </div>;
   }
 }
 
@@ -67,17 +68,24 @@ const showResetForm = (getFieldDecorator, invalidEmail, handleSubmit, error) => 
         Reset
       </Button>
     </Form.Item>
-    <p>{(invalidEmail) ? "Invalid email" : null}</p>
+    <p>{(invalidEmail) ? 'Invalid email' : null}</p>
     <p>{(error) ? `Error making request ${error}` : null}</p>
-  </Form>
-}
+  </Form>;
+};
 
 const showEmailSent = (emailAddress) => {
   return <div className='emailSent'>
     <Title level={1}>Salsa Mish admin</Title>
     <Title level={4}>Reset password</Title>
     <p>The email has been sent to: {emailAddress}</p>
-  </div>
+  </div>;
+};
+
+ResetPasswordForm.propTypes = {
+  form: PropTypes.shape({
+    getFieldDecorator: PropTypes.func.isRequired,
+    validateFields: PropTypes.func.isRequired,
+  }),
 };
 
 const wrappedResetPasswordForm = Form.create({ name: 'reset-password' })(ResetPasswordForm);

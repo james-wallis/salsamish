@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 function CurrentUser(props) {
@@ -19,5 +20,11 @@ function CurrentUser(props) {
         </div>
     );
 }
+
+CurrentUser.propTypes = {
+    user: PropTypes.shape({
+        name: PropTypes.string,
+    }),
+};
 
 export default CurrentUser;

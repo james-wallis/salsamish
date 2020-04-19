@@ -10,7 +10,7 @@ export default (d) => {
             lesson_level: 'BEGINNERS',
             start: formatTime(date, 8, 50),
             end: formatTime(date, 9, 45),
-            employee: null
+            employee: null,
         },
         {
             name: 'Salsa',
@@ -19,7 +19,7 @@ export default (d) => {
             lesson_level: 'INTERMEDIATES',
             start: formatTime(date, 8, 0),
             end: formatTime(date, 8, 50),
-            employee: null
+            employee: null,
         },
         {
             name: 'Kizomba',
@@ -28,7 +28,7 @@ export default (d) => {
             lesson_level: 'BEGINNERS',
             start: formatTime(date, 8, 0),
             end: formatTime(date, 8, 50),
-            employee: null
+            employee: null,
         },
         {
             name: 'Kizomba',
@@ -37,7 +37,7 @@ export default (d) => {
             lesson_level: 'INTERMEDIATES',
             start: formatTime(date, 8, 50),
             end: formatTime(date, 9, 45),
-            employee: null
+            employee: null,
         },
         {
             name: 'Bachata',
@@ -46,7 +46,7 @@ export default (d) => {
             lesson_level: 'BEGINNERS',
             start: formatTime(date, 7, 30),
             end: formatTime(date, 8, 0),
-            employee: null
+            employee: null,
         },
         {
             name: 'Bachata',
@@ -55,7 +55,7 @@ export default (d) => {
             lesson_level: 'INTERMEDIATES',
             start: formatTime(date, 9, 15),
             end: formatTime(date, 9, 45),
-            employee: null
+            employee: null,
         },
         {
             name: 'Salsa & Bachata',
@@ -64,7 +64,7 @@ export default (d) => {
             lesson_level: null,
             start: formatTime(date, 9, 45),
             end: formatTime(date, 1, 0, true),
-            employee: null
+            employee: null,
         },
         {
             name: 'Kizomba',
@@ -73,8 +73,8 @@ export default (d) => {
             lesson_level: null,
             start: formatTime(date, 9, 45),
             end: formatTime(date, 1, 0, true),
-            employee: null
-        }
+            employee: null,
+        },
     ];
 };
 

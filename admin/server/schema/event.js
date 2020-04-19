@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const { Schema } = mongoose;
 
 const validEventTypes = ['FRIDAY', 'CHARITY', 'CUSTOM'];
 const validAgendaItemTypes = ['LESSON', 'DJSET'];
@@ -9,16 +9,16 @@ const validLessonLevels = [null, 'BEGINNERS', 'INTERMEDIATES'];
 const agenda = {
     name: {
         type: String,
-        required: true
+        required: true,
     },
     description: {
-        type: String
+        type: String,
     },
     type: {
         type: String,
         uppercase: true,
         enum: validAgendaItemTypes,
-        required: true
+        required: true,
     },
     lesson_level: {
         type: String,
@@ -27,17 +27,17 @@ const agenda = {
     },
     start: {
         type: Date,
-        required: true
+        required: true,
     }, 
     end: {
         type: Date,
-        required: true
+        required: true,
     },
     employee: {
         type: Schema.Types.ObjectId,
         ref: 'Employee',
-        required: true
-    }
+        required: true,
+    },
 };
 
 const EventSchema = new Schema(
@@ -46,32 +46,32 @@ const EventSchema = new Schema(
         name: {
             type: String,
             required: true,
-            default: 'Salsa Mish'
+            default: 'Salsa Mish',
         },
         description: {
-            type: String
+            type: String,
         },
         date: {
             start: {
                 type: Date,
-                required: true
+                required: true,
             }, 
             end: {
                 type: Date,
-                required: true
-            }
+                required: true,
+            },
         },
         type: {
             type: String,
             uppercase: true,
             enum: validEventTypes,
             default: 'FRIDAY',
-            required: true
+            required: true,
         },
         facebook: {
             type: String,
         },
-        agenda: [agenda]
+        agenda: [agenda],
     }
 );
 

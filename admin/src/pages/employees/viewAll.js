@@ -5,15 +5,15 @@ import withLayout from '../../components/withLayout';
 
 class ViewAll extends React.Component {
   state = {
-    employees: []
+    employees: [],
   }
 
   componentDidMount() {
-    axios.get(`/api/employees`)
+    axios.get('/api/employees')
       .then(res => {
         const { data: employees } = res;
         this.setState({ employees });
-      })
+      });
   }
 
   render() {
@@ -23,7 +23,7 @@ class ViewAll extends React.Component {
         {employees.map((employee, index) => <EmployeeCard employee={employee} key={`employee-card-${index}`} />)}
         {(employees.length === 0) ? <p>No team members in the database.</p> : null}
       </ul>
-    )
+    );
   }
 }
 

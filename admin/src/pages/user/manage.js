@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Form, Icon, Input, Button, Typography } from 'antd';
 import axios from 'axios';
 import withLayout from '../../components/withLayout';
@@ -9,14 +10,14 @@ const { Title } = Typography;
 class ManageAccount extends React.Component {
   state = {
     credentialError: false,
-    changeSuccess: false
+    changeSuccess: false,
   }
 
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        axios.put(`/api/user/password`, values)
+        axios.put('/api/user/password', values)
           .then(res => {
             if (res.status === 200) {
               this.setState({ changeSuccess: true });
@@ -26,7 +27,7 @@ class ManageAccount extends React.Component {
             }
           }).catch((err) => {
             this.setState({ credentialError: err });
-          })
+          });
       }
     });
   };
@@ -66,9 +67,20 @@ class ManageAccount extends React.Component {
         }
         <p>{(credentialError) ? `Error changing password: ${credentialError}` : null}</p>
       </Form>
-    </div>
+    </div>;
   }
 }
+
+ManageAccount.propTypes = {
+  form: PropTypes.shape({
+    getFieldDecorator: PropTypes.func.isRequired,
+    validateFields: PropTypes.func.isRequired,
+  }),
+  user: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
+  }),
+};
 
 const wrappedLoginForm = Form.create({ name: 'manage' })(ManageAccount);
 export default withLayout(wrappedLoginForm);

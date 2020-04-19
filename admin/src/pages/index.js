@@ -8,22 +8,22 @@ const { Title } = Typography;
 
 class Index extends React.Component {
   state = {
-    event: null
+    event: null,
   }
 
-  deleteEvent = e => {
+  deleteEvent = () => {
     const { event } = this.state;
     axios.delete(`/api/events/${event._id}`)
       .then(res => {
         message
           .success(`${event.name} has been deleted (Status code ${res.status})`, 1)
           .then(() => message.info('Updating next event', 1))
-          .then(() => this.getNextEvent())
+          .then(() => this.getNextEvent());
       }).catch(err => {
         if (err.response) {
           message.error(`Error deleting event (Status code ${err.response.status})`);
         } else {
-          message.error(`Error deleting event, pre-response, `, err.message)
+          message.error('Error deleting event, pre-response, ', err.message);
         }
       });
   }
@@ -38,7 +38,7 @@ class Index extends React.Component {
       .then(res => {
         const event = res.data;
         this.setState({ event });
-      })
+      });
   }
 
   render() {
@@ -50,7 +50,7 @@ class Index extends React.Component {
         ? <ShowEvent event={event} deleteEvent={this.deleteEvent} />
         : <p>{errorText}</p>
       }
-    </div>
+    </div>;
   }
 }
 

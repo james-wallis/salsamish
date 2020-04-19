@@ -1,9 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Card, Col } from 'antd';
     
 function EmployeeCard(props) {
-    if (!props.employee) return null;
-    const { name, role, image } = props.employee;
+    const { employee: { name, role, image } } = props;
     return (
         <Col xs={24} sm={12} md={12} lg={8} xl={6} style={{ textAlign: 'center', marginTop: 20, marginBottom: 20 }}>
             <Card
@@ -16,5 +16,13 @@ function EmployeeCard(props) {
         </Col>
     );
 }
+
+EmployeeCard.propTypes = {
+    employee: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        role: PropTypes.string.isRequired,
+        image: PropTypes.string.isRequired,
+    }),
+};
 
 export default EmployeeCard;

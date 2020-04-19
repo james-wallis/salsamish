@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 import { Typography, Select, Row, Col, Button, Popconfirm, message, Icon } from 'antd';
@@ -10,15 +11,15 @@ const { Option } = Select;
 class ViewSingle extends React.Component {
   state = {
     employees: [],
-    selectedEmployee: null
+    selectedEmployee: null,
   }
 
   componentDidMount() {
-    axios.get(`/api/employees`)
+    axios.get('/api/employees')
       .then(res => {
         const employees = res.data;
         this.setState({ employees });
-      })
+      });
   }
 
   employeeSelected = value => {
@@ -28,7 +29,7 @@ class ViewSingle extends React.Component {
     this.setState({ selectedEmployee: emp });
   }
 
-  deleteEmployee = e => {
+  deleteEmployee = () => {
     const { history } = this.props;
     const { selectedEmployee } = this.state;
     axios.delete(`/api/employees/${selectedEmployee._id}`)
@@ -36,12 +37,12 @@ class ViewSingle extends React.Component {
         message
           .success(`${selectedEmployee.name} has been deleted (Status code ${res.status})`, 1)
           .then(() => message.info('Redirecting to team member overview', 1))
-          .then(() => history.push('/employees/'))
+          .then(() => history.push('/employees/'));
       }).catch(err => {
         if (err.response) {
           message.error(`Error deleting team member (Status code ${err.response.status})`);
         } else {
-          message.error(`Error deleting team member, pre-response, `, err.message)
+          message.error('Error deleting team member, pre-response, ', err.message);
         }
       });
   }
@@ -64,7 +65,7 @@ class ViewSingle extends React.Component {
               }
             >
               {employees.map((emp, i) => {
-                return <Option value={emp._id} key={`option-${i}`}>{emp.name}</Option>
+                return <Option value={emp._id} key={`option-${i}`}>{emp.name}</Option>;
               })}
             </Select>
             {(employees.length === 0) ? <p>No team members in the database.</p> : null}
@@ -76,7 +77,7 @@ class ViewSingle extends React.Component {
           </Col>
         </Row>
       </div>
-    )
+    );
   }
 }
 
@@ -118,8 +119,8 @@ const information = (employee, cb) => {
         </Popconfirm>
       </Col>
     </Row>
-  </div>
-} 
+  </div>;
+}; 
 
 const formatDescription = unformatted => {
   const desc = unformatted.split('\n');
@@ -127,7 +128,13 @@ const formatDescription = unformatted => {
     {desc.map((text, i) => {
       return (text !== '') ? <p key={`description-${i}`}>{text}</p> : <br key={`description-${i}`} />;
     })}
-  </div>
-}
+  </div>;
+};
+
+ViewSingle.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }),
+};
 
 export default withLayout(withRouter(ViewSingle));

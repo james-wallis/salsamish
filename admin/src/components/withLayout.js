@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Layout } from 'antd';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
@@ -9,8 +10,8 @@ import CurrentUser from './currentUser';
 
 const { Sider, Content } = Layout;
 
-export default function withAuth(ComponentToSurround) {
-    return class extends Component {
+function withAuth(ComponentToSurround) {
+    class WrapWithAuth extends Component {
         constructor(props) {
             super();
             const { authenticated } = props;
@@ -32,7 +33,7 @@ export default function withAuth(ComponentToSurround) {
                         const error = new Error(res.error);
                         throw error;
                     }
-                }).catch((e) => {
+                }).catch(() => {
                     this.setState({ loading: false, redirect: true });
                     setAuth({ authenticated: false });
                 });
@@ -62,5 +63,15 @@ export default function withAuth(ComponentToSurround) {
                 </React.Fragment>
             );
         }
+    }
+
+    WrapWithAuth.propTypes = {
+        authenticated: PropTypes.bool.isRequired,
+        setAuth: PropTypes.func.isRequired,
+        user: PropTypes.object,
     };
+
+    return WrapWithAuth;
 }
+
+export default withAuth;

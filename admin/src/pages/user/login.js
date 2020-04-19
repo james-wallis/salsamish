@@ -1,37 +1,39 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Form, Icon, Input, Button, Typography } from 'antd';
 import axios from 'axios';
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 import './user.css';
 
 const { Title } = Typography;
 
 class LoginForm extends React.Component {
   state = {
-    credentialError: false
+    credentialError: false,
   }
 
   handleSubmit = e => {
     e.preventDefault();
-    this.props.form.validateFields((err, values) => {
+    const { form: { validateFields }, history } = this.props;
+    validateFields((err, values) => {
       if (!err) {
-        axios.post(`/api/auth`, values)
+        axios.post('/api/auth', values)
           .then(res => {
             if (res.status === 200) {
-              this.props.history.push('/');
+              history.push('/');
             } else {
               const error = new Error(res.error);
               throw error;
             }
           }).catch(() => {
             this.setState({ credentialError: true });
-          })
+          });
       }
     });
   };
 
   render() {
-    const { getFieldDecorator } = this.props.form;
+    const { form: { getFieldDecorator } } = this.props;
     const { credentialError } = this.state;
     return <div>
       <Form id="login-form" onSubmit={this.handleSubmit} className="login-form">
@@ -65,14 +67,24 @@ class LoginForm extends React.Component {
             Log in
           </Button>
         </Form.Item>
-        <p>{(credentialError) ? "Incorrect login details, please try again." : null}</p>
+        <p>{(credentialError) ? 'Incorrect login details, please try again.' : null}</p>
       </Form>
       <div className='reset-password'>
         <Link to='/reset-password'>forgot password</Link>
       </div>
-    </div>
+    </div>;
   }
 }
+
+LoginForm.propTypes = {
+  form: PropTypes.shape({
+    getFieldDecorator: PropTypes.func.isRequired,
+    validateFields: PropTypes.func.isRequired,
+  }),
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }),
+};
 
 const wrappedLoginForm = Form.create({ name: 'login' })(LoginForm);
 export default (wrappedLoginForm);

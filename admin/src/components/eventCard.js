@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Card, Col } from 'antd';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
@@ -6,9 +7,9 @@ import { Link } from 'react-router-dom';
 const { Meta } = Card;
 
 function EventCard(props) {
-    if (!props.event) return null;
-    const { name, type, date, description, _id } = props.event;
-    const dateString = (date.start) ? moment(date.start).format('DD/MM/YYYY') : null;
+    const { event: { name, type, date, description, _id } } = props;
+    const { start } = date;
+    const dateString = (start) ? moment(start).format('DD/MM/YYYY') : null;
     return (
         <Col xs={24} sm={12} md={12} lg={8} xl={6} style={{ textAlign: 'center', marginTop: 20, marginBottom: 20 }}>
             <Link to={`/events/view?id=${_id}`}>
@@ -30,5 +31,17 @@ function EventCard(props) {
         </Col>
     );
 }
+
+EventCard.propTypes = {
+    event: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        type: PropTypes.string.isRequired,
+        date: PropTypes.shape({
+            start: PropTypes.string.isRequired,
+        }),
+        description: PropTypes.string,
+        _id: PropTypes.string.isRequired,
+    }),
+};
 
 export default EventCard;

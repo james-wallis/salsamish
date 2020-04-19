@@ -9,34 +9,35 @@ const withAuth = require('./middleware/authentication');
 
 const { PORT, NODE_ENV } = process.env;
 const main = async() => {
-  validateProcessEnvs();
-  await setupMongoose();
+    validateProcessEnvs();
+    await setupMongoose();
 
-  // Middleware
-  app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({ extended: true }));
-  app.use(cookieParser());
+    // Middleware
+    app.use(bodyParser.json());
+    app.use(bodyParser.urlencoded({ extended: true }));
+    app.use(cookieParser());
 
-  // Express Routes
-  app.use('/api/auth', require('./routes/auth'));
-  app.use('/api/user', require('./routes/user'));
-  app.use('/api/employees', withAuth, require('./routes/employees'))
-  app.use('/api/events', withAuth, require('./routes/events'))
+    // Express Routes
+    app.use('/api/auth', require('./routes/auth'));
+    app.use('/api/user', require('./routes/user'));
+    app.use('/api/employees', withAuth, require('./routes/employees'));
+    app.use('/api/events', withAuth, require('./routes/events'));
 
-  const port = PORT || 3001;
+    const port = PORT || 3001;
 
-  // In production there is the need to serve the React files.
-  if (NODE_ENV === 'production') {
+    // In production there is the need to serve the React files.
+    if (NODE_ENV === 'production') {
     // Serve any static files
-    app.use(express.static('/app/build'));
+        app.use(express.static('/app/build'));
 
-    // Handle React routing, return all requests to React app
-    app.get('*', function (req, res) {
-      res.sendFile(path.join('/app/build', 'index.html'));
-    });
-  }
+        // Handle React routing, return all requests to React app
+        app.get('*', function (req, res) {
+            res.sendFile(path.join('/app/build', 'index.html'));
+        });
+    }
 
-  app.listen(port, () => console.log(`Listening on port ${port}`));
-}
+    // eslint-disable-next-line no-console
+    app.listen(port, () => console.log(`Listening on port ${port}`));
+};
 
 main().catch(err => console.error('main', err));

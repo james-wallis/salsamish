@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Tabs, Button, Form, Row, Col, Input, Radio, TimePicker, Select } from 'antd';
 import moment from 'moment';
 import presets from './presets';
@@ -10,19 +11,21 @@ const { Option } = Select;
 class Agenda extends React.Component {
   constructor(props) {
     super(props);
+    const { values } = this.props;
     this.state = {
       activeKey: 0,
-      agenda: this.setAgenda(this.props.values),
+      agenda: this.setAgenda(values),
     };
   }
 
   setAgenda(values) {
-    if (values.agenda && values.agenda.length !== 0) return values.agenda;
-    switch (values.type) {
+    const { agenda, type, start } = values;
+    if (agenda && agenda.length !== 0) return agenda;
+    switch (type) {
       case 'FRIDAY':
-        return presets.friday(values.start)
+        return presets.friday(start);
       default:
-        return []
+        return [];
     }
   }
 
@@ -43,7 +46,7 @@ class Agenda extends React.Component {
       lesson_level: null,
       start: null,
       end: null,
-      employee: null
+      employee: null,
     });
     this.setState({ agenda, activeKey: (agenda.length-1) });
   };
@@ -77,8 +80,8 @@ class Agenda extends React.Component {
     // Remove lesson level if the type switches to DJSET
     if (name === 'type' && value === 'DJSET') agenda[index]['lesson_level'] = null;
     this.setState({
-      agenda
-    })
+      agenda,
+    });
     handleChange(agenda, 'agenda');
   }
 
@@ -115,7 +118,7 @@ class Agenda extends React.Component {
     if (item.type === 'LESSON' && (!item.lesson_level || item.lesson_level === '')) requiredFieldMissing = true;
     const asterisk = (requiredFieldMissing) ? <span style={{ color: '#f5222d' }}>*</span> : '';
     const name = (item.name.length > 12) ? (`${item.name.substring(0, 12)}...`) : item.name;
-    return <span>{asterisk}{name}</span>
+    return <span>{asterisk}{name}</span>;
   }
 
   item = (properties, index) => {
@@ -193,7 +196,7 @@ class Agenda extends React.Component {
                   }
                 >
                   {values.employees.map((emp, i) => {
-                    return <Option value={emp._id} key={`employee-select-${index}-option-${i}`}>{emp.name}</Option>
+                    return <Option value={emp._id} key={`employee-select-${index}-option-${i}`}>{emp.name}</Option>;
                   })}
                 </Select>
               )}
@@ -202,7 +205,7 @@ class Agenda extends React.Component {
         </Row>
       </Col>
 
-    </Row>
+    </Row>;
   }
 
   lessonDifficulty = (level, index) => {
@@ -221,8 +224,17 @@ class Agenda extends React.Component {
           )}
         </Form.Item>
       </Col>
-    </Row>
+    </Row>;
   }
 }
+
+Agenda.propTypes = {
+  values: PropTypes.object.isRequired,
+  form: PropTypes.shape({
+    setFields: PropTypes.func.isRequired,
+  }),
+  handleChange: PropTypes.func.isRequired,
+  getFieldDecorator: PropTypes.func.isRequired,
+};
 
 export default Agenda;

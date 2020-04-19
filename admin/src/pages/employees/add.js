@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 import { Typography, Form, Icon, Input, Button, Radio, Checkbox, Upload, message, Row, Col } from 'antd';
@@ -9,29 +10,29 @@ const { TextArea } = Input;
 
 const music = [
   { value: 'BACHATA', text: 'Bachata/Salsa' }, 
-  { value: 'KIZOMBA', text: 'Kizomba' }
+  { value: 'KIZOMBA', text: 'Kizomba' },
 ];
 const dance = [
   { value: 'BACHATA', text: 'Bachata' },
   { value: 'SALSA', text: 'Salsa' },
   { value: 'KIZOMBA', text: 'Kizomba' },
   { value: 'RUEDA', text: 'Rueda' },
-  { value: 'CHACHACHA', text: 'Chachacha' }
+  { value: 'CHACHACHA', text: 'Chachacha' },
 ];
-const roles = ['DJ', 'TEACHER']
+const roles = ['DJ', 'TEACHER'];
 
 class Add extends React.Component {
   state = {
     fileList: [],
     uploading: false,
     role: roles[0],
-    values: {}
+    values: {},
   };
 
   handleChange = info => {
     getBase64(info.file, imageUrl =>
       this.setState({
-        imageUrl
+        imageUrl,
       }),
     );
   };
@@ -41,8 +42,8 @@ class Add extends React.Component {
     this.setState({
       uploading: true,
     });
-    const { history } = this.props;
-    this.props.form.validateFields((err, values) => {
+    const { history, form } = this.props;
+    form.validateFields((err, values) => {
       if (!err) {
         const formData = new FormData();
         formData.append('name', values.name);
@@ -50,7 +51,7 @@ class Add extends React.Component {
         formData.append('image', values.upload.file);
         if (values.role === 'DJ') formData.append('music', values.music);
         if (values.role === 'TEACHER') formData.append('dance', values.dance);
-        formData.append('description', values.description)
+        formData.append('description', values.description);
         axios.post('/api/employees', formData, { // receive two parameter endpoint url ,form data 
         }).then(res => { // then print response status
           message.success(`${values.name} has been successfully added (Status code ${res.status}).`, 2)
@@ -78,7 +79,7 @@ class Add extends React.Component {
           } else {
             message.error(`Unknown error occurred: ${err.message}`);
           }
-        })
+        });
       }
     });
   };
@@ -95,7 +96,7 @@ class Add extends React.Component {
     return false;
   }
   render() {
-    const { getFieldDecorator } = this.props.form;
+    const { form: { getFieldDecorator } } = this.props;
     const { imageUrl, role } = this.state;
     const uploadButton = (
       <div>
@@ -113,7 +114,7 @@ class Add extends React.Component {
               {music.map((type, i) => {
                 return <Col key={`music-checkbox-${i}`} span={8}>
                   <Checkbox value={type.value}>{type.text}</Checkbox>
-                </Col>
+                </Col>;
               })}
             </Row>
           </Checkbox.Group>,
@@ -130,7 +131,7 @@ class Add extends React.Component {
               {dance.map((type, i) => {
                 return <Col key={`music-checkbox-${i}`} span={8}>
                   <Checkbox value={type.value}>{type.text}</Checkbox>
-                </Col>
+                </Col>;
               })}
             </Row>
           </Checkbox.Group>,
@@ -211,6 +212,16 @@ function getBase64(img, callback) {
   reader.addEventListener('load', () => callback(reader.result));
   reader.readAsDataURL(img);
 }
+
+Add.propTypes = {
+  form: PropTypes.shape({
+    getFieldDecorator: PropTypes.func.isRequired,
+    validateFields: PropTypes.func.isRequired,
+  }),
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }),
+};
 
 const WrappedNormalLoginForm = Form.create({ name: 'employee_add' })(Add);
 

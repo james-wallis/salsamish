@@ -11,7 +11,7 @@ const usePasswordHashToMakeToken = (user) => {
     const { _id: userID, name, password } = user;
     const secret = password + '-' + name;
     const token = jwt.sign({ userID }, secret, {
-        expiresIn: 3600 // 1 hour
+        expiresIn: 3600, // 1 hour
     });
     return token;
 };
@@ -34,7 +34,7 @@ const sendEmail = (emailTemplate) => {
         auth: {
             user,
             pass,
-        }
+        },
     });
     return transporter.sendMail(emailTemplate);
 };

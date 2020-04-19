@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Form, Icon, Input, Button, Typography } from 'antd';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
@@ -9,12 +10,13 @@ const { Title } = Typography;
 class setNewPasswordUsingToken extends React.Component {
   state = {
     credentialError: false,
-    changeSuccess: false
+    changeSuccess: false,
   }
 
   handleSubmit = e => {
     e.preventDefault();
-    this.props.form.validateFields((err, values) => {
+    const { form: { validateFields } } = this.props;
+    validateFields((err, values) => {
       if (!err) {
         const { match: { params: { userID, token } } } = this.props;
         axios.post(`/api/user/reset-password/${userID}/${token}`, values)
@@ -27,7 +29,7 @@ class setNewPasswordUsingToken extends React.Component {
             }
           }).catch((err) => {
             this.setState({ credentialError: err });
-          })
+          });
       }
     });
   };
@@ -70,9 +72,22 @@ class setNewPasswordUsingToken extends React.Component {
         }
         <p>{(credentialError) ? `Error changing password: ${credentialError}` : null}</p>
       </Form>
-    </div>
+    </div>;
   }
 }
+
+setNewPasswordUsingToken.propTypes = {
+  form: PropTypes.shape({
+    getFieldDecorator: PropTypes.func.isRequired,
+    validateFields: PropTypes.func.isRequired,
+  }),
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      userID: PropTypes.string.isRequired,
+      token: PropTypes.string.isRequired,
+    }),
+  }),
+};
 
 const wrappedLoginForm = Form.create({ name: 'reset-password-using-token' })(setNewPasswordUsingToken);
 export default wrappedLoginForm;
