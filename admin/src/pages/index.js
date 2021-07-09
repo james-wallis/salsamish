@@ -36,8 +36,10 @@ class Index extends React.Component {
     const now = new Date();
     axios.get(`/api/events/next/${now.toISOString()}`)
       .then(res => {
-        const event = res.data;
-        this.setState({ event });
+        if (!res.data.startsWith('<!doctype')) {
+          const event = res.data;
+          this.setState({ event });
+        }
       });
   }
 

@@ -23,6 +23,7 @@ services:
     depends_on:
       - salsamish-db
     image: salsamish-admin:latest
+    build: ./admin
     environment:
       DB_HOSTNAME: salsamish-db
       DB_USERNAME: salsa
@@ -30,6 +31,8 @@ services:
       AUTH_SECRET: development
     ports:
       - 5000:3001
+    env_file: 
+      - ./admin/.env
     networks:
        - backend
   salsamish-website:
@@ -37,6 +40,7 @@ services:
     depends_on:
       - salsamish-db
     image: salsamish-website:latest
+    build: ./website
     environment:
       DB_HOSTNAME: salsamish-db
       DB_USERNAME: salsa
