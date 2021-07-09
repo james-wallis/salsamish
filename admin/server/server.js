@@ -7,6 +7,8 @@ const { validateProcessEnvs } = require('./modules/utils');
 const { setupMongoose } = require('./modules/mongo');
 const withAuth = require('./middleware/authentication');
 
+const buildDir = path.join(__dirname, './build');
+
 const { PORT, NODE_ENV } = process.env;
 const main = async() => {
     validateProcessEnvs();
@@ -28,11 +30,12 @@ const main = async() => {
     // In production there is the need to serve the React files.
     if (NODE_ENV === 'production') {
     // Serve any static files
-        app.use(express.static('./build'));
+        app.use(express.static(buildDir));
 
         // Handle React routing, return all requests to React app
         app.get('*', function (req, res) {
-            res.sendFile(path.join('./build', 'index.html'));
+            const indexHTML = path.join(buildDir, 'index.html');
+            res.sendFile(indexHTML);
         });
     }
 
