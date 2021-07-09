@@ -31,7 +31,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "server": "nodemon --ignore 'src/' server/server.js",
-    "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn start\"",
+    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run start\"",
     "production": "NODE_ENV=production node server/server.js",
     "eslint": "./node_modules/.bin/eslint ."
   },

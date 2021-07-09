@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 
 const setupMongoose = async() => {
-    const { DB_HOSTNAME, DB_USERNAME, DB_PASSWORD } = process.env;
+    const { DB_USERNAME, DB_PASSWORD } = process.env;
 
     mongoose.connection.on('connected', () => {
         console.log('MongoDB Connection Established');
@@ -24,19 +24,21 @@ const setupMongoose = async() => {
         throw err;
     });
 
-    const dburl = (DB_HOSTNAME)
-        ? `mongodb://${DB_HOSTNAME}/salsamish`
-        : 'mongodb://localhost/salsamish';
-    console.log(`Using database url: ${dburl}`);
+    // const dburl = (DB_HOSTNAME)
+    //     ? `mongodb://${DB_HOSTNAME}/salsamish`
+    //     : 'mongodb://localhost/salsamish';
+    // console.log(`Using database url: ${dburl}`);
 
     const mongoOpts = {
         useNewUrlParser: true,
         useUnifiedTopology: true,
-        auth: {
-            user: DB_USERNAME,
-            password: DB_PASSWORD,
-        },
+        // auth: {
+        //     user: DB_USERNAME,
+        //     password: DB_PASSWORD,
+        // },
     };
+
+    const dburl = `mongodb+srv://${DB_USERNAME}:${DB_PASSWORD}@cluster0.gdroi.mongodb.net/salsamish?retryWrites=true&w=majority`;
 
     await mongoose.connect(dburl, mongoOpts);
 
