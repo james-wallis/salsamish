@@ -32,7 +32,7 @@
     "build": "react-scripts build",
     "server": "nodemon --ignore 'src/' server/server.js",
     "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run start\"",
-    "production": "NODE_ENV=production node server/server.js",
+    "production": "cp -r ./build ./server/build && NODE_ENV=production node server/server.js",
     "eslint": "./node_modules/.bin/eslint ."
   },
   "eslintConfig": {

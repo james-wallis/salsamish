@@ -28,11 +28,11 @@ const main = async() => {
     // In production there is the need to serve the React files.
     if (NODE_ENV === 'production') {
     // Serve any static files
-        app.use(express.static('/app/build'));
+        app.use(express.static('./build'));
 
         // Handle React routing, return all requests to React app
         app.get('*', function (req, res) {
-            res.sendFile(path.join('/app/build', 'index.html'));
+            res.sendFile(path.join('./build', 'index.html'));
         });
     }
 
