@@ -1,7 +1,13 @@
-import { Flex } from '@chakra-ui/react'
+import { Flex, Text } from '@chakra-ui/react'
+import SocialIcons from './SocialIcons'
 
-export const Footer = ({ children }: { children: JSX.Element }) => (
-  <Flex as="footer" py="8rem">
-    {children}
+const Footer = () => (
+  <Flex as="footer" paddingY="12" flexDir="column">
+    <Text>
+      This is a footer
+    </Text>
+    <SocialIcons />
   </Flex>
 )
+
+export default Footer;

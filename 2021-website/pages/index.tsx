@@ -1,54 +1,41 @@
 import {
   Link as ChakraLink,
+  Heading,
   Text,
-  Code,
-  List,
-  ListIcon,
-  ListItem,
+  Flex,
 } from '@chakra-ui/react'
-import { CheckCircleIcon, LinkIcon } from '@chakra-ui/icons'
 import { Hero } from '../components/Hero'
-import { Container } from '../components/Container'
-import { Main } from '../components/Main'
-import { DarkModeSwitch } from '../components/DarkModeSwitch'
-import { CTA } from '../components/CTA'
-import { Footer } from '../components/Footer'
+import { Layout } from '../components/Layout'
+import Section from '../components/Section'
+
+const content = [
+  'Every Friday night dance, meet people, get fit and above all have fun!',
+  'Listen to the music, feel the passion and dance like no-one is watching.',
+  'Fantastic atmosphere Salsa & Bachata room Kizomba room Soft drinks bar Tea room with complimentary tea coffee, biscuits and cake.',
+  'Classes from 7.30pm - 9.45pm',
+  'Freestyle 9.45pm - 1.00am',
+  'Greenwood Park, Tippendell Lane, AL2 3HW',
+]
 
 const Index = () => (
-  <Container height="100vh">
-    <Hero />
-    <Main>
-      <Text>
-        Example repository of <Code>Next.js</Code> + <Code>chakra-ui</Code>.
-      </Text>
+  <Layout>
+    <Hero title="Salsa Mish" />
+    <Section color="#212121">
+      <Heading fontSize="3xl" fontWeight="normal" marginBottom="6">Upcoming events</Heading>
 
-      <List spacing={3} my={0}>
-        <ListItem>
-          <ListIcon as={CheckCircleIcon} color="green.500" />
-          <ChakraLink
-            isExternal
-            href="https://chakra-ui.com"
-            flexGrow={1}
-            mr={2}
-          >
-            Chakra UI <LinkIcon />
-          </ChakraLink>
-        </ListItem>
-        <ListItem>
-          <ListIcon as={CheckCircleIcon} color="green.500" />
-          <ChakraLink isExternal href="https://nextjs.org" flexGrow={1} mr={2}>
-            Next.js <LinkIcon />
-          </ChakraLink>
-        </ListItem>
-      </List>
-    </Main>
+    </Section>
+    <Section>
+      <Flex flexDir="column">
+        {content.map(str => (
+          <Text key={str} marginY="2" fontSize="lg" w="96">
+            {str}
+          </Text>
+        ))}
+      </Flex>
+    </Section>
 
-    <DarkModeSwitch />
-    <Footer>
-      <Text>Next ❤️ Chakra</Text>
-    </Footer>
-    <CTA />
-  </Container>
+    
+  </Layout>
 )
 
 export default Index
