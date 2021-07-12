@@ -1,6 +1,7 @@
 import { Flex, IconButton } from '@chakra-ui/react'
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons'
-import { useState } from 'react'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 import NavigationItem from './NavigationItem';
 
 interface IProps {
@@ -43,6 +44,16 @@ const links = [
 
 const Navigation = ({ fixed = false }: IProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter()
+
+  useEffect(() => {
+    const close = () => isOpen && setIsOpen(false);
+    router.events.on('routeChangeComplete', close)
+    return () => {
+      router.events.off('routeChangeComplete', close)
+    }
+  }, [router.events, isOpen])
+
   return (
     <>
       <IconButton
