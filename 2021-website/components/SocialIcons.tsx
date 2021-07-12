@@ -1,6 +1,10 @@
 import { Flex, Link } from '@chakra-ui/react'
+import { motion } from 'framer-motion'
 import { FaFacebookSquare, FaTwitter } from 'react-icons/fa'
 import { GrInstagram } from 'react-icons/gr'
+
+const MotionFlex = motion(Flex)
+const MotionLink = motion(Link)
 
 const socials = [
   {
@@ -21,11 +25,41 @@ const socials = [
   }
 ]
 
+const containerVariants = {
+  initial: { opacity: 0 },
+  animate: {
+    opacity: 1,
+    transition: {
+      delayChildren: 30,
+      staggerChildren: 0.2,
+      duration: 0.5
+    }
+  }
+}
+
+const variants = {
+  initial: {
+    opacity: 0,
+    y: -50,
+  },
+  animate: {
+    opacity: 1,
+    y: 0,
+  }
+}
+
 const SocialIcons = () => (
-  <Flex marginTop={{ base: "1", md: "2" }} justifyContent="center" alignItems="center">
+  <MotionFlex
+    marginTop={{ base: "1", md: "2" }}
+    justifyContent="center"
+    alignItems="center"
+    variants={containerVariants}
+    initial="initial"
+    animate="animate"
+  >
     {
       socials.map(({ Icon, href, text }) => (
-        <Link
+        <MotionLink
           key={href}
           isExternal
           href={href}
@@ -35,12 +69,13 @@ const SocialIcons = () => (
           _hover={{
             textDecoration: 'none',
           }}
+          variants={variants}
         >
           {Icon ? <Icon /> : text}
-        </Link>
+        </MotionLink>
       ))
     }
-  </Flex>
+  </MotionFlex>
 )
 
 export default SocialIcons

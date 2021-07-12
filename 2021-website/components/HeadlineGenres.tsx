@@ -1,27 +1,70 @@
 import React from 'react';
-import { Flex, Text } from '@chakra-ui/react'
+import { Flex, Text, Box } from '@chakra-ui/react'
+import { motion } from 'framer-motion';
 
 const genres = ['Salsa', 'Bachata', 'Kizomba'];
 
+const MotionFlex = motion(Flex)
+const MotionText = motion(Text)
+
+const containerVariants = {
+  initial: { opacity: 0 },
+  animate: {
+    opacity: 1,
+    transition: {
+      delayChildren: 1,
+      staggerChildren: 0.4,
+      duration: 0.5
+    }
+  }
+}
+
+const itemVariants = {
+  initial: {
+    opacity: 0,
+    scale: 2,
+    y: -50,
+  },
+  animate: {
+    opacity: 1,
+    scale: 1,
+    y: 0,
+  }
+}
+
 const HeadlineGenres = () => (
-  <Flex flexDirection="row" color="green.200" fontSize={{ base: "xl", md: "2xl" }} textTransform="uppercase">
+  <MotionFlex
+    flexDirection="row"
+    color="green.200"
+    fontSize={{ base: "xl", md: "2xl" }}
+    textTransform="uppercase"
+    variants={containerVariants}
+    initial="initial"
+    animate="animate"
+  >
     {
       genres.map((music, i) => (
-        <React.Fragment key={music}>
-          <Text paddingX="1">
+        <MotionText key={music} variants={itemVariants}>
+          <Box
+            as="span"
+            paddingX="1"
+          >
             {music}
-          </Text>
+          </Box>
           {
             (i < genres.length - 1) && (
-              <Text paddingX={{ base: "0.5", md: "1" }}>
+              <Box
+                as="span"
+                paddingX={{ base: "0.5", md: "1" }}
+              >
                 &bull;
-              </Text>
+              </Box>
             )
           }
-        </React.Fragment>
+        </MotionText>
       ))
     }
-  </Flex>
+  </MotionFlex>
 )
 
 export default HeadlineGenres

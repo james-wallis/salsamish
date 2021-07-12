@@ -1,5 +1,6 @@
 import NextLink from 'next/link'
-import { Flex, Heading, Image, Text, Link } from '@chakra-ui/react'
+import { Flex, Heading, Image, Text, Link, Box } from '@chakra-ui/react'
+import { motion } from 'framer-motion'
 import HeadlineEmployees from './HeadlineEmployees'
 import HeadlineGenres from './HeadlineGenres'
 import SocialIcons from './SocialIcons'
@@ -24,6 +25,9 @@ const convertEventToHeadlineEmployees = ({ agenda }: IEventWithEmployees): IHead
   return headlineEmployees;
 }
 
+const MotionImage = motion(Image)
+const MotionFlex = motion(Flex)
+
 export const Hero = ({ event }: IProps) => {
   const headlineEmployees = convertEventToHeadlineEmployees(event);
   return (
@@ -34,50 +38,84 @@ export const Hero = ({ event }: IProps) => {
       maxW="maxSite"
       paddingX={{ base: "4", md: "8", xl: "0" }}
       marginBottom={{ base: "16", md: "24" }}>
-      <Image
+      <MotionImage
         src="/salsamish.png"
         alt="Salsamish Logo"
         height={{ base: "16", md: "20" }}
         marginTop={{ base: 20, md: 10, lg: 12 }}
+        initial={{
+          opacity: 0,
+          y: -100,
+        }}
+        animate={{
+          opacity: 1,
+          y: 0,
+        }}
+        transition={{
+          delay: 0.5,
+          type: 'spring',
+          bounce: 0.4
+        }}
       />
       <HeadlineGenres />
-      <Text
-        textTransform="uppercase"
-        fontSize={{ base: "lg", md: "xl" }}
-        paddingTop={{ base: "1", md: "2" }}
+      <MotionFlex
+        justifyContent="center"
+        alignItems="center"
+        flexDir="column"
+        w="100%"
+        initial={{
+          opacity: 0,
+          y: -40,
+        }}
+        animate={{
+          opacity: 1,
+          y: 0,
+        }}
+        transition={{
+          delay: 2.5,
+          type: 'easeIn',
+          bounce: 0.5,
+          duration: 0.6
+        }}
       >
-        Greenwood Park, AL2 3HW
-      </Text>
-      <SocialIcons />
-      <Heading
-        paddingTop={{ base: '14', md: '20' }}
-        fontSize={{ base: "lg", md: "xl", lg: "2xl"}}
-        textTransform="uppercase"
-        fontWeight="normal"
-      >
-        Next event: Friday 23rd July 2021
-      </Heading>
-      <Text
-        fontSize={{ base: "xs", md: "sm" }}
-        color="gray.300"
-      >
-        Details may be subject to change
-      </Text>
-      <HeadlineEmployees employees={headlineEmployees} />
-      <NextLink href="/">
-        <Link
-          marginTop={{ base: '10', md: '16' }}
-          // fontWeight="semibold"
-          fontSize={{ base: 'lg', md: 'xl' }}
-          color="green.200"
-          textAlign="center"
+        <Text
+          textTransform="uppercase"
+          fontSize={{ base: "lg", md: "xl" }}
+          paddingTop={{ base: "1", md: "2" }}
         >
-          Please read the{` `}
-          <span style={{ textDecoration: '' }}>parking guidelines</span>
-          {` `}before you arrive.
-          <span style={{ display: 'block', fontWeight: 500, paddingTop: '0.5rem' }}>Visit parking page</span>
-        </Link>
-      </NextLink>
+          Greenwood Park, AL2 3HW
+        </Text>
+        <SocialIcons />
+        <Heading
+          paddingTop={{ base: '14', md: '20' }}
+          fontSize={{ base: "lg", md: "xl", lg: "2xl"}}
+          textTransform="uppercase"
+          fontWeight="normal"
+        >
+          Next event: Friday 23rd July 2021
+        </Heading>
+        <Text
+          fontSize={{ base: "xs", md: "sm" }}
+          color="gray.300"
+        >
+          Details may be subject to change
+        </Text>
+        <HeadlineEmployees employees={headlineEmployees} />
+        <NextLink href="/">
+          <Link
+            marginTop={{ base: '10', md: '16' }}
+            // fontWeight="semibold"
+            fontSize={{ base: 'lg', md: 'xl' }}
+            color="green.200"
+            textAlign="center"
+          >
+            Please read the{` `}
+            <span style={{ textDecoration: '' }}>parking guidelines</span>
+            {` `}before you arrive.
+            <span style={{ display: 'block', fontWeight: 500, paddingTop: '0.5rem' }}>Visit parking page</span>
+          </Link>
+        </NextLink>
+      </MotionFlex>
     </Flex>
   )
 }
