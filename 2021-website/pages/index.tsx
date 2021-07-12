@@ -32,34 +32,47 @@ const Index = ({ event }: { event: IEventWithEmployees }) => (
       {console.log(event)}
       <Flex flexDir="column">
         {content.map(str => (
-          <Text key={str} marginY="2" fontSize="lg" w="96">
+          <Text key={str} marginY="2" w="96">
             {str}
           </Text>
         ))}
       </Flex>
-      <Image src="/minibus.jpeg" alt="Parking map" h="lg" />
+      {/* <Image src="/minibus.jpeg" alt="Parking map" h="lg" /> */}
     </Section>
   </Layout>
 )
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const res = await fetch('http://localhost:3000/api/events')
-  const [event]: IEvent[] = await res.json()
+  // const res = await fetch('http://localhost:3000/api/events')
+  // const [event]: IEvent[] = await res.json()
 
-  const agendaWithEmployees = await Promise.all(event.agenda.map(async item => {
-    const res = await fetch(`http://localhost:3000/api/employees/${item.employee}`)
-    const employee = await res.json()
-    const itemWithEmployee: IAgendaWithEmployees = {
-      ...item,
-      employee
-    }
-    return itemWithEmployee
-  }))
+  // const agendaWithEmployees = await Promise.all(event.agenda.map(async item => {
+  //   const res = await fetch(`http://localhost:3000/api/employees/${item.employee}`)
+  //   const employee = await res.json()
+  //   const itemWithEmployee: IAgendaWithEmployees = {
+  //     ...item,
+  //     employee
+  //   }
+  //   return itemWithEmployee
+  // }))
+
+  // const eventWithEmployees: IEventWithEmployees = {
+  //   ...event,
+  //   agenda: agendaWithEmployees,
+  // }  
 
   const eventWithEmployees: IEventWithEmployees = {
-    ...event,
-    agenda: agendaWithEmployees,
-  }  
+    _id: 's',
+    agenda: [],
+    name: 's',
+    type: 's',
+    date: {
+      start: '',
+      end: '',
+    },
+    description: 'd',
+    facebook: 'f',
+  }
   
   return {
     props: {

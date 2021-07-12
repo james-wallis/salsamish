@@ -22,7 +22,7 @@ const socials = [
 ]
 
 const SocialIcons = () => (
-  <Flex marginTop="2" justifyContent="center" alignItems="center">
+  <Flex marginTop={{ base: "1", md: "2" }} justifyContent="center" alignItems="center">
     {
       socials.map(({ Icon, href, text }) => (
         <Link
@@ -31,7 +31,7 @@ const SocialIcons = () => (
           href={href}
           px={2}
           pl={Icon ? 2 : 1}
-          fontSize="3xl"
+          fontSize={{ base: "2xl", md: "3xl" }}
           _hover={{
             color: 'green.200'
           }}

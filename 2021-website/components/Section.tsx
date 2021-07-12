@@ -7,8 +7,22 @@ interface IProps {
 }
 
 const Section = ({ children, color = 'black' }: IProps) => (
-  <Flex paddingY="24" backgroundColor={color} width="100vw" alignItems="center" justifyContent="center">
-    <Flex w="maxSite" justifyContent="space-between" alignItems="center" paddingX={{ base: "4", md: "8", xl: "0" }}>
+  <Flex
+    paddingY={{ base: '14', md: '24' }}
+    backgroundColor={color}
+    width="100vw"
+    alignItems="center"
+    justifyContent="center" 
+    overflowX="hidden"
+  >
+    <Flex
+      maxW="maxSite"
+      justifyContent="space-between"
+      alignItems="center"
+      flexDir={{ base: 'column', md: 'row' }}
+      paddingX={{ base: "4", md: "8", xl: "0" }}
+      fontSize={{ base: 'md', md: 'lg' }}
+    >
       {children}
     </Flex>
   </Flex>

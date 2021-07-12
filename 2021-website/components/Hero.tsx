@@ -27,16 +27,48 @@ const convertEventToHeadlineEmployees = ({ agenda }: IEventWithEmployees): IHead
 export const Hero = ({ event }: IProps) => {
   const headlineEmployees = convertEventToHeadlineEmployees(event);
   return (
-    <Flex alignItems="center" flexDirection="column" w="100vw" maxW="maxSite" paddingX={{ base: "4", md: "8", xl: "0" }} minH="80vh" marginBottom="24">
-      <Image src="/salsamish.png" alt="Salsamish Logo" height="20" />
+    <Flex
+      alignItems="center"
+      flexDirection="column"
+      w="100vw"
+      maxW="maxSite"
+      paddingX={{ base: "4", md: "8", xl: "0" }}
+      marginBottom={{ base: "16", md: "24" }}>
+      <Image
+        src="/salsamish.png"
+        alt="Salsamish Logo"
+        height={{ base: "16", md: "20" }}
+        marginTop={{ base: "20", md: "12" }}
+      />
       <HeadlineGenres />
-      <Text textTransform="uppercase" fontSize="xl" paddingTop="2">Greenwood Park, AL2 3HW</Text>
+      <Text
+        textTransform="uppercase"
+        fontSize={{ base: "lg", md: "xl" }}
+        paddingTop={{ base: "1", md: "2" }}
+      >
+        Greenwood Park, AL2 3HW
+      </Text>
       <SocialIcons />
-      <Heading paddingTop="20" fontSize="2xl" textTransform="uppercase" fontWeight="normal">Next event: Friday 23rd July 2021</Heading>
+      <Heading
+        paddingTop={{ base: '14', md: '20' }}
+        fontSize={{ base: "lg", md: "xl", lg: "2xl"}}
+        textTransform="uppercase"
+        fontWeight="normal"
+      >
+        Next event: Friday 23rd July 2021
+      </Heading>
       {/* <Image src="/salsabackdrop.png" alt="Disco lights" width="100vw" paddingY="4" paddingTop="6" height="80" objectFit="cover" /> */}
       <HeadlineEmployees employees={headlineEmployees} />
       <NextLink href="/">
-        <Link marginTop="16" fontWeight="semibold" fontSize="xl" color="green.200">Please read the parking guidelines before you arrive.</Link>
+        <Link
+          marginTop={{ base: '10', md: '16' }}
+          fontWeight="semibold"
+          fontSize={{ base: 'lg', md: 'xl' }}
+          color="green.200"
+          textAlign="center"
+        >
+          Please read the parking guidelines before you arrive.
+        </Link>
       </NextLink>
     </Flex>
   )
