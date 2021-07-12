@@ -24,7 +24,6 @@ const Footer = () => (
           marginY={{ base: '1', md: '2' }}
           _hover={{
             textDecoration: 'none',
-            color: 'green.200',
           }}
         >
           {name}
@@ -38,7 +37,6 @@ const Footer = () => (
       color="gray.300"
       _hover={{
         textDecoration: 'none',
-        color: 'green.200',
       }}
     >
       Created by James

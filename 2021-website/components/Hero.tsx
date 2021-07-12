@@ -38,7 +38,7 @@ export const Hero = ({ event }: IProps) => {
         src="/salsamish.png"
         alt="Salsamish Logo"
         height={{ base: "16", md: "20" }}
-        marginTop={{ base: "20", md: "12" }}
+        marginTop={{ base: 20, md: 10, lg: 12 }}
       />
       <HeadlineGenres />
       <Text

@@ -8,11 +8,18 @@ const theme = extendTheme({
       body: {
         bg: "black",
       },
+      a: {
+        _hover: {
+          textDecoration: "none",
+          color: "pink"
+        },
+      },
     },
   },
   colors: {
     black: '#16161D',
     grey: '#212121',
+    pink: '#c03480',
   },
   sizes: {
     maxSite: '1280px',

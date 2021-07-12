@@ -13,8 +13,8 @@ const NavigationItem = ({ name, href, type, mobileOnly }: IProps) => (
     <Link 
       paddingX={{ base: "1", lg: "2" }}
       paddingY="1"
-      marginY={{ base: "2", lg: "3" }}
-      marginX={{ base: "2", lg: "4" }}
+      marginY={{ base: "2", md: "0" }}
+      marginX={{ base: "2", md: "4" }}
       fontWeight={type === 'call' ? "medium" : "normal"} 
       color={type === 'call' ? "green.200" : "white"}
       display={{
@@ -24,7 +24,6 @@ const NavigationItem = ({ name, href, type, mobileOnly }: IProps) => (
       textAlign="center"
       _hover={{
         textDecoration: 'none',
-        color: 'green.200',
       }}
     >
       {name}

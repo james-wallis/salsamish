@@ -7,7 +7,6 @@ import {
   Image,
 } from '@chakra-ui/react'
 import { Hero } from '../components/Hero'
-import { Layout } from '../components/Layout'
 import Section from '../components/Section'
 import { IEvent, IEventWithEmployees } from '../interfaces/IEvent'
 import { IAgendaWithEmployees } from '../interfaces/IAgenda'
@@ -24,7 +23,7 @@ const content = [
 ]
 
 const Index = ({ event }: { event: IEventWithEmployees }) => (
-  <Layout>
+  <>
     <Hero event={event} />
     {/* <Section color="grey">
       <Heading fontSize="3xl" fontWeight="normal" marginBottom="6">Upcoming events</Heading>
@@ -41,7 +40,7 @@ const Index = ({ event }: { event: IEventWithEmployees }) => (
       </Flex>
       {/* <Image src="/minibus.jpeg" alt="Parking map" h="lg" /> */}
     </Section>
-  </Layout>
+  </>
 )
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -68,7 +67,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
     props: {
       event: eventWithEmployees,
-      
+
     },
   }
 }

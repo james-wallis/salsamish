@@ -3,30 +3,30 @@ import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons'
 import { useState } from 'react'
 import NavigationItem from './NavigationItem';
 
+interface IProps {
+  fixed?: boolean
+}
+
 const links = [
   {
     name: 'Home',
     href: '/',
   },
   {
+    name: 'Parking',
+    href: '/parking',
+  },
+  {
     name: 'FAQs',
     href: '/faq',
   },
   {
-    name: 'Parking',
-    href: '/',
-  },
-  {
     name: 'Venue Tour',
-    href: '/',
+    href: '/venue-tour',
   },
   {
     name: 'About',
-    href: '/',
-  },
-  {
-    name: 'Contact',
-    href: '/',
+    href: '/about',
   },
   {
     name: 'Call +44(0)7832 359209',
@@ -41,9 +41,7 @@ const links = [
   },
 ];
 
-
-
-const Navigation = () => {
+const Navigation = ({ fixed = false }: IProps) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <>
@@ -64,18 +62,20 @@ const Navigation = () => {
         display={{ md: 'none' }}
         zIndex="2000"
       />
-      <Flex 
+      <Flex
+        id="navigation"
         textTransform="uppercase"
         listStyleType="none"
         fontSize={{ base: "lg", md: "md", lg: "lg", xl: "xl" }}
         width="100vw"
+        alignItems="center"
         justifyContent="center"
         background="black"
         zIndex="1000"
-        position={{ base: "fixed", md: "relative" }}
-        height={{ base: "100vh", md: "auto" }}
+        position={{ base: "fixed", md: fixed ? "fixed" : "relative" }}
+        height={{ base: "100vh", md: 14, lg: 16, xl: 20 }}
+        top={{ md: fixed ? 0 : 'auto' }}
         flexDir={{ base: "column", md: "row" }}
-        marginTop={{ md: "2" }}
         display={{ base: isOpen ? 'flex' : 'none', md: "flex"}}
         paddingBottom={{ base: "10vh", md: "0" }}
       >

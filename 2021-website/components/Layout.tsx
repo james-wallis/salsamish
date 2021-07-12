@@ -4,7 +4,12 @@ import { ReactNode } from 'react'
 import Navigation from './Navigation'
 import Footer from './Footer'
 
-export const Layout = ({ children }: { children: ReactNode }) => {
+interface IProps { 
+  children: ReactNode
+  minified?: boolean
+}
+
+const Layout = ({ children, minified = false }: IProps) => {
   return (
     <Flex
       direction="column"
@@ -13,10 +18,13 @@ export const Layout = ({ children }: { children: ReactNode }) => {
       width="100vw"
       bg="black"
       color="white"
+      marginTop={{ md: 14, lg: 16, xl: 20 }}
     >
-      <Navigation />
+      <Navigation fixed />
       {children}
-      <Footer />
+      {!minified && <Footer />}
     </Flex>
   )
 }
+
+export default Layout

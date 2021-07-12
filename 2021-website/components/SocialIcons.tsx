@@ -33,7 +33,7 @@ const SocialIcons = () => (
           pl={Icon ? 2 : 1}
           fontSize={{ base: "2xl", md: "3xl" }}
           _hover={{
-            color: 'green.200'
+            textDecoration: 'none',
           }}
         >
           {Icon ? <Icon /> : text}
