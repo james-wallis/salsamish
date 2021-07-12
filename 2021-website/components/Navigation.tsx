@@ -103,7 +103,7 @@ const Navigation = ({ fixed = false }: IProps) => {
 
         // Framer motion props
         variants={variants}
-        initial={initialFramerState}
+        initial={initialFramerState || 'closed'}
         animate={isOpen || initialFramerState === 'open' ? 'open' : 'closed'}
         transition={{ type: "easeIn" }}
       >
