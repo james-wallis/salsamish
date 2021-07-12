@@ -1,8 +1,9 @@
-import { Flex, IconButton } from '@chakra-ui/react'
+import { Flex, IconButton, useBreakpointValue } from '@chakra-ui/react'
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import NavigationItem from './NavigationItem';
+import { motion } from 'framer-motion';
 
 interface IProps {
   fixed?: boolean
@@ -42,6 +43,14 @@ const links = [
   },
 ];
 
+const MotionFlex = motion(Flex)
+
+const variants = {
+  open: { opacity: 1, x: 0 },
+  closed: { opacity: 0.8, x: '100%' },
+};
+
+
 const Navigation = ({ fixed = false }: IProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter()
@@ -53,6 +62,8 @@ const Navigation = ({ fixed = false }: IProps) => {
       router.events.off('routeChangeComplete', close)
     }
   }, [router.events, isOpen])
+
+  const initialFramerState = useBreakpointValue({ base: 'closed', md: 'open' })
 
   return (
     <>
@@ -73,7 +84,7 @@ const Navigation = ({ fixed = false }: IProps) => {
         display={{ md: 'none' }}
         zIndex="2000"
       />
-      <Flex
+      <MotionFlex
         id="navigation"
         textTransform="uppercase"
         listStyleType="none"
@@ -87,13 +98,19 @@ const Navigation = ({ fixed = false }: IProps) => {
         height={{ base: "100vh", md: 14, lg: 16, xl: 20 }}
         top={{ md: fixed ? 0 : 'auto' }}
         flexDir={{ base: "column", md: "row" }}
-        display={{ base: isOpen ? 'flex' : 'none', md: "flex"}}
+        // display={{ base: isOpen ? 'flex' : 'none', md: "flex"}}
         paddingBottom={{ base: "10vh", md: "0" }}
+
+        // Framer motion props
+        variants={variants}
+        initial={initialFramerState}
+        animate={isOpen || initialFramerState === 'open' ? 'open' : 'closed'}
+        transition={{ type: "easeIn" }}
       >
         {links.map(({ name, href, type, mobileOnly }, i) => (
           <NavigationItem key={`navitem-${name}`} name={name} href={href} type={type} mobileOnly={mobileOnly} />
         ))}
-      </Flex>
+      </MotionFlex>
     </>
   )
 }

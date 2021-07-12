@@ -16,7 +16,7 @@ const Tour = () => {
     }
   }
 
-  const [iframeHeight, setIframeHeight] = useState('calc(100vh - 60px)');
+  const [iframeHeight, setIframeHeight] = useState('100vh');
   useEffect(() => {
     window.addEventListener('resize', windowSizeChanged);
     windowSizeChanged();
