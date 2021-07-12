@@ -10,8 +10,9 @@ const Tour = () => {
     if (typeof window !== 'undefined') {
       const nav = document.getElementById('navigation');
       const navHeight = nav ? nav.offsetHeight : 0;
-      
-      setIframeHeight(`${window.innerHeight - navHeight}px`);
+      if (navHeight !== 0 && navHeight !== window.innerHeight) {
+        setIframeHeight(`${window.innerHeight - navHeight}px`);
+      }
     }
   }
 
