@@ -10,6 +10,10 @@ import {
 import NextLink from 'next/link'
 import PageHeading from '../components/PageHeading'
 import Section from '../components/Section'
+import { NextSeo } from 'next-seo'
+
+const title = 'FAQs'
+const description = 'Answers to frequently asked questions'
 
 const faqs = [
   {
@@ -105,6 +109,7 @@ const faqs = [
 
 const FAQPage = () => (
   <Section>
+    <NextSeo title={title} description={description} openGraph={{ title, description }} />
     <Flex
       justifyContent="flex-start"
       alignItems="flex-start"

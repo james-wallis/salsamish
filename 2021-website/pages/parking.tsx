@@ -10,10 +10,14 @@ import {
 import PageHeading from '../components/PageHeading'
 import Section from '../components/Section'
 import { IoMdHeart } from 'react-icons/io'
+import { NextSeo } from 'next-seo'
 
+const title = 'Parking'
+const description = 'The main car park at Greenwood Park is usually full by around 9.00pm. Use the overspill car park where possible.'
 
 const ParkingPage = () => (
   <Section>
+    <NextSeo title={title} description={description} openGraph={{ title, description }} />
     <Flex
       justifyContent="flex-start"
       alignItems="flex-start"

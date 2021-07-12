@@ -1,15 +1,12 @@
 import { GetServerSideProps } from 'next'
+import { NextSeo } from 'next-seo'
 import {
-  Link as ChakraLink,
-  Heading,
   Text,
   Flex,
-  Image,
 } from '@chakra-ui/react'
 import { Hero } from '../components/Hero'
 import Section from '../components/Section'
-import { IEvent, IEventWithEmployees } from '../interfaces/IEvent'
-import { IAgendaWithEmployees } from '../interfaces/IAgenda'
+import { IEventWithEmployees } from '../interfaces/IEvent'
 
 import dummyEvent from '../dummyEvent';
 
@@ -22,8 +19,11 @@ const content = [
   'Greenwood Park, Tippendell Lane, AL2 3HW',
 ]
 
+const title = 'Home'
+
 const Index = ({ event }: { event: IEventWithEmployees }) => (
   <>
+    <NextSeo title={title} openGraph={{ title }} />
     <Hero event={event} />
     {/* <Section color="grey">
       <Heading fontSize="3xl" fontWeight="normal" marginBottom="6">Upcoming events</Heading>

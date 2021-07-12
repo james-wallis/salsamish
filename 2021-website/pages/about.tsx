@@ -6,6 +6,10 @@ import {
 } from '@chakra-ui/react'
 import PageHeading from '../components/PageHeading'
 import Section from '../components/Section'
+import { NextSeo } from 'next-seo'
+
+const title = 'About'
+const description = 'Learn more about Salsa Mish and his life journey'
 
 const questions = [
   {
@@ -88,6 +92,7 @@ const questions = [
 
 const AboutPage = () => (
   <Section>
+    <NextSeo title={title} description={description} openGraph={{ title, description }} />
     <Flex
       justifyContent="flex-start"
       alignItems="flex-start"

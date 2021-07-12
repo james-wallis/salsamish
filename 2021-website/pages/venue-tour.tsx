@@ -2,9 +2,13 @@ import Head from 'next/head';
 import React, { useEffect, useState } from 'react';
 import { Box } from '@chakra-ui/react'
 import { getTourURLs } from '../lib/tour-utils';
+import { NextSeo } from 'next-seo'
+
+const title = 'Venue Tour'
+const description = 'Experience Salsa Mish as if you were there!'
 
 const Tour = () => {
-  const { indexHtml: url, favicon, manifest, browserConfig, miscDir } = getTourURLs();
+  const { indexHtml: url, favicon, manifest, socialThumbnail, browserConfig, miscDir } = getTourURLs();
 
   const windowSizeChanged = () => {
     if (typeof window !== 'undefined') {
@@ -38,7 +42,7 @@ const Tour = () => {
         <meta name="msapplication-TileColor" content="#333333" />
         <meta name="msapplication-config" content={browserConfig} />
       </Head>
-      {/* <NextSeo
+      <NextSeo
         title={title}
         description={description}
         openGraph={{
@@ -56,7 +60,7 @@ const Tour = () => {
             },
           ],
         }}
-      /> */}
+      />
       {/* https://beta.3dvista.com/en/wiki/how-to-customize-the-url-of-your-tours-to-your-own-domain/ */}
       <Box h={iframeHeight} w="100vw">
         <iframe
