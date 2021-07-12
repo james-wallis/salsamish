@@ -17,25 +17,26 @@ const HeadlineEmployees = ({ employees }: IProps) => (
       height={{ base: "28", sm: "44", md: "56", lg: "72", xl: "80" }}
       overflow="hidden"
       alignItems="flex-end"
+      paddingTop={{ base: "1", md: "2", lg: "4" }}
     >
       {employees.map(({ image, name, type }, i) => (
-        <Box key={`${name}-${image}-${type}`}>
+        <Flex key={`${name}-${image}-${type}`} width={`${100 / employees.length}%`} h="100%" justifyContent="center">
           <Image
             src={image}
             alt={name}
-            transform="scale(1.3) "
             position="relative"
             zIndex={i % 3}
-            // bottom="-5"
+            height="100%"
+            maxW="100vw"
           />
-        </Box>
+        </Flex>
       ))}
     </Flex>
-    <Flex width="100%" justifyContent="space-around" paddingTop="0">
+    <Flex width="100%" paddingTop="0">
       {employees.map(({ name, type }) => (
-        <Center key={`${name}-${type}`} color="white" flexDirection="column" textAlign="center" px="1">
-          <Text fontSize={{ base: "md", sm: "lg", md: "xl", lg: "2xl", xl: "3xl" }}>{name}</Text>
-          <Text fontSize={{ base: "sm", sm: "md", md: "lg", lg: "xl", xl: "2xl" }} textTransform="uppercase" fontWeight="light">{type}</Text>
+        <Center key={`${name}-${type}`} color="white" flexDirection="column" textAlign="center" px="1" width={`${100 / employees.length}%`}>
+          <Text fontSize={{ base: "sm", sm: "sm", md: "lg", lg: "2xl" }}>{name}</Text>
+          <Text fontSize={{ base: "xs", sm: "xs", md: "md", lg: "xl" }} textTransform="uppercase" fontWeight="light">{type}</Text>
         </Center>
       ))}
     </Flex>

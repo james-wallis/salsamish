@@ -57,17 +57,25 @@ export const Hero = ({ event }: IProps) => {
       >
         Next event: Friday 23rd July 2021
       </Heading>
-      {/* <Image src="/salsabackdrop.png" alt="Disco lights" width="100vw" paddingY="4" paddingTop="6" height="80" objectFit="cover" /> */}
+      <Text
+        fontSize={{ base: "xs", md: "sm" }}
+        color="gray.300"
+      >
+        Details may be subject to change
+      </Text>
       <HeadlineEmployees employees={headlineEmployees} />
       <NextLink href="/">
         <Link
           marginTop={{ base: '10', md: '16' }}
-          fontWeight="semibold"
+          // fontWeight="semibold"
           fontSize={{ base: 'lg', md: 'xl' }}
           color="green.200"
           textAlign="center"
         >
-          Please read the parking guidelines before you arrive.
+          Please read the{` `}
+          <span style={{ textDecoration: '' }}>parking guidelines</span>
+          {` `}before you arrive.
+          <span style={{ display: 'block', fontWeight: 500, paddingTop: '0.5rem' }}>Visit parking page</span>
         </Link>
       </NextLink>
     </Flex>

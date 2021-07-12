@@ -12,6 +12,8 @@ import Section from '../components/Section'
 import { IEvent, IEventWithEmployees } from '../interfaces/IEvent'
 import { IAgendaWithEmployees } from '../interfaces/IAgenda'
 
+import dummyEvent from '../dummyEvent';
+
 const content = [
   'Every Friday night dance, meet people, get fit and above all have fun!',
   'Listen to the music, feel the passion and dance like no-one is watching.',
@@ -61,22 +63,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   //   agenda: agendaWithEmployees,
   // }  
 
-  const eventWithEmployees: IEventWithEmployees = {
-    _id: 's',
-    agenda: [],
-    name: 's',
-    type: 's',
-    date: {
-      start: '',
-      end: '',
-    },
-    description: 'd',
-    facebook: 'f',
-  }
+  const eventWithEmployees: IEventWithEmployees = dummyEvent;
   
   return {
     props: {
       event: eventWithEmployees,
+      
     },
   }
 }

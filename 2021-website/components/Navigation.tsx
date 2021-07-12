@@ -54,7 +54,7 @@ const Navigation = () => {
         }
         variant={'ghost'}
         aria-label={'Toggle Navigation'}
-        position="absolute"
+        position="fixed"
         top="5"
         right="5"
         background="black"
@@ -77,6 +77,7 @@ const Navigation = () => {
         flexDir={{ base: "column", md: "row" }}
         marginTop={{ md: "2" }}
         display={{ base: isOpen ? 'flex' : 'none', md: "flex"}}
+        paddingBottom={{ base: "10vh", md: "0" }}
       >
         {links.map(({ name, href, type, mobileOnly }, i) => (
           <NavigationItem key={`navitem-${name}`} name={name} href={href} type={type} mobileOnly={mobileOnly} />
