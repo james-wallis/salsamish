@@ -101,7 +101,7 @@ export const Hero = ({ event }: IProps) => {
           Details may be subject to change
         </Text>
         <HeadlineEmployees employees={headlineEmployees} />
-        <NextLink href="/">
+        <NextLink href="/parking">
           <Link
             marginTop={{ base: '10', md: '16' }}
             // fontWeight="semibold"

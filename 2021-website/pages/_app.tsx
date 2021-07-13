@@ -6,7 +6,8 @@ import Layout from '../components/Layout'
 
 import theme from '../theme'
 
-const minifiedLayoutRoutes = ['/venue-tour'];
+const hideNavRoutes = ['/links']
+const minifiedLayoutRoutes = ['/venue-tour', ...hideNavRoutes];
 
 function MyApp({ Component, pageProps, router }: AppProps) {
   const { route } = router;
@@ -35,7 +36,7 @@ function MyApp({ Component, pageProps, router }: AppProps) {
           }}
           canonical={url}
         />
-        <Layout minified={minifiedLayoutRoutes.includes(route)}>
+        <Layout minified={minifiedLayoutRoutes.includes(route)} hideNav={hideNavRoutes.includes(route)}>
           <Component {...pageProps} />
         </Layout>
       </ColorModeProvider>

@@ -32,19 +32,19 @@ const itemVariants = {
   }
 }
 
-const HeadlineGenres = () => (
+const HeadlineGenres = ({ animate = true }: { animate?: boolean }) => (
   <MotionFlex
     flexDirection="row"
     color="green.200"
     fontSize={{ base: "xl", md: "2xl" }}
     textTransform="uppercase"
-    variants={containerVariants}
+    variants={animate && containerVariants}
     initial="initial"
     animate="animate"
   >
     {
       genres.map((music, i) => (
-        <MotionText key={music} variants={itemVariants}>
+        <MotionText key={music} variants={animate && itemVariants}>
           <Box
             as="span"
             paddingX="1"

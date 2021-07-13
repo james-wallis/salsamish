@@ -7,9 +7,10 @@ import Footer from './Footer'
 interface IProps { 
   children: ReactNode
   minified?: boolean
+  hideNav?: boolean
 }
 
-const Layout = ({ children, minified = false }: IProps) => {
+const Layout = ({ children, minified = false, hideNav = false }: IProps) => {
   return (
     <Flex
       direction="column"
@@ -18,9 +19,9 @@ const Layout = ({ children, minified = false }: IProps) => {
       width="100vw"
       bg="black"
       color="white"
-      marginTop={{ md: 14, lg: 16, xl: 20 }}
+      marginTop={!hideNav ? { md: 14, lg: 16, xl: 20 } : 0}
     >
-      <Navigation fixed />
+      {!hideNav && <Navigation fixed />}
       {children}
       {!minified && <Footer />}
     </Flex>
