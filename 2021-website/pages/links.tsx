@@ -1,4 +1,4 @@
-import { Flex, Image, Box, Text } from '@chakra-ui/react'
+import { Flex, Image, Box, Text, Link } from '@chakra-ui/react'
 import HeadlineGenres from '../components/HeadlineGenres'
 import { FaTwitter, FaFacebookSquare, FaYoutube, FaLinkedin } from 'react-icons/fa'
 import { GrInstagram } from 'react-icons/gr'
@@ -79,28 +79,29 @@ const LinksPage = () => (
         paddingX="10%"
       >
         {
-          links.map(({ name, Icon, image, textIcon }) => (
-            <Flex
-              key={name}
-              flexDir="row"
-              marginY={{ base: 2 }}
-              justifyContent="flex-start"
-              alignItems="center"
-              width={{ base: '100%', md: 96 }}
-              paddingX={{ base: 4, md: 8 }}
-            >
-              <Box fontSize={{ base: '3xl', md: '4xl' }}>
-                {Icon && <Icon />}
-                {image && <Image src={image} alt={`${name} logo`} w={{ base: 8, md: 9 }} />}
-                {textIcon && <Text>{textIcon}</Text>}
-              </Box>
-              <Text
-                fontSize="3xl"
-                paddingLeft="4"
+          links.map(({ name, Icon, image, textIcon, href }) => (
+            <Link key={name} href={href} _hover={{ textDecoration: 'none' }}>
+              <Flex
+                flexDir="row"
+                marginY={{ base: 2 }}
+                justifyContent="flex-start"
+                alignItems="center"
+                width={{ base: '100%', md: 96 }}
+                paddingX={{ base: 4, md: 8 }}
               >
-                {name}
-              </Text>
-            </Flex>
+                <Box fontSize={{ base: '3xl', md: '4xl' }}>
+                  {Icon && <Icon />}
+                  {image && <Image src={image} alt={`${name} logo`} w={{ base: 8, md: 9 }} />}
+                  {textIcon && <Text>{textIcon}</Text>}
+                </Box>
+                <Text
+                  fontSize="3xl"
+                  paddingLeft="4"
+                >
+                  {name}
+                </Text>
+              </Flex>
+            </Link>
           ))
         }
       </Box>
