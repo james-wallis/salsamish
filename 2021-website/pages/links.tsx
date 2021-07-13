@@ -53,7 +53,7 @@ const title = 'Links'
 const LinksPage = () => (
   <Box
     backgroundImage="/lights-big.png"
-    backgroundPosition="top"
+    backgroundPosition="top left"
     backgroundSize="cover"
     minH="100vh"
     minW="100vw"
@@ -73,7 +73,7 @@ const LinksPage = () => (
           src="/salsamish.png"
           alt="Salsamish Logo"
           height={{ base: "14", md: "16" }}
-          marginTop={{ base: 20, md: 10, lg: 12 }}
+          marginTop={{ base: 8, md: 10, lg: 12 }}
         />
       </Flex>
       <HeadlineGenres animate={false} />

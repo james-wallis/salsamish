@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import React, { useEffect, useState } from 'react';
-import { Box } from '@chakra-ui/react'
+import { Box, useBreakpointValue } from '@chakra-ui/react'
 import { getTourURLs } from '../lib/tour-utils';
 import { NextSeo } from 'next-seo'
 
@@ -28,6 +28,8 @@ const Tour = () => {
       window.removeEventListener('resize', windowSizeChanged)
     }
   }, [])
+
+  const isMobile = useBreakpointValue({ base: true, md: false })
 
   return (
     <Box>
@@ -62,7 +64,7 @@ const Tour = () => {
         }}
       />
       {/* https://beta.3dvista.com/en/wiki/how-to-customize-the-url-of-your-tours-to-your-own-domain/ */}
-      <Box h={iframeHeight} w="100vw">
+      <Box h={isMobile ? '100vh' : iframeHeight} w="100vw">
         <iframe
             width="100%"
             height="100%"
