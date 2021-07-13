@@ -3,12 +3,14 @@ import { NextSeo } from 'next-seo'
 import {
   Text,
   Flex,
+  Box,
 } from '@chakra-ui/react'
 import { Hero } from '../components/Hero'
 import Section from '../components/Section'
 import { IEventWithEmployees } from '../interfaces/IEvent'
 
 import dummyEvent from '../dummyEvent';
+import GoogleMaps from '../components/GoogleMaps'
 
 const content = [
   'Every Friday night dance, meet people, get fit and above all have fun!',
@@ -31,14 +33,16 @@ const Index = ({ event }: { event: IEventWithEmployees }) => (
     </Section> */}
     <Section color="grey">
       {console.log(event)}
-      <Flex flexDir="column">
+      <Flex flexDir="column" w="100%">
         {content.map(str => (
-          <Text key={str} marginY="2" w="96">
+          <Text key={str} marginY="2" w={{ base: '100%', md: '96' }}>
             {str}
           </Text>
         ))}
       </Flex>
-      {/* <Image src="/minibus.jpeg" alt="Parking map" h="lg" /> */}
+      <Box h={{ base: 80, md: 96 }} marginTop={{ base: 10, md: 0 }} w="100%">
+        <GoogleMaps />
+      </Box>
     </Section>
   </>
 )

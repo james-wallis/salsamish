@@ -22,6 +22,7 @@ const Section = ({ children, color = 'black' }: IProps) => (
       flexDir={{ base: 'column', md: 'row' }}
       paddingX={{ base: "4", md: "8", xl: "0" }}
       fontSize={{ base: 'md', md: 'lg' }}
+      w="100%"
     >
       {children}
     </Flex>
