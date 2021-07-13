@@ -3,6 +3,7 @@ import HeadlineGenres from '../components/HeadlineGenres'
 import { FaTwitter, FaFacebookSquare, FaYoutube, FaLinkedin } from 'react-icons/fa'
 import { GrInstagram } from 'react-icons/gr'
 import { ImLocation } from 'react-icons/im'
+import { NextSeo } from 'next-seo'
 
 const links = [
   {
@@ -47,6 +48,8 @@ const links = [
   },
 ]
 
+const title = 'Links'
+
 const LinksPage = () => (
   <Box
     backgroundImage="/lights-big.png"
@@ -55,6 +58,7 @@ const LinksPage = () => (
     minH="100vh"
     minW="100vw"
   >
+    <NextSeo title={title} openGraph={{ title }} />
     <Flex
       flexDir="column"
       alignItems="center"
