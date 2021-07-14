@@ -21,8 +21,31 @@ const convertEventToHeadlineEmployees = ({ agenda }: IEventWithEmployees): IHead
     name,
     image,
     type: (type === 'DJSET') ? `${itemName} DJ` : itemName,
+    role: type,
   }));
-  return headlineEmployees;
+
+  // Crudely randomise the order
+  const randomisedArr = headlineEmployees.sort(() => .5 - Math.random() );
+
+  const midIndex = Math.round(randomisedArr.length / 2) - 1;
+
+  // move Kizomba DJ to the end
+  const kizombaDJIndex = randomisedArr.findIndex(({ type }) => type === 'Kizomba DJ');  
+  if (kizombaDJIndex && kizombaDJIndex !== randomisedArr.length - 1) {
+    const kizombaDJ = randomisedArr[kizombaDJIndex];
+    randomisedArr.splice(kizombaDJIndex, 1);
+    randomisedArr.push(kizombaDJ);
+  }
+
+    // move Salsa & Bachata Dj to the middle
+    const salsaAndBachataDJIndex = randomisedArr.findIndex(({ type }) => type === 'Salsa & Bachata DJ');    
+    if (salsaAndBachataDJIndex && salsaAndBachataDJIndex !== midIndex) {
+      const salsaAndBachataDJ = randomisedArr[salsaAndBachataDJIndex];
+      randomisedArr.splice(salsaAndBachataDJIndex, 1);
+      randomisedArr.splice(midIndex, 0, salsaAndBachataDJ);
+    }
+
+  return randomisedArr;
 }
 
 const MotionImage = motion(Image)

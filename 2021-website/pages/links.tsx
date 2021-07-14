@@ -52,7 +52,7 @@ const title = 'Links'
 
 const LinksPage = () => (
   <Box
-    backgroundImage="/lights-big.png"
+    backgroundImage="/salsabackdrop-original.png"
     backgroundPosition="top left"
     backgroundSize="cover"
     minH="100vh"

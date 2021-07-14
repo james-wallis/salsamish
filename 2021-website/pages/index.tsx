@@ -1,16 +1,14 @@
-import { GetServerSideProps } from 'next'
+import { GetStaticProps } from 'next'
 import { NextSeo } from 'next-seo'
-import {
-  Text,
-  Flex,
-  Box,
-} from '@chakra-ui/react'
+import { Text, Flex, Box } from '@chakra-ui/react'
 import { Hero } from '../components/Hero'
 import Section from '../components/Section'
-import { IEventWithEmployees } from '../interfaces/IEvent'
+import { IEvent, IEventWithEmployees } from '../interfaces/IEvent'
 
-import dummyEvent from '../dummyEvent';
+import testEvent from '../testEvent';
 import GoogleMaps from '../components/GoogleMaps'
+import { IAgendaWithEmployees } from '../interfaces/IAgenda'
+import IEmployee from '../interfaces/IEmployee'
 
 const content = [
   'Every Friday night dance, meet people, get fit and above all have fun!',
@@ -32,7 +30,6 @@ const Index = ({ event }: { event: IEventWithEmployees }) => (
 
     </Section> */}
     <Section color="grey">
-      {console.log(event)}
       <Flex flexDir="column" w="100%">
         {content.map(str => (
           <Text key={str} marginY="2" w={{ base: '100%', md: '96' }}>
@@ -47,32 +44,51 @@ const Index = ({ event }: { event: IEventWithEmployees }) => (
   </>
 )
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  // const res = await fetch('http://localhost:3000/api/events')
-  // const [event]: IEvent[] = await res.json()
+export const getStaticProps: GetStaticProps = async (context) => {
+  const res = await fetch('http://localhost:3000/api/events')  
+  const [event]: IEvent[] = await res.json()
+  const blankEmployee: IEmployee = {
+    _id: '-1',
+    image: '',
+    name: '',
+    urlSafeName: '',
+    role: '',
+    description: '',
+  }
 
-  // const agendaWithEmployees = await Promise.all(event.agenda.map(async item => {
-  //   const res = await fetch(`http://localhost:3000/api/employees/${item.employee}`)
-  //   const employee = await res.json()
-  //   const itemWithEmployee: IAgendaWithEmployees = {
-  //     ...item,
-  //     employee
-  //   }
-  //   return itemWithEmployee
-  // }))
+  const agendaWithEmployees = await Promise.all(event.agenda.map(async (item) => {
+    
+    const res = await fetch(`http://localhost:3000/api/employees/${item.employee}`)
+    if (res.status !== 200) {
+      return {
+        ...item,
+        employee: blankEmployee
+      }
+    }
+    
+    const employee = await res.json()
+    const itemWithEmployee: IAgendaWithEmployees = {
+      ...item,
+      employee
+    }
+    return itemWithEmployee
+  }))
 
-  // const eventWithEmployees: IEventWithEmployees = {
-  //   ...event,
-  //   agenda: agendaWithEmployees,
-  // }  
+  const eventWithEmployees: IEventWithEmployees = {
+    ...event,
+    agenda: agendaWithEmployees,
+  }  
 
-  const eventWithEmployees: IEventWithEmployees = dummyEvent;
-  
+  // const eventWithEmployees: IEventWithEmployees = testEvent;
+
   return {
     props: {
       event: eventWithEmployees,
-
     },
+    // Next.js will attempt to re-generate the page:
+    // - When a request comes in
+    // - At most once every 10 seconds
+    revalidate: 1800, // 30 minutes in seconds
   }
 }
 
