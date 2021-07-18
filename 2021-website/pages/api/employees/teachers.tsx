@@ -1,5 +1,6 @@
 import { NextApiResponse } from 'next';
 import nextConnect from 'next-connect';
+import { getTeachers } from '../../../lib/mongo';
 import mongoMiddleware, { RequestWithMongoDb } from '../../../middleware/connectMongo';
 
 const handler = nextConnect();
@@ -7,10 +8,8 @@ const handler = nextConnect();
 handler.use(mongoMiddleware);
 
 handler.get<RequestWithMongoDb, NextApiResponse>(async (req, res) => {
-  const dbQuery = { role: 'TEACHER' };
-
-  const doc = await req.db.collection('employees').find(dbQuery).toArray();
-  res.json(doc);
+  const teachers = await getTeachers(req.db);
+  res.json(teachers);
 });
 
 export default handler;

@@ -1,6 +1,7 @@
 import { ObjectID } from 'mongodb';
 import { NextApiResponse } from 'next';
 import nextConnect from 'next-connect';
+import { getEmployee } from '../../../lib/mongo';
 import mongoMiddleware, { RequestWithMongoDb } from '../../../middleware/connectMongo';
 
 const handler = nextConnect();
@@ -8,17 +9,17 @@ const handler = nextConnect();
 handler.use(mongoMiddleware);
 
 handler.get<RequestWithMongoDb, NextApiResponse>(async (req, res) => {
-  const employee = req.query.employee as string;
+  const id = req.query.employee as string;
 
-  if (!employee) {
+  if (!id) {
     return res.status(400).end();
   }
 
-  const doc = await req.db.collection('employees').findOne({ _id: new ObjectID(employee) });
-  if (!doc) {
+  const employee = await getEmployee(req.db, id);
+  if (!employee) {
     return res.status(404).end();
   }
-  res.json(doc);
+  res.json(employee);
 });
 
 export default handler;

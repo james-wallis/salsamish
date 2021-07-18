@@ -13,9 +13,9 @@ interface IBaseEvent {
 }
 
 export interface IEvent extends IBaseEvent {
-  agenda: IAgenda[]
+  agenda: IAgenda
 }
 
 export interface IEventWithEmployees extends IBaseEvent {
-  agenda: IAgendaWithEmployees[]
+  agenda: IAgendaWithEmployees
 }

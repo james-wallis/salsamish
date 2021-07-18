@@ -9,4 +9,13 @@ interface IEmployee {
   typesOfDance?: string[]
 }
 
+export const emptyEmployee: IEmployee = {
+  _id: '-1',
+  image: '',
+  name: '',
+  urlSafeName: '',
+  role: '',
+  description: '',
+}
+
 export default IEmployee

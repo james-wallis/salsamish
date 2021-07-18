@@ -1,14 +1,11 @@
 import { GetStaticProps } from 'next'
 import { NextSeo } from 'next-seo'
 import { Text, Flex, Box } from '@chakra-ui/react'
+import {  getClient, getEventWithEmployees, getNextEvent, getSalsaDb } from '../lib/mongo'
+import { IEventWithEmployees } from '../interfaces/IEvent'
 import { Hero } from '../components/Hero'
 import Section from '../components/Section'
-import { IEvent, IEventWithEmployees } from '../interfaces/IEvent'
-
-import testEvent from '../testEvent';
 import GoogleMaps from '../components/GoogleMaps'
-import { IAgendaWithEmployees } from '../interfaces/IAgenda'
-import IEmployee from '../interfaces/IEmployee'
 
 const content = [
   'Every Friday night dance, meet people, get fit and above all have fun!',
@@ -37,7 +34,7 @@ const Index = ({ event }: { event: IEventWithEmployees }) => (
           </Text>
         ))}
       </Flex>
-      <Box h={{ base: 80, md: 96 }} marginTop={{ base: 10, md: 0 }} w="100%">
+      <Box h={{ base: 96, md: 96 }} marginTop={{ base: 10, md: 0 }} w="100%">
         <GoogleMaps />
       </Box>
     </Section>
@@ -45,45 +42,17 @@ const Index = ({ event }: { event: IEventWithEmployees }) => (
 )
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const res = await fetch('http://localhost:3000/api/events')  
-  const [event]: IEvent[] = await res.json()
-  const blankEmployee: IEmployee = {
-    _id: '-1',
-    image: '',
-    name: '',
-    urlSafeName: '',
-    role: '',
-    description: '',
-  }
+  const client = await getClient();
+  const db = await getSalsaDb(client);
+  const event = await getNextEvent(db);
+  const eventWithEmployees = await getEventWithEmployees(db, event);
 
-  const agendaWithEmployees = await Promise.all(event.agenda.map(async (item) => {
-    
-    const res = await fetch(`http://localhost:3000/api/employees/${item.employee}`)
-    if (res.status !== 200) {
-      return {
-        ...item,
-        employee: blankEmployee
-      }
-    }
-    
-    const employee = await res.json()
-    const itemWithEmployee: IAgendaWithEmployees = {
-      ...item,
-      employee
-    }
-    return itemWithEmployee
-  }))
-
-  const eventWithEmployees: IEventWithEmployees = {
-    ...event,
-    agenda: agendaWithEmployees,
-  }  
-
-  // const eventWithEmployees: IEventWithEmployees = testEvent;
-
+  // Need to convert _id and dates to strings for Next.js, this is an easy way to do it
+  const serializedEvent = JSON.parse(JSON.stringify(eventWithEmployees));
+  
   return {
     props: {
-      event: eventWithEmployees,
+      event: serializedEvent,
     },
     // Next.js will attempt to re-generate the page:
     // - When a request comes in

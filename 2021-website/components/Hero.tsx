@@ -13,7 +13,7 @@ interface IProps {
 }
 
 const convertEventToHeadlineEmployees = ({ agenda }: IEventWithEmployees): IHeadlineEmployee[] => {
-  const filteredAgenda: IAgendaWithEmployees[] = agenda.filter((item, i, arr)=> (
+  const filteredAgenda: IAgendaWithEmployees = agenda.filter((item, i, arr)=> (
     arr.findIndex(t => (t.name === item.name && t.type === item.type)) === i
   ));
 

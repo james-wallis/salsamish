@@ -1,6 +1,6 @@
 import { NextApiResponse } from 'next';
 import nextConnect from 'next-connect';
-import { getEventByDate, getEventWithEmployees } from '../../../lib/mongo';
+import { getEventByDate, getEventWithEmployees, getNextEvent } from '../../../lib/mongo';
 import mongoMiddleware, { RequestWithMongoDb } from '../../../middleware/connectMongo';
 
 const handler = nextConnect();
@@ -19,13 +19,13 @@ handler.get<RequestWithMongoDb, NextApiResponse>(async (req, res) => {
     return res.status(400).end();
   }
 
-  const event = await getEventByDate(req.db, date);
+  const event = await getNextEvent(req.db, date);
   if (!event) {
     return res.status(404).end();
   }
-
-  const eventWithEmployees = await getEventWithEmployees(req.db, event);
   
+  const eventWithEmployees = await getEventWithEmployees(req.db, event);
+
   return res.json(eventWithEmployees);
 });
 

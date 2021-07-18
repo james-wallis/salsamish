@@ -15,6 +15,7 @@
     "@react-google-maps/api": "^2.2.0",
     "@types/google.maps": "^3.45.6",
     "@types/mongodb": "^3.6.20",
+    "dayjs": "^1.10.6",
     "framer-motion": "^4.0.3",
     "mongodb": "^3.6.10",
     "next": "latest",
