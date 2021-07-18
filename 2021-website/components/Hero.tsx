@@ -7,6 +7,8 @@ import SocialIcons from './SocialIcons'
 import { IEventWithEmployees } from '../interfaces/IEvent'
 import { IAgendaWithEmployees } from '../interfaces/IAgenda'
 import IHeadlineEmployee from '../interfaces/IHeadlineEmployee'
+import dayjs from 'dayjs'
+import { formatDate } from '../lib/event-utils'
 
 interface IProps {
   event: IEventWithEmployees
@@ -115,7 +117,8 @@ export const Hero = ({ event }: IProps) => {
           textTransform="uppercase"
           fontWeight="normal"
         >
-          Next event: Friday 23rd July 2021
+          Next event:{` `}
+          {formatDate(event.date.start)}
         </Heading>
         <Text
           fontSize={{ base: "xs", md: "sm" }}
