@@ -37,7 +37,7 @@ const event = {
       employee: {
         ...employeeTemplate,
         name: 'Charlotte',
-        image: '/charlotte-cropped.png',
+        image: '/test/charlotte.png',
       }
     },
     {
@@ -46,7 +46,7 @@ const event = {
       employee: {
         ...employeeTemplate,
         name: 'Mish',
-        image: '/mish-cropped.png',
+        image: '/test/mish.png',
       }
     },
     {
@@ -54,8 +54,9 @@ const event = {
       name: 'Salsa & Bachata',
       employee: {
         ...employeeTemplate,
+        type: 'DJSET',
         name: 'Julian the Duke',
-        image: '/julian-cropped.png',
+        image: '/test/julian-the-duke.png',
       }
     },
     {
@@ -64,17 +65,17 @@ const event = {
       employee: {
         ...employeeTemplate,
         name: 'Salima',
-        image: '/salima-cropped.png',
+        image: '/test/salima.png',
       }
     },
     {
       ...agendaItemTemplate,
       name: 'Kizomba',
-      type: 'DJET',
+      type: 'DJSET',
       employee: {
         ...employeeTemplate,
-        name: 'Merville',
-        image: '/merv-cropped.png',
+        name: 'Merv',
+        image: '/test/merv.png',
       }
     }
   ],

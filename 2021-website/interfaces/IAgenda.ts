@@ -1,6 +1,6 @@
 import IEmployee from "./IEmployee";
 
-interface IBaseAgenda {
+interface IBaseAgendaItem {
   _id: string
   name: string
   description: string,
@@ -10,10 +10,14 @@ interface IBaseAgenda {
   end: string
 }
 
-export interface IAgenda extends IBaseAgenda {
+export interface IAgendaItem extends IBaseAgendaItem {
   employee: string
 }
 
-export interface IAgendaWithEmployees extends IBaseAgenda {
+export interface IAgendaItemWithEmployees extends IBaseAgendaItem {
   employee: IEmployee
 }
+
+export type IAgenda = IAgendaItem[];
+
+export type IAgendaWithEmployees = IAgendaItemWithEmployees[];

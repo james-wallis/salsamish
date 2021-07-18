@@ -7,13 +7,15 @@ import SocialIcons from './SocialIcons'
 import { IEventWithEmployees } from '../interfaces/IEvent'
 import { IAgendaWithEmployees } from '../interfaces/IAgenda'
 import IHeadlineEmployee from '../interfaces/IHeadlineEmployee'
+import dayjs from 'dayjs'
+import { formatDate } from '../lib/event-utils'
 
 interface IProps {
   event: IEventWithEmployees
 }
 
 const convertEventToHeadlineEmployees = ({ agenda }: IEventWithEmployees): IHeadlineEmployee[] => {
-  const filteredAgenda: IAgendaWithEmployees[] = agenda.filter((item, i, arr)=> (
+  const filteredAgenda: IAgendaWithEmployees = agenda.filter((item, i, arr)=> (
     arr.findIndex(t => (t.name === item.name && t.type === item.type)) === i
   ));
 
@@ -21,8 +23,31 @@ const convertEventToHeadlineEmployees = ({ agenda }: IEventWithEmployees): IHead
     name,
     image,
     type: (type === 'DJSET') ? `${itemName} DJ` : itemName,
+    role: type,
   }));
-  return headlineEmployees;
+
+  // Crudely randomise the order
+  const randomisedArr = headlineEmployees.sort(() => .5 - Math.random() );
+
+  const midIndex = Math.round(randomisedArr.length / 2) - 1;
+
+  // move Kizomba DJ to the end
+  const kizombaDJIndex = randomisedArr.findIndex(({ type }) => type === 'Kizomba DJ');  
+  if (kizombaDJIndex && kizombaDJIndex !== randomisedArr.length - 1) {
+    const kizombaDJ = randomisedArr[kizombaDJIndex];
+    randomisedArr.splice(kizombaDJIndex, 1);
+    randomisedArr.push(kizombaDJ);
+  }
+
+    // move Salsa & Bachata Dj to the middle
+    const salsaAndBachataDJIndex = randomisedArr.findIndex(({ type }) => type === 'Salsa & Bachata DJ');    
+    if (salsaAndBachataDJIndex && salsaAndBachataDJIndex !== midIndex) {
+      const salsaAndBachataDJ = randomisedArr[salsaAndBachataDJIndex];
+      randomisedArr.splice(salsaAndBachataDJIndex, 1);
+      randomisedArr.splice(midIndex, 0, salsaAndBachataDJ);
+    }
+
+  return randomisedArr;
 }
 
 const MotionImage = motion(Image)
@@ -92,7 +117,8 @@ export const Hero = ({ event }: IProps) => {
           textTransform="uppercase"
           fontWeight="normal"
         >
-          Next event: Friday 23rd July 2021
+          Next event:{` `}
+          {formatDate(event.date.start)}
         </Heading>
         <Text
           fontSize={{ base: "xs", md: "sm" }}
