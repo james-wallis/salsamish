@@ -117,9 +117,18 @@ export const Hero = ({ event }: IProps) => {
           fontSize={{ base: "lg", md: "xl", lg: "2xl"}}
           textTransform="uppercase"
           fontWeight="normal"
+          textAlign="center"
+          as="h1"
         >
-          Next event:{` `}
-          {formatDate(event.date.start)}
+          <Box as="span" display="block">
+            Next event:
+          </Box>
+          <Box as="span" display="block" color="green.200">
+            {event.name}
+          </Box>
+          <Box as="span" display="block">
+            {formatDate(event.date.start)}
+          </Box>
         </Heading>
         <Text
           fontSize={{ base: "xs", md: "sm" }}

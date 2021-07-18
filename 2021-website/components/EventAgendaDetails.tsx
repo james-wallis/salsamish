@@ -30,7 +30,6 @@ const EventAgendaDetails = ({ agenda }: IProps) => (
     marginBottom="4"
     marginTop="2"
   >
-    {console.log(agenda)}
     <Heading
       as="h3"
       fontSize={{ base: 'lg', md: '2xl' }}
