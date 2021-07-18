@@ -9,6 +9,7 @@ import { IAgendaWithEmployees } from '../interfaces/IAgenda'
 import IHeadlineEmployee from '../interfaces/IHeadlineEmployee'
 import dayjs from 'dayjs'
 import { formatDate } from '../lib/event-utils'
+import EventAgendaDetails from './EventAgendaDetails'
 
 interface IProps {
   event: IEventWithEmployees
@@ -127,6 +128,7 @@ export const Hero = ({ event }: IProps) => {
           Details may be subject to change
         </Text>
         <HeadlineEmployees employees={headlineEmployees} />
+        <EventAgendaDetails agenda={event.agenda} />
         <NextLink href="/parking">
           <Link
             marginTop={{ base: '10', md: '16' }}
