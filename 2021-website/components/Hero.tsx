@@ -5,57 +5,19 @@ import HeadlineEmployees from './HeadlineEmployees'
 import HeadlineGenres from './HeadlineGenres'
 import SocialIcons from './SocialIcons'
 import { IEventWithEmployees } from '../interfaces/IEvent'
-import { IAgendaWithEmployees } from '../interfaces/IAgenda'
 import IHeadlineEmployee from '../interfaces/IHeadlineEmployee'
-import dayjs from 'dayjs'
 import { formatDate } from '../lib/event-utils'
 import EventAgendaDetails from './EventAgendaDetails'
 
 interface IProps {
   event: IEventWithEmployees
-}
-
-const convertEventToHeadlineEmployees = ({ agenda }: IEventWithEmployees): IHeadlineEmployee[] => {
-  const filteredAgenda: IAgendaWithEmployees = agenda.filter((item, i, arr)=> (
-    arr.findIndex(t => (t.name === item.name && t.type === item.type)) === i
-  ));
-
-  const headlineEmployees: IHeadlineEmployee[] = filteredAgenda.map(({ name: itemName, type, employee: { name, image } }) => ({
-    name,
-    image,
-    type: (type === 'DJSET') ? `${itemName} DJ` : itemName,
-    role: type,
-  }));
-
-  // Crudely randomise the order
-  const randomisedArr = headlineEmployees.sort(() => .5 - Math.random() );
-
-  const midIndex = Math.round(randomisedArr.length / 2) - 1;
-
-  // move Kizomba DJ to the end
-  const kizombaDJIndex = randomisedArr.findIndex(({ type }) => type === 'Kizomba DJ');  
-  if (kizombaDJIndex && kizombaDJIndex !== randomisedArr.length - 1) {
-    const kizombaDJ = randomisedArr[kizombaDJIndex];
-    randomisedArr.splice(kizombaDJIndex, 1);
-    randomisedArr.push(kizombaDJ);
-  }
-
-    // move Salsa & Bachata Dj to the middle
-    const salsaAndBachataDJIndex = randomisedArr.findIndex(({ type }) => type === 'Salsa & Bachata DJ');    
-    if (salsaAndBachataDJIndex && salsaAndBachataDJIndex !== midIndex) {
-      const salsaAndBachataDJ = randomisedArr[salsaAndBachataDJIndex];
-      randomisedArr.splice(salsaAndBachataDJIndex, 1);
-      randomisedArr.splice(midIndex, 0, salsaAndBachataDJ);
-    }
-
-  return randomisedArr;
+  headlineEmployees: IHeadlineEmployee[]
 }
 
 const MotionImage = motion(Image)
 const MotionFlex = motion(Flex)
 
-export const Hero = ({ event }: IProps) => {
-  const headlineEmployees = convertEventToHeadlineEmployees(event);
+export const Hero = ({ event, headlineEmployees }: IProps) => {
   return (
     <Flex
       alignItems="center"
@@ -141,7 +103,6 @@ export const Hero = ({ event }: IProps) => {
         <NextLink href="/parking">
           <Link
             marginTop={{ base: '10', md: '16' }}
-            // fontWeight="semibold"
             fontSize={{ base: 'lg', md: 'xl' }}
             color="green.200"
             textAlign="center"
