@@ -15,6 +15,10 @@ const links = [
     href: '/',
   },
   {
+    name: 'Covid-19',
+    href: '/covid-19',
+  },
+  {
     name: 'Parking',
     href: '/parking',
   },
@@ -23,12 +27,12 @@ const links = [
     href: '/faq',
   },
   {
-    name: 'Venue Tour',
-    href: '/venue-tour',
-  },
-  {
     name: 'About',
     href: '/about',
+  },
+  {
+    name: 'Venue Tour',
+    href: '/venue-tour',
   },
   {
     name: 'Call +44(0)7832 359209',

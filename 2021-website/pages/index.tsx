@@ -6,6 +6,13 @@ import { IEventWithEmployees } from '../interfaces/IEvent'
 import { Hero } from '../components/Hero'
 import Section from '../components/Section'
 import GoogleMaps from '../components/GoogleMaps'
+import { convertEventToHeadlineEmployees } from '../lib/event-utils'
+import IHeadlineEmployee from '../interfaces/IHeadlineEmployee'
+
+interface IProps {
+  event: IEventWithEmployees
+  headlineEmployees: IHeadlineEmployee[]
+}
 
 const content = [
   'Every Friday night dance, meet people, get fit and above all have fun!',
@@ -18,10 +25,10 @@ const content = [
 
 const title = 'Home'
 
-const Index = ({ event }: { event: IEventWithEmployees }) => (
+const Index = ({ event, headlineEmployees }: IProps) => (
   <>
     <NextSeo title={title} openGraph={{ title }} />
-    <Hero event={event} />
+    <Hero event={event} headlineEmployees={headlineEmployees} />
     {/* <Section color="grey">
       <Heading fontSize="3xl" fontWeight="normal" marginBottom="6">Upcoming events</Heading>
 
@@ -46,13 +53,17 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const db = await getSalsaDb(client);
   const event = await getNextEvent(db);
   const eventWithEmployees = await getEventWithEmployees(db, event);
+  const headlineEmployees = convertEventToHeadlineEmployees(eventWithEmployees);
+
 
   // Need to convert _id and dates to strings for Next.js, this is an easy way to do it
   const serializedEvent = JSON.parse(JSON.stringify(eventWithEmployees));
+  const serializedHeadlineEmployees = JSON.parse(JSON.stringify(headlineEmployees));
   
   return {
     props: {
       event: serializedEvent,
+      headlineEmployees: serializedHeadlineEmployees,
     },
     // Next.js will attempt to re-generate the page:
     // - When a request comes in
