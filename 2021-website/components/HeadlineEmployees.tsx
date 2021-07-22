@@ -20,14 +20,22 @@ const HeadlineEmployees = ({ employees }: IProps) => (
       paddingTop={{ base: "1", md: "2", lg: "4" }}
     >
       {employees.map(({ image, name, type }, i) => (
-        <Flex key={`${name}-${image}-${type}`} width={`${100 / employees.length}%`} h="100%" justifyContent="center">
+        <Flex
+          key={`${name}-${image}-${type}`}
+          width={`${100 / employees.length}%`}
+          h="100%"
+          justifyContent="center"
+          position="relative"
+        >
           <Image
             src={image}
             alt={name}
-            position="relative"
+            position="absolute"
+            bottom="0"
             zIndex={i % 3}
             height="100%"
             maxW="100vw"
+            w="auto"
           />
         </Flex>
       ))}
