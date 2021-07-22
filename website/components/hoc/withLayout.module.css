@@ -1,6 +1,0 @@
-.container {}
-
-.content {
-    padding-top: var(--header-height);
-    padding-bottom: var(--footer-height);
-}
