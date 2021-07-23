@@ -30,7 +30,7 @@ function MyApp({ Component, pageProps, router }: AppProps) {
               type: 'website',
               locale: 'en_IE',
               url,
-              description: 'Salsa Mish - The home of Salsa in Herts. Live Salsa, Bachata and Kizomba every Friday night. Dance, meet people, get fit and above all have fun!',
+              description: 'Salsa Mish - The heart of salsa in Herts. Live Salsa, Bachata and Kizomba every Friday night. Dance, meet people, get fit and above all have fun!',
               site_name: 'James Wallis | wallis.dev',
               images: [],
           }}
