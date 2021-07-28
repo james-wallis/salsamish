@@ -27,8 +27,10 @@ const ParkingPage = () => (
       >
         <PageHeading title="Parking at Salsa Mish" />
         <Flex flexDir={{ base: 'column', md: 'row' }} alignItems='center'>
-          <Box paddingRight={{ md: 4 }}>
-            <Text marginBottom="4">The main car park at Greenwood Park is usually full by around 9.00pm.</Text>
+          <Box
+            // paddingRight={{ md: 4 }}
+          >
+            {/* <Text marginBottom="4">The main car park at Greenwood Park is usually full by around 9.00pm.</Text>
             <Text marginY="4" marginBottom="1">Please use the overspill car park:</Text>
             <Text color="green.200">Midway Surgery,</Text>
             <Text color="green.200">93 Watford Road,</Text>
@@ -41,8 +43,10 @@ const ParkingPage = () => (
             </Text>
             <Text marginY="4">
               <Box as="span" color="green.200" textTransform="uppercase">Plus</Box>
-              {` `}a chance to win free entry for your next time!</Text>
+              {` `}a chance to win free entry for your next time!
+            </Text> */}
             <Text marginY="4" marginBottom="1" textTransform="uppercase" color="green.200">Important</Text>
+            <Text marginY="4">The overflow car park at Midway Surgery and free mini bus service has been suspended until further notice.</Text>
             <Text>To keep the roads clear for emergency vehicle access and cause minimum disruption to our neighbours on a Friday night:</Text>
             <UnorderedList color="green.200" paddingLeft="4">
               <ListItem>Don&apos;t park where there are traffic cones.</ListItem>

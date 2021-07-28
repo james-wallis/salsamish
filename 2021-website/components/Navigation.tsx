@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import NavigationItem from './NavigationItem';
 import { motion } from 'framer-motion';
+import CovidBanner from './CovidBanner';
 
 interface IProps {
   fixed?: boolean
@@ -99,10 +100,8 @@ const Navigation = ({ fixed = false }: IProps) => {
         background="black"
         zIndex="1000"
         position={{ base: "fixed", md: fixed ? "fixed" : "relative" }}
-        height={{ base: "100vh", md: 14, lg: 16, xl: 20 }}
         top={{ md: fixed ? 0 : 'auto' }}
-        flexDir={{ base: "column", md: "row" }}
-        // display={{ base: isOpen ? 'flex' : 'none', md: "flex"}}
+        flexDir="column"
         paddingBottom={{ base: "10vh", md: "0" }}
 
         // Framer motion props
@@ -111,9 +110,17 @@ const Navigation = ({ fixed = false }: IProps) => {
         animate={isOpen || initialFramerState === 'open' ? 'open' : 'closed'}
         transition={{ type: "easeIn" }}
       >
-        {links.map(({ name, href, type, mobileOnly }, i) => (
-          <NavigationItem key={`navitem-${name}`} name={name} href={href} type={type} mobileOnly={mobileOnly} />
-        ))}
+        <Flex
+          flexDir={{ base: "column", md: "row" }}
+          height={{ base: "85vh", md: 14, lg: 16, xl: 20 }}
+          alignItems="center"
+          justifyContent="center"
+        >
+          {links.map(({ name, href, type, mobileOnly }, i) => (
+            <NavigationItem key={`navitem-${name}`} name={name} href={href} type={type} mobileOnly={mobileOnly} />
+          ))}
+        </Flex>
+        <CovidBanner banner />
       </MotionFlex>
     </>
   )
