@@ -49,7 +49,7 @@ const CustomGoogleMaps = ({ zoom, center }: { zoom?: number, center?: IGoogleMap
         zoom={zoom || 14.5}
       >
         {
-          [building, carpark, overflow].map((coords) => (
+          [building, carpark].map((coords) => (
             <Marker
               key={coords.text}
               position={coords}

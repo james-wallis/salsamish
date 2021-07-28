@@ -61,7 +61,7 @@ const EventAgendaDetails = ({ agenda }: IProps) => (
       textAlign="center"
       templateColumns={{ base: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)' }}
     >
-      {agenda.sort(sortByTime).map((item) => item.type === 'DJSET' && <AgendaItem item={item} />)}
+      {agenda.sort(sortByTime).map((item) => item.type === 'DJSET' && <AgendaItem key={item._id} item={item} />)}
     </Grid>
   </Flex>
 )
