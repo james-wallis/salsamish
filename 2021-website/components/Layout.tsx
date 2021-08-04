@@ -2,7 +2,6 @@ import { Flex } from '@chakra-ui/react'
 import { ReactNode } from 'react'
 
 import Navigation from './Navigation'
-import CovidBanner from './CovidBanner'
 import Footer from './Footer'
 
 interface IProps { 
