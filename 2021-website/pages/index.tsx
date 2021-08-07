@@ -8,7 +8,7 @@ import Section from '../components/Section'
 import GoogleMaps from '../components/GoogleMaps'
 import { convertEventToHeadlineEmployees } from '../lib/event-utils'
 import IHeadlineEmployee from '../interfaces/IHeadlineEmployee'
-import ClosedBanner from '../components/ClosedBanner'
+import CovidBanner from '../components/CovidBanner'
 
 interface IProps {
   event: IEventWithEmployees
@@ -34,7 +34,7 @@ const Index = ({ event, headlineEmployees }: IProps) => (
       <Heading fontSize="3xl" fontWeight="normal" marginBottom="6">Upcoming events</Heading>
 
     </Section> */}
-    <ClosedBanner />
+    <CovidBanner />
     <Section color="grey">
       <Flex flexDir="column" w="100%">
         {content.map(str => (

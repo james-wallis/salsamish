@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import NavigationItem from './NavigationItem';
 import { motion } from 'framer-motion';
-import ClosedBanner from './ClosedBanner';
+import CovidBanner from './CovidBanner';
 
 interface IProps {
   fixed?: boolean
@@ -120,7 +120,7 @@ const Navigation = ({ fixed = false }: IProps) => {
             <NavigationItem key={`navitem-${name}`} name={name} href={href} type={type} mobileOnly={mobileOnly} />
           ))}
         </Flex>
-        <ClosedBanner banner />
+        <CovidBanner banner />
       </MotionFlex>
     </>
   )

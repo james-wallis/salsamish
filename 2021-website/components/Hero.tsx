@@ -8,7 +8,6 @@ import { IEventWithEmployees } from '../interfaces/IEvent'
 import IHeadlineEmployee from '../interfaces/IHeadlineEmployee'
 import { formatDate } from '../lib/event-utils'
 import EventAgendaDetails from './EventAgendaDetails'
-import HeroInformation from './HeroInformation'
 
 interface IProps {
   event: IEventWithEmployees
@@ -75,7 +74,6 @@ export const Hero = ({ event, headlineEmployees }: IProps) => {
           Greenwood Park, AL2 3HW
         </Text>
         <SocialIcons />
-        <HeroInformation />
         <Heading
           paddingTop={{ base: '14', md: '20' }}
           fontSize={{ base: "lg", md: "xl", lg: "2xl"}}
