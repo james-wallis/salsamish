@@ -44,7 +44,7 @@ const EventAgendaDetails = ({ agenda }: IProps) => (
       textAlign="center"
       templateColumns={{ base: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)' }}
     >
-      {agenda.sort(sortByTime).map((item) => item.type === 'LESSON' && <AgendaItem item={item} />)}
+      {agenda.sort(sortByTime).map((item) => item.type === 'LESSON' && <AgendaItem key={`agenda-item-${item._id}`} item={item} />)}
     </Grid>
     <Heading
       as="h3"

@@ -69,7 +69,7 @@ export const getEventByDate = (db: Db, date: Date): Promise<IEvent> => {
 }
 
 export const getNextEvent = async (db: Db, d?: Date): Promise<IEvent> => {
-  const date = d || dayjs().toDate();
+  const date = d || dayjs().hour(0).minute(0).second(0).toDate();
   
   const query = {
     "date.start": {
