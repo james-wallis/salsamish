@@ -4,11 +4,7 @@ import InfoSection from './InfoSection'
 const CovidBanner = ({ banner = false }: { banner?: boolean }) => (
   <InfoSection banner={banner}>
     <Text textAlign="center" fontSize="md" textTransform="uppercase">
-      Please bring your negative lateral flow{` `}
-      <Box as="span" fontWeight="bolder">
-        confirmation text.
-      </Box>
-      {` `} Not the test itself.
+      Please bring your negative test in a clear bag or show the confirmation text/email.
     </Text>
   </InfoSection>
 )
