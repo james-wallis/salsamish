@@ -61,7 +61,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   // Need to convert _id and dates to strings for Next.js, this is an easy way to do it
   const serializedEvent = JSON.parse(JSON.stringify(eventWithEmployees));
   const serializedHeadlineEmployees = JSON.parse(JSON.stringify(headlineEmployees));
-  
+
   return {
     props: {
       event: serializedEvent,

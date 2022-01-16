@@ -1,10 +1,14 @@
-import { Text, Box } from '@chakra-ui/react'
+import { Text, FlexProps } from '@chakra-ui/react'
 import InfoSection from './InfoSection'
 
-const CovidBanner = ({ banner = false }: { banner?: boolean }) => (
-  <InfoSection banner={banner}>
+export interface CovidBannerProps extends FlexProps {
+  banner?: boolean;
+}
+
+const CovidBanner = ({ banner = false, ...props }: CovidBannerProps) => (
+  <InfoSection banner={banner} {...props}>
     <Text textAlign="center" fontSize="md" textTransform="uppercase">
-      Salsa Mish is closed tonight (24/12/2021).
+      Please bring your negative test in a clear bag or show the NHS confirmation text/email.
     </Text>
   </InfoSection>
 )
