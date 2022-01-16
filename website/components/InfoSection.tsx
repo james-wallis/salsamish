@@ -1,12 +1,11 @@
-import { Flex } from "@chakra-ui/react"
+import { Flex, FlexProps } from "@chakra-ui/react"
 import { ReactNode } from "react"
 
-interface IProps {
+interface IBannerProps extends FlexProps {
   banner?: boolean
-  children: ReactNode
 }
 
-const Banner = ({ banner = false, children }: IProps) => (
+const Banner = ({ banner = false, children, ...props }: IBannerProps) => (
   <Flex
     w="100vw"
     display={banner ? 'flex' : { base: 'flex', md: 'none' }}
@@ -14,6 +13,7 @@ const Banner = ({ banner = false, children }: IProps) => (
     backgroundColor="pink"
     justifyContent="center"
     alignItems="center"
+    {...props}
   >
     {children}
   </Flex>

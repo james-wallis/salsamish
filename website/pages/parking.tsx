@@ -24,6 +24,7 @@ const ParkingPage = () => (
         justifyContent="flex-start"
         alignItems="flex-start"
         flexDir="column"
+        w="100%"
       >
         <PageHeading title="Parking at Salsa Mish" />
         <Flex flexDir={{ base: 'column', md: 'row' }} alignItems='center'>
@@ -46,13 +47,14 @@ const ParkingPage = () => (
               {` `}a chance to win free entry for your next time!
             </Text> */}
             <Text marginY="4" marginBottom="1" textTransform="uppercase" color="green.200">Important</Text>
-            <Text marginY="4">The overflow car park at Midway Surgery and free mini bus service has been suspended until further notice.</Text>
-            <Text>To keep the roads clear for emergency vehicle access and cause minimum disruption to our neighbours on a Friday night:</Text>
+            <Text marginY="4">Please use the main car park until further notice.</Text>
+            <Text>To keep the roads clear for emergency vehicle access, and cause minimal disruption to our neighbours on a Friday night:</Text>
             <UnorderedList color="green.200" paddingLeft="4">
               <ListItem>Don&apos;t park where there are traffic cones.</ListItem>
               <ListItem>Don&apos;t block any driveway.</ListItem>
               <ListItem>Don&apos;t park on grass verges.</ListItem>
             </UnorderedList>
+            <Text marginY="4">If you have to park on the road, please be considerate to our neighbours by not blocking driveways or causing loud noise.</Text>
             <Text marginY="4">Car park helpers are there every Friday and will advise you where to park.</Text>
             <Text marginY="4">They speak on behalf of Salsa Mish and will deal with any issues with neighbours and visitors to Salsa Mish.</Text>
             <Text marginY="4" color="green.200" textTransform="uppercase" fontWeight="bold">
@@ -62,7 +64,7 @@ const ParkingPage = () => (
               </Box>
             </Text>
           </Box>
-          <Box paddingLeft={{ md: 4 }}>
+          {/* <Box paddingLeft={{ md: 4 }}>
             <Heading
               marginTop={{ base: 10, md: 0 }}
               marginBottom="4"
@@ -73,7 +75,7 @@ const ParkingPage = () => (
               Directions to overflow car park
             </Heading>
             <Image src="/minibus.jpeg" alt="parking instructions" maxW="100%" />
-          </Box>
+          </Box> */}
         </Flex>
       </Flex>
     </Section>
