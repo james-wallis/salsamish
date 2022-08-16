@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import NavigationItem from './NavigationItem';
 import { motion } from 'framer-motion';
+import TimedAnnouncementBanner from './banners/TimedAnnouncementBanner';
 
 interface IProps {
   fixed?: boolean
@@ -115,6 +116,7 @@ const Navigation = ({ fixed = false }: IProps) => {
             <NavigationItem key={`navitem-${name}`} name={name} href={href} type={type} mobileOnly={mobileOnly} />
           ))}
         </Flex>
+        <TimedAnnouncementBanner banner timer={{ start: "2022-08-10", end: "2022-08-27" }} />
       </MotionFlex>
     </>
   )

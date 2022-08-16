@@ -1,5 +1,5 @@
 import { Text, Box } from '@chakra-ui/react'
-import InfoSection from './InfoSection'
+import InfoSection from '../InfoSection'
 
 const ClosedBanner = ({ banner = false }: { banner?: boolean }) => (
   <InfoSection banner={banner}>
