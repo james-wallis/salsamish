@@ -4,7 +4,6 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import NavigationItem from './NavigationItem';
 import { motion } from 'framer-motion';
-import TimedAnnouncementBanner from './banners/TimedAnnouncementBanner';
 
 interface IProps {
   fixed?: boolean
@@ -108,7 +107,7 @@ const Navigation = ({ fixed = false }: IProps) => {
       >
         <Flex
           flexDir={{ base: "column", md: "row" }}
-          height={{ base: "85vh", md: 14, lg: 16, xl: 20 }}
+          height={{ base: "100vh", md: 14, lg: 16, xl: 20 }}
           alignItems="center"
           justifyContent="center"
         >
@@ -116,7 +115,6 @@ const Navigation = ({ fixed = false }: IProps) => {
             <NavigationItem key={`navitem-${name}`} name={name} href={href} type={type} mobileOnly={mobileOnly} />
           ))}
         </Flex>
-        <TimedAnnouncementBanner banner timer={{ start: "2022-08-10", end: "2022-08-27" }} />
       </MotionFlex>
     </>
   )

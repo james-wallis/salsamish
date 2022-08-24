@@ -8,11 +8,11 @@ interface IProps {
 
 const Section = ({ children, color = 'black' }: IProps) => (
   <Flex
-    paddingY={{ base: '14', md: '24' }}
+    paddingY={{ base: '20', md: '10' }}
     backgroundColor={color}
     width="100vw"
     alignItems="center"
-    justifyContent="center" 
+    justifyContent="center"
     overflowX="hidden"
   >
     <Flex

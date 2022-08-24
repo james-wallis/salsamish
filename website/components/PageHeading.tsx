@@ -10,7 +10,7 @@ interface IProps {
 
 const PageHeading = ({ title, image }: IProps) => {
   const marginBottom = {
-    base: image ? 8 : 16,
+    base: image ? 8 : 8,
     md: image ? 14 : 28,
     lg: image ? 16 : 32,
   }
