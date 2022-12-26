@@ -10,6 +10,14 @@ const formatDate = (date: string) => dayjs(date).format('H:mm');
 
 const sortByTime = (item1: IAgendaItemWithEmployees, item2: IAgendaItemWithEmployees) => dayjs(item1.start).isBefore(dayjs(item2.start)) ? -1 : 1;
 
+const onlyUniqueLessons = (event: IAgendaItemWithEmployees, index: number, self: IAgendaItemWithEmployees[]) => {
+  return event.type === 'LESSON' && self.findIndex(({ name, description }) => event.name === name && event.description === description) === index;
+}
+
+const onlyUniqueDJSets = (event: IAgendaItemWithEmployees, index: number, self: IAgendaItemWithEmployees[]) => {
+  return event.type === 'DJSET' && self.findIndex(({ name, description }) => event.name === name && event.description === description) === index;
+}
+
 const AgendaItem = ({ item: { name, start, end, employee, type } }: { item: IAgendaItemWithEmployees }) => (
   <Text
     key={`${name}-${start}`}
@@ -44,7 +52,7 @@ const EventAgendaDetails = ({ agenda }: IProps) => (
       textAlign="center"
       templateColumns={{ base: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)' }}
     >
-      {agenda.sort(sortByTime).map((item) => item.type === 'LESSON' && <AgendaItem key={`agenda-item-${item._id}`} item={item} />)}
+      {agenda.sort(sortByTime).filter(onlyUniqueLessons).map((item) => <AgendaItem key={`agenda-item-${item._id}`} item={item} />)}
     </Grid>
     <Heading
       as="h3"
@@ -61,7 +69,7 @@ const EventAgendaDetails = ({ agenda }: IProps) => (
       textAlign="center"
       templateColumns={{ base: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)' }}
     >
-      {agenda.sort(sortByTime).map((item) => item.type === 'DJSET' && <AgendaItem key={item._id} item={item} />)}
+      {agenda.sort(sortByTime).filter(onlyUniqueDJSets).map((item) => item.type === 'DJSET' && <AgendaItem key={item._id} item={item} />)}
     </Grid>
   </Flex>
 )

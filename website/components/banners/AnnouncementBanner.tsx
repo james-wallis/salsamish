@@ -16,7 +16,7 @@ const AnnouncementBanner = ({ banner = false, ...props }: AnnouncementBannerProp
   return (
     <InfoSection banner={banner} {...props} pos={{ base: "absolute", md: "relative" }} h={{ base: 16, sm: 20 }}>
       <Text textAlign="left" fontSize={{ base: "xs", sm: "sm", md: "lg" }} textTransform="uppercase" pr={{ base: 24, sm: 6 }} pl={6}>
-        Due to floor maintenance, SalsaMish is closed Friday 26 August
+        NYE PARTY: Social Dancing starts from 8.30!
       </Text>
     </InfoSection>
   )
