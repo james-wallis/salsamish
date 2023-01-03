@@ -11,11 +11,11 @@ const formatDate = (date: string) => dayjs(date).format('H:mm');
 const sortByTime = (item1: IAgendaItemWithEmployees, item2: IAgendaItemWithEmployees) => dayjs(item1.start).isBefore(dayjs(item2.start)) ? -1 : 1;
 
 const onlyUniqueLessons = (event: IAgendaItemWithEmployees, index: number, self: IAgendaItemWithEmployees[]) => {
-  return event.type === 'LESSON' && self.findIndex(({ name, description }) => event.name === name && event.description === description) === index;
+  return self.findIndex(({ name, type, lesson_level, start }) => type === 'LESSON' && event.name === name && event.lesson_level === lesson_level && dayjs(event.start).isSame(start, 'minute')) === index;
 }
 
 const onlyUniqueDJSets = (event: IAgendaItemWithEmployees, index: number, self: IAgendaItemWithEmployees[]) => {
-  return event.type === 'DJSET' && self.findIndex(({ name, description }) => event.name === name && event.description === description) === index;
+  return self.findIndex(({ name, type, start }) => type === 'DJSET' && event.name === name && dayjs(event.start).isSame(start, 'minute')) === index;
 }
 
 const AgendaItem = ({ item: { name, start, end, employee, type } }: { item: IAgendaItemWithEmployees }) => (
