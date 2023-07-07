@@ -22,7 +22,7 @@ const Layout = ({ children, minified = false, hideNav = false }: IProps) => {
       color="white"
       marginTop={!hideNav ? { md: 14, lg: 16, xl: 20 } : 0}
     >
-      <TimedAnnouncementBanner banner timer={{ start: "2022-12-24", end: "2022-12-31" }} />
+      <TimedAnnouncementBanner banner timer={{ start: "2023-07-06", end: "2023-07-10" }} />
       {!hideNav && <Navigation fixed />}
       {children}
       {!minified && <Footer />}
