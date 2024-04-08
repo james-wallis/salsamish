@@ -10,7 +10,8 @@ const Banner = ({ banner = false, children, ...props }: IBannerProps) => (
     w="100vw"
     display={banner ? 'flex' : { base: 'flex', md: 'none' }}
     h={banner ? { base: '15vh', md: '12', lg: '14', xl: '16' } : { base: '28', md: '0' }}
-    backgroundColor="pink"
+    // backgroundColor="pink"
+    backgroundColor="red.500"
     justifyContent="center"
     alignItems="center"
     {...props}
