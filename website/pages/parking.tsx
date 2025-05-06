@@ -47,7 +47,7 @@ const ParkingPage = () => (
               {` `}a chance to win free entry for your next time!
             </Text> */}
             <Text marginY="4" marginBottom="1" textTransform="uppercase" color="green.200">Important</Text>
-            <Text marginY="4">Please use the main car park until further notice.</Text>
+            <Text marginY="4">Please use the main car park by the venue and streets nearby.</Text>
             <Text>To keep the roads clear for emergency vehicle access, and cause minimal disruption to our neighbours on a Friday night:</Text>
             <UnorderedList color="green.200" paddingLeft="4">
               <ListItem>Don&apos;t park where there are traffic cones.</ListItem>
@@ -81,7 +81,7 @@ const ParkingPage = () => (
     </Section>
     <Section color="grey">
       <Box h={{ base: 96, md: '60vh' }} marginTop={{ base: 10, md: 0 }} w="100%">
-        <GoogleMaps zoom={14.8} center={building} />
+        <GoogleMaps zoom={16} center={building} />
       </Box>
     </Section>
   </>

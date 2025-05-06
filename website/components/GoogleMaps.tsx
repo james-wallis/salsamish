@@ -16,14 +16,14 @@ export const building: IGoogleMapCoords = {
 };
 
 const carpark: IGoogleMapCoords = {
-  text: 'Main carpark',
+  text: 'Carpark entrance',
   lat: 51.727000,
   lng: -0.355521,
 }
 
 const overflow: IGoogleMapCoords = {
   text: 'Overflow carpark',
-  lat: 51.734064, 
+  lat: 51.734064,
   lng: -0.355564,
 }
 
@@ -45,7 +45,8 @@ const CustomGoogleMaps = ({ zoom, center }: { zoom?: number, center?: IGoogleMap
           width: '100%',
           height: '100%'
         }}
-        center={defaultCenter}
+        // center={center ?? defaultCenter}
+        center={building}
         zoom={zoom || 14.5}
       >
         {
