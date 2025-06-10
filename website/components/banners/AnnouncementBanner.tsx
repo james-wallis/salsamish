@@ -16,7 +16,8 @@ const AnnouncementBanner = ({ banner = false, ...props }: AnnouncementBannerProp
   return (
     <InfoSection banner={banner} {...props} pos={{ base: "absolute", md: "relative" }} h={{ base: 16, sm: 20 }}>
       <Text textAlign="left" fontSize={{ base: "xs", sm: "sm", md: "lg" }} textTransform="uppercase" pr={{ base: 24, sm: 6 }} pl={6}>
-      DUE TO MAINTENANCE AT GREENWOOD PARK THIS WEEK WILL BE ON SATURDAY NIGHT
+      {/* DUE TO MAINTENANCE AT GREENWOOD PARK THIS WEEK WILL BE ON SATURDAY NIGHT */}
+      15 Year Anniversary this Friday featuring live music from Palenke
       </Text>
     </InfoSection>
   )
